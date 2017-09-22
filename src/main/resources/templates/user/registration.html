@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>DISNET - User Registration</title>
+        <div th:replace="fragments/header :: header-css"/>
+        <link type="text/css" rel="stylesheet"  th:href="@{/css/user.css}" media="screen,projection" />
+    </head>
+    <body class="login-content" >
+        <div class="container">
+            <div id="login-page" class="row" >
+                <div class="col s12 m8 l8 offset-m2 offset-l2">
+                    <div class="z-depth-5 card-panel">
+                        <div class="row">
+                            <form id="registrationForm" class="login-form right-alert" method="post" action="#" th:action="@{/user/registration}"  ><!--th:object="${userRegistrationForm}"-->
+                                <div class="input-field col s12 m12 l12 center">
+                                    <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt="" class="responsive-img valign profile-image-login" />
+                                    <br/>
+                                    <p class="center login-form-text"><h5>User Registration</h5></p>
+                                    <br/>
+                                </div>
+                                <div class="input-field col s12 m12 l6">
+                                    <i class="mdi-social-person-outline prefix"></i>
+                                    <input id="firstName" name="firstName" type="text" class="validate"  /><!--th:field="*{firstName}"-->
+                                    <label for="firstName" class="center-align" data-error="wrong" data-success="right">Name</label><!--th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"-->
+                                </div>
+                                <div class="input-field col s12 m12 l6">
+                                    <i class="mdi-social-person-outline prefix"></i>
+                                    <input id="lastName" name="lastName" type="text" class="validate"  /><!--th:field="*{lastName}"-->
+                                    <label for="lastName" class="center-align">Last Name</label>
+                                </div>
+                                <div class="input-field col s12 m12 l12">
+                                    <i class="mdi-communication-email prefix"></i>
+                                    <input id="email" name="email" type="email" class="validate"  /><!--th:field="*{email}"-->
+                                    <label for="email" class="center-align">Email</label>
+                                </div>
+                                <div class="input-field col s12 m12 l12">
+                                    <i class="mdi-action-lock-outline prefix"></i>
+                                    <input id="password" name="password" type="password" class="validate"  /><!--th:field="*{password}"-->
+                                    <label for="password">Password</label>
+                                </div>
+                                <div class="input-field col s12 m12 l12">
+                                    <i class="mdi-action-lock-outline prefix"></i>
+                                    <input id="password-again" name="password-again" type="password"  />
+                                    <label for="password-again">Re-type password</label>
+                                </div>
+                                <div class="input-field col s12 m12 l6">
+                                    <i class="mdi-social-school prefix"></i>
+                                    <input id="institution" name="institution" type="text" class="validate"  /><!--th:field="*{institution}"-->
+                                    <label for="institution" class="center-align">Institute</label>
+                                </div>
+                                <div class="input-field col s12 m12 l6">
+                                    <i class="mdi-social-school prefix"></i>
+                                    <input id="country" name="country" type="text" class="validate"  /><!--th:field="*{country}"-->
+                                    <label for="country" class="center-align">Country</label>
+                                </div>
+                                <div class="input-field col s12 m12 l12">
+                                    <i class="mdi-social-school prefix"></i>
+                                    <input id="occupation" name="occupation" type="text" class="validate"  /><!--th:field="*{occupation}"-->
+                                    <label for="occupation" class="center-align">Position/Occupation</label>
+                                </div>
+                                <div class="input-field col s12 m12 l12">
+                                    <i class="mdi-social-school prefix"></i>
+                                    <textarea id="interest" name="interest" type="text" class="materialize-textarea validate"  ></textarea><!--th:field="*{interest}"-->
+                                    <label for="interest" class="center-align">Interest in use DISNET</label>
+                                </div>
+                                <div class="input-field col s12 m12 l12 center ">
+                                    <p class="center login-form-text">By creating an account by clicking on "Register now" <br/> you are accepting the <a href="#">Terms and Conditions of DISNET</a>.</p>
+                                </div>
+                                <div class="input-field col s12 m12 l12">
+                                    <button id="register_now-btn" type="submit" class="btn waves-effect waves-light submit col s12 m12 l8 offset-l2 blue darken-3">Register Now</button>
+                                </div>
+                                <div class="input-field col s12 m12 l12">
+                                    <p class="margin center medium-small sign-up"><a th:href="@{/user/login}">Already have an account?</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="fragments/footer :: footer-js"/>
+        <script type="text/javascript" th:src="@{/js/user/registration.js}"></script>
+    </body>
+</html>

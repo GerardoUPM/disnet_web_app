@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:fragment="header-css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta firstName="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta firstName="description" content="DISNET description in process..."/>
+        <meta firstName="keywords" content="disnet, diseases, disease network, disease graphs, upm, ctb, medal, health" />
+        <meta firstName="author" content="Dr. Alejandro Rodríguez González and PhD Student Gerardo Lagunes García"/>
+        <!--<link rel="icon" href="../../favicon.ico"/>-->
+
+        <!-- CSS -->
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link                 rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css" />
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.css}" media="screen,projection" />
+        <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}" media="screen,projection" />
+    </div>
+</head>
+<body>
+<div th:fragment="header" class="navbar-fixed">
+    <!-- this is header -->
+    <ul id="dropdownAPIs" class="dropdown-content">
+        <li><a href="#!" class="blue-text text-darken-4">TVP API</a></li>
+        <li><a href="#!" class="blue-text text-darken-4">DISNET API</a></li>
+    </ul>
+    <nav class="blue darken-4" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo"><img width="200" th:src="@{/images/logo_disnet/H_White.png}" /></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#">Home</a></li>
+                <!-- Dropdown Trigger -->
+                <li><a class="dropdown-button" href="#!" data-activates="dropdownAPIs">APIs<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a href="#">Members</a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="side-nav">
+                <li><a href="#">Home</a></li>
+                <li>
+                    <a class="dropdown-button" data-activates="mobile_menu_escrow_accounts" data-beloworigin="true" href="#">
+                        APIs<i class="material-icons right">arrow_drop_down</i>
+                    </a>
+                    <ul id="mobile_menu_escrow_accounts" class="dropdown-content">
+                        <li><a href="#!">TVP API</a></li>
+                        <li><a href="#!">DISNET API</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Members</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

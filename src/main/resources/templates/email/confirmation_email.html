@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <!--<div th:replace="email/fragments/header :: header-css"/>-->
+        <link rel = "stylesheet"
+              href = "https://fonts.googleapis.com/icon?family=Material+Icons"/>
+        <link rel = "stylesheet"
+              href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"/>
+        <title th:remove="all">Template for HTML email with inline image</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="section no-pad-bot" id="index-banner">
+                <div class="container">
+                    <br/><br/>
+                    <h1 class="header center orange-text">DISNET<!--<img width="250" src="V_color.png" th:src="|cid:${V_disnet_logo}|" />--></h1>
+                    <div class="row center">
+                        <h4 class="header col s12 light">Drug repositioning and disease understanding through complex networks creation and analysis</h4>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            <p>Hi <span th:text="${user}" />,</p>
+            <p class="light text-align-justify">We're ready to activate your account. Help us secure DISNET account by verifying your email address <span th:text="${email}" />. All we need to do is make sure this is your email address. This lets you access all of DISNET's features.</p>
+            <p><a th:href="${token}" >Verify email address</a></p>
+        </div>
+        <div th:replace="email/fragments/footer :: footer"/>
+        <script type = "text/javascript"
+                src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+        </script>
+        <!--<div th:replace="email/fragments/footer :: footer-js"/>-->
+    </body>
+</html>

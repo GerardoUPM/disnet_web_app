@@ -1,0 +1,109 @@
+/*Para centrar el formulario ahora necesito <div class="col s12 m8 l8 offset-m2 offset-l2">*/
+/*
+html,
+body {
+    height: 100%;
+}
+html {
+    display: table;
+    margin: auto;
+}
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+.margin {
+    margin: 0 !important;
+}
+*/
+
+
+
+
+/*Fondo de las pantallas para usuarios*/
+body.login-content:after {
+    content: "";
+    vertical-align: middle;
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+}
+
+body.login-content:before {
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /*background: #00bcd4;original=[claro:00b8e0, masOscuro:009ed5 ], DISNET=[claro:1565c0, masOscuro:0d47a1]*/
+    content: "";
+    z-index: 0;
+    background: #0d47a1;
+    background: -moz-linear-gradient(top, #0d47a1 0%, #1a237e 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #0d47a1), color-stop(100%, #1a237e));
+    background: -webkit-linear-gradient(top, #0d47a1 0%, #1a237e 100%);
+    background: -o-linear-gradient(top, #0d47a1 0%, #1a237e 100%);
+    background: -ms-linear-gradient(top, #0d47a1 0%, #1a237e 100%);
+    background: linear-gradient(to bottom, #0d47a1 0%, #1a237e 100%);
+    border: none;
+}
+
+/*Para que el card-panel se encuentre sobre el fondo bicolor*/
+.row{
+    position: relative;
+}
+
+
+/*Cambio de colores de los formularios*/
+/* label color */
+.input-field label {
+    color: #757575;
+}
+/* label focus color */
+.input-field input:focus + label {/*Antes: .input-field input[type=text]:focus + label {*/
+    color: #2196f3 !important; /*Antes: sin !important*/
+}
+.input-field textarea:focus + label {/*Antes: .input-field input[type=text]:focus + label {*/
+    color: #2196f3 !important; /*Antes: sin !important*/
+}
+
+/* label underline focus color */
+.input-field input:focus {
+    border-bottom: 1px solid #2196f3 !important;
+    box-shadow: 0 1px 0 0 #2196f3 !important;
+}
+.input-field textarea:focus {
+    border-bottom: 1px solid #2196f3 !important;
+    box-shadow: 0 1px 0 0 #2196f3 !important;
+}
+
+/* valid color No se cambia por que no tiene !important */
+.input-field input.valid {
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+}
+/* invalid color */
+.input-field input.invalid {
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: #2196f3;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

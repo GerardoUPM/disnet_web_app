@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - User Login</title>
+    <div th:replace="fragments/header :: header-css"/>
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/user.css}" media="screen,projection" />
+</head>
+<body class="login-content" >
+    <div class="container">
+        <div id="login-page" class="row" >
+            <div class="col s12 m8 l8 offset-m2 offset-l2">
+                <div class="z-depth-5 card-panel">
+                    <div class="row">
+                        <form class="login-form" method="post" th:action="@{/user/login}" ><!---->
+                            <div class="input-field col s12 m12 l12 center">
+                                <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt="" class="responsive-img valign profile-image-login" />
+                                <br/>
+                                <p class="center login-form-text"><h5>User Login</h5></p>
+                                <br/>
+                            </div>
+                            <div class="input-field col s12 m12 l12">
+                                <i class="mdi-communication-email prefix"></i>
+                                <input id="email" name="email" type="email" class="validate" />
+                                <label for="email" class="center-align">Email</label>
+                            </div>
+                            <div class="input-field col s12 m12 l12">
+                                <i class="mdi-action-lock prefix"></i>
+                                <input id="password" name="password" type="password" class="validate" />
+                                <label for="password">Password</label>
+                            </div>
+                            <div class="input-field col s12 m12 l12 center ">
+                                <p class="center login-form-text">By creating an account by clicking on "Register now" <br/> you are accepting the <a href="#">Terms and Conditions of DISNET</a>.</p>
+                            </div>
+                            <div class="input-field col s12 m12 l12">
+                                <button type="submit" class="btn waves-effect waves-light col s12 m12 l8 offset-l2 blue darken-3">Login</button>
+                            </div>
+                            <div class="col s12 m12 l12"><br/></div>
+                            <div class="col s6 m6 l6">
+                                <a th:href="@{/user/registration}">Register Now!</a>
+                            </div>
+                            <div class="col s6 m6 l6 right-align">
+                                <a th:href="@{/user/forgot}">Forgot password?</a>
+                            </div>
+                            <!--<div align="center" th:if="${param.error}">-->
+                                <!--<p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>-->
+                            <!--</div>-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer-js"/>
+    <script type="text/javascript" th:src="@{/js/user/login.js}"></script>
+</body>
+</html>
