@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Gerardo Lagunes G. ${EMAIL}
  * @version ${<VERSION>}
  * @project web_acces_control
- * @className PersonToken
+ * @className PersonTokenRepository
  * @see
  */
 @Entity

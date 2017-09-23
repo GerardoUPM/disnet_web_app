@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Token {
     private String token;
     private String type;
-    private boolean enable;
+    private boolean enabled;
     private String expire;
     private String scope;
     private Date date;
@@ -50,13 +50,13 @@ public class Token {
     }
 
     @Basic
-    @Column(name = "enable", nullable = false)
-    public boolean isEnable() {
-        return enable;
+    @Column(name = "enabled", nullable = false)
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Basic
@@ -116,7 +116,7 @@ public class Token {
         Token token1 = (Token) o;
         return Objects.equals(token, token1.token) &&
                 Objects.equals(type, token1.type) &&
-                Objects.equals(enable, token1.enable) &&
+                Objects.equals(enabled, token1.enabled) &&
                 Objects.equals(expire, token1.expire) &&
                 Objects.equals(scope, token1.scope) &&
                 Objects.equals(date, token1.date) &&
@@ -126,7 +126,7 @@ public class Token {
 
     @Override
     public int hashCode() {
-        return Objects.hash(token, type, enable, expire, scope, date, datetime, lastUpdate);
+        return Objects.hash(token, type, enabled, expire, scope, date, datetime, lastUpdate);
     }
 
     @OneToMany(mappedBy = "tokenByToken")
