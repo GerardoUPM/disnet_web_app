@@ -2,6 +2,7 @@ package edu.upm.midas.data.relational.service.helper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.upm.midas.common.utils.TimeProvider;
+import edu.upm.midas.constants.Constants;
 import edu.upm.midas.data.relational.entities.disnetdb.*;
 import edu.upm.midas.data.relational.service.*;
 import edu.upm.midas.email.service.EmailService;
@@ -34,9 +35,12 @@ public class PersonHelper {
     @Autowired
     ObjectMapper objectMapper;
     @Autowired
+    private Constants constants;
+
+    @Autowired
     private PersonService personService;
     @Autowired
-    private AcademicInfoService academicInfoService;
+    private TokenService tokenService;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
@@ -158,6 +162,21 @@ public class PersonHelper {
             //<editor-fold desc="GENERACIÓN DE TOKEN">
             String token = jwtTokenUtil.generateToken(person, device);
             System.out.println(token);
+
+            Token oToken = new Token();
+            oToken.setToken(token);
+            oToken.setType("C");
+            oToken.setEnabled(true);
+            oToken.setExpiration(0);
+            oToken.setScope("");
+            oToken.setDate(timeProvider.getNow());
+            oToken.setDatetime(timeProvider.getTimestamp());
+            oToken.setLastUpdate(timeProvider.getTimestamp());
+
+            logger.info( "Object Persist: {}",objectMapper.writeValueAsString(oToken) );
+            tokenService.save(oToken);
+            logger.info( "Object Persist: {}",objectMapper.writeValueAsString(oToken) );
+
             //</editor-fold>
 
             Context context = new Context();

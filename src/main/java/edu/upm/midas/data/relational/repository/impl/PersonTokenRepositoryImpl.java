@@ -5,6 +5,7 @@ import edu.upm.midas.data.relational.entities.disnetdb.PersonTokenPK;
 import edu.upm.midas.data.relational.repository.AbstractDao;
 import edu.upm.midas.data.relational.repository.PersonTokenRepository;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * Created by gerardo on 23/9/17.
  */
+@Repository("PersonTokenRepositoryDao")
 public class PersonTokenRepositoryImpl extends AbstractDao<PersonTokenPK, PersonToken>
                                         implements PersonTokenRepository {
     @Override

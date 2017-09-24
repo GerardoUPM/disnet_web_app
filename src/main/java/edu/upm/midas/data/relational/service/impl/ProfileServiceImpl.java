@@ -30,17 +30,17 @@ public class ProfileServiceImpl implements ProfileService {
         return profile;
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public Object[] findByIdNative(String profileId) {
         return new Object[0];
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public List<Profile> findAllQuery() {
         return null;
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public List<Object[]> findAllNative() {
         return null;
     }
@@ -50,27 +50,27 @@ public class ProfileServiceImpl implements ProfileService {
         daoProfile.persist(profile);
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public int insertNative(String profileId, boolean enable, String name, String authority) {
         return 0;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public boolean deleteById(String profileId) {
         return false;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public void delete(Profile profile) {
 
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public Profile update(Profile profile) {
         return null;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public int updateByIdQuery(Profile profile) {
         return 0;
     }

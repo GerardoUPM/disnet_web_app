@@ -81,7 +81,7 @@ public class Token {
     private String token;
     private String type;
     private boolean enabled;
-    private String expiration;
+    private long expiration;
     private String scope;
     private Date date;
     private Timestamp datetime;
@@ -122,11 +122,11 @@ public class Token {
 
     @Basic
     @Column(name = "expiration", nullable = true, length = -1)
-    public String getExpiration() {
+    public long getExpiration() {
         return expiration;
     }
 
-    public void setExpiration(String expiration) {
+    public void setExpiration(long expiration) {
         this.expiration = expiration;
     }
 

@@ -3,6 +3,7 @@ package edu.upm.midas.data.relational.repository.impl;
 import edu.upm.midas.data.relational.entities.disnetdb.Token;
 import edu.upm.midas.data.relational.repository.AbstractDao;
 import edu.upm.midas.data.relational.repository.TokenRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Created by gerardo on 23/9/17.
  */
+@Repository("TokenRepositoryDao")
 public class TokenRepositoryImpl extends AbstractDao<String, Token>
                                     implements TokenRepository{
     @Override

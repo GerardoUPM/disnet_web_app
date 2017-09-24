@@ -1,5 +1,7 @@
 package edu.upm.midas.controller;
 
+import edu.upm.midas.constants.Constants;
+import edu.upm.midas.data.relational.entities.disnetdb.SystemParameter;
 import edu.upm.midas.email.component.EmailHtmlSender;
 import edu.upm.midas.email.model.EmailStatus;
 import freemarker.template.Configuration;
@@ -34,9 +36,9 @@ import java.util.Map;
 public class EmailController {
 
     @Autowired
-    private JavaMailSender sender;
-    @Autowired
     private EmailHtmlSender emailHtmlSender;
+    @Autowired
+    private Constants constants;
 
     @Autowired
     private Configuration freemarkerConfig;
@@ -49,33 +51,13 @@ public class EmailController {
             context.setVariable("user", "Gerardo Lagunes");
             context.setVariable("email","grardolagar@gmail.com");
             context.setVariable("token","http://algo.com?token=987987d98f79fv7d8v798fv79s8v7s9879s0s7s0879df87v90sd7f90d7ff07707ds07v7707vsd7vfds07vd98f7d87vdf8s9078707vs0f77s0v870d9sv0f90s7dsv07df0v7f070sd70sv7f0sd7vs0d7f07v7");
+            System.out.print("head: "+constants.HTTPS_HEADER);
             EmailStatus emailStatus = emailHtmlSender.send("grardolagar@hotmail.com", "Title of email", "email/confirmation_email", context);
 //            sendEmail();
             return "Email Sent!";
         } catch (Exception ex) {
             return "Error in sending email: " + ex;
         }
-    }
-
-    private void sendEmail() throws Exception {
-        MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
-
-        Map<String, Object> model = new HashMap();
-        model.put("user", "Hola GLG");
-
-        // set loading location to src/main/resources
-        // You may want to use a subfolder such as /email here
-        freemarkerConfig.setClassForTemplateLoading(this.getClass(), "/templates/email");
-
-        Template t = freemarkerConfig.getTemplate("confirmation_email.ftl");
-        String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
-
-        helper.setTo("grardolagar@hotmail.com");
-        helper.setText(text, true); // set to html
-        helper.setSubject("Hi");
-
-        sender.send(message);
     }
 
 
