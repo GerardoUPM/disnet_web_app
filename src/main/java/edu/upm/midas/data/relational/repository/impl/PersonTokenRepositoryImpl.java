@@ -4,6 +4,7 @@ import edu.upm.midas.data.relational.entities.disnetdb.PersonToken;
 import edu.upm.midas.data.relational.entities.disnetdb.PersonTokenPK;
 import edu.upm.midas.data.relational.repository.AbstractDao;
 import edu.upm.midas.data.relational.repository.PersonTokenRepository;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -15,32 +16,49 @@ public class PersonTokenRepositoryImpl extends AbstractDao<PersonTokenPK, Person
                                         implements PersonTokenRepository {
     @Override
     public PersonToken findById(PersonTokenPK personTokenPK) {
-        return null;
+        PersonToken personToken = getByKey(personTokenPK);
+        return personToken;
     }
 
-    @Override
-    public Object[] findByIdNative(String personToken) {
-        return new Object[0];
+    @SuppressWarnings("unchecked")
+    public Object[] findByIdNative(String personId, String token) {
+        Object[] oEmailConfirmation = null;
+        List<Object[]> emailConfirmationList = (List<Object[]>) getEntityManager()
+                .createNamedQuery("PersonToken.findByIdNative")
+                .setParameter("personId", personId)
+                .setParameter("token", token)
+                .setMaxResults(1)
+                .getResultList();
+        if (CollectionUtils.isNotEmpty(emailConfirmationList))
+            oEmailConfirmation = emailConfirmationList.get(0);
+
+        return oEmailConfirmation;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
     public List<PersonToken> findAllQuery() {
         return null;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
     public List<Object[]> findAllNative() {
         return null;
     }
 
     @Override
     public void persist(PersonToken personToken) {
-
+        super.persist(personToken);
     }
 
     @Override
-    public int insertNative(String personId, String personToken, boolean enabled, Date date) {
-        return 0;
+    public int insertNative(String personId, String token, boolean enabled, Date date) {
+        return getEntityManager()
+                .createNamedQuery("PersonToken.insertNative")
+                .setParameter("personId", personId)
+                .setParameter("token", token)
+                .setParameter("enabled", enabled)
+                .setParameter("date", date)
+                .executeUpdate();
     }
 
     @Override
@@ -55,12 +73,19 @@ public class PersonTokenRepositoryImpl extends AbstractDao<PersonTokenPK, Person
 
     @Override
     public PersonToken update(PersonToken personToken) {
-        return null;
+        return super.update(personToken);
     }
 
     @Override
-    public int updateEnabled(String personToken) {
-        return 0;
+    public int updateEnabledNative(String personId, String token, boolean enabled, Date date, Date datetime) {
+        return getEntityManager()
+                .createNamedQuery("PersonToken.updateEnabledNative")
+                .setParameter("personId", personId)
+                .setParameter("token", token)
+                .setParameter("enabled", enabled)
+                .setParameter("date", date)
+                .setParameter("datetime", datetime)
+                .executeUpdate();
     }
 
     @Override

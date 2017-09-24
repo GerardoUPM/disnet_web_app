@@ -20,7 +20,7 @@ public interface TokenRepository {
 
     void persist(Token token);
 
-    int insertNative(String token, String type, boolean enabled, long expire, String scope, Date date);
+    int insertNative(String token, String type, boolean enabled, long expiration, String scope, Date date);
 
     boolean deleteById(String token);
 
@@ -28,7 +28,7 @@ public interface TokenRepository {
 
     Token update(Token token);
 
-    int updateEnabled(String token);
+    int updateEnabledNative(String token);
 
     int updateByIdQuery(Token token);
 

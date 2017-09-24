@@ -13,7 +13,7 @@ public interface EmailConfirmationRepository {
 
     EmailConfirmation findById(EmailConfirmationPK emailConfirmationPK);
 
-    Object[] findByIdNative(String emailConfirmation);
+    Object[] findByIdNative(String personId, String token);
 
     List<EmailConfirmation> findAllQuery();
 
@@ -21,7 +21,7 @@ public interface EmailConfirmationRepository {
 
     void persist(EmailConfirmation emailConfirmation);
 
-    int insertNative(String personId, String token, boolean sent, Date sent_date, Date sent_datetime, boolean enabled);
+    int insertNative(String personId, String token, boolean sent, Date sentDate, Date sentDatetime, boolean enabled);
 
     boolean deleteById(EmailConfirmationPK emailConfirmationPK);
 
@@ -29,7 +29,7 @@ public interface EmailConfirmationRepository {
 
     EmailConfirmation update(EmailConfirmation emailConfirmation);
 
-    int updateEnabled(String personId, String token, boolean enabled, Date date, Date datetime);
+    int updateEnabledNative(String personId, String token, boolean enabled, Date date, Date datetime);
 
     int updateByIdQuery(EmailConfirmation emailConfirmation);
     

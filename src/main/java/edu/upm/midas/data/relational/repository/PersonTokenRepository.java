@@ -13,7 +13,7 @@ public interface PersonTokenRepository {
 
     PersonToken findById(PersonTokenPK personTokenPK);
 
-    Object[] findByIdNative(String personToken);
+    Object[] findByIdNative(String personId, String token);
 
     List<PersonToken> findAllQuery();
 
@@ -21,7 +21,7 @@ public interface PersonTokenRepository {
 
     void persist(PersonToken personToken);
 
-    int insertNative(String personId, String personToken, boolean enabled, Date date);
+    int insertNative(String personId, String token, boolean enabled, Date date);
 
     boolean deleteById(PersonTokenPK personTokenPK);
 
@@ -29,7 +29,7 @@ public interface PersonTokenRepository {
 
     PersonToken update(PersonToken personToken);
 
-    int updateEnabled(String personToken);
+    int updateEnabledNative(String personId, String token, boolean enabled, Date date, Date datetime);
 
     int updateByIdQuery(PersonToken personToken);
 

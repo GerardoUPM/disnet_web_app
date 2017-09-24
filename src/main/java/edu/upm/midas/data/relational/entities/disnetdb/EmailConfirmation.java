@@ -1,6 +1,10 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -16,7 +20,67 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "email_confirmation", schema = "disnetdb", catalog = "")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "EmailConfirmation.findAll", query = "SELECT e FROM EmailConfirmation e")
+        , @NamedQuery(name = "EmailConfirmation.findById", query = "SELECT e FROM EmailConfirmation e WHERE e.personId = :personId AND e.token = :token")
+        , @NamedQuery(name = "EmailConfirmation.findByPersonId", query = "SELECT e FROM EmailConfirmation e WHERE e.personId = :personId")
+        , @NamedQuery(name = "EmailConfirmation.findByToken", query = "SELECT e FROM EmailConfirmation e WHERE e.token = :token")
+        , @NamedQuery(name = "EmailConfirmation.findBySent", query = "SELECT e FROM EmailConfirmation e WHERE e.sent = :sent")
+        , @NamedQuery(name = "EmailConfirmation.findBySentDate", query = "SELECT e FROM EmailConfirmation e WHERE e.sentDate = :sentDate")
+        , @NamedQuery(name = "EmailConfirmation.findBySentDatetime", query = "SELECT e FROM EmailConfirmation e WHERE e.sentDatetime = :sentDatetime")
+        , @NamedQuery(name = "EmailConfirmation.findByEnabled", query = "SELECT e FROM EmailConfirmation e WHERE e.enabled = :enabled")
+        , @NamedQuery(name = "EmailConfirmation.findByDate", query = "SELECT e FROM EmailConfirmation e WHERE e.date = :date")
+        , @NamedQuery(name = "EmailConfirmation.findByDatetime", query = "SELECT e FROM EmailConfirmation e WHERE e.datetime = :datetime")})
+
+
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "EmailConfirmation.findByIdNative",
+                query = "SELECT e.person_id, e.token, e.sent, e.sent_date, e.sent_datetime, e.enabled, e.date, e.datetime " +
+                        "FROM email_confirmation e " +
+                        "WHERE e.person_id = :personId AND e.token = :token "
+        ),
+
+        @NamedNativeQuery(
+                name = "EmailConfirmation.insertNative",
+                query = "INSERT INTO email_confirmation (person_id, token, sent, sent_date, sent_datetime, enabled) " +
+                        "VALUES ( :personId, :token, :sent, :sentDate, :sentDatetime, :enabled) "
+        ),
+
+        @NamedNativeQuery(
+                name = "EmailConfirmation.updateEnabledNative",
+                query = "UPDATE email_confirmation e " +
+                        "SET e.enabled = :enabled, " +
+                        "e.date = :date, " +
+                        "e.datetime = :datetime " +
+                        "WHERE e.person_id = :personId AND e.token = :token "
+        )
+})
+
+
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "EmailConfirmationMapping",
+                entities = @EntityResult(
+                        entityClass = EmailConfirmation.class,
+                        fields = {
+                                @FieldResult(name = "personId", column = "person_id"),
+                                @FieldResult(name = "token", column = "token"),
+                                @FieldResult(name = "sent", column = "sent"),
+                                @FieldResult(name = "sentDate", column = "sent_date"),
+                                @FieldResult(name = "sentDatetime", column = "sent_datetime"),
+                                @FieldResult(name = "enabled", column = "enabled"),
+                                @FieldResult(name = "date", column = "date"),
+                                @FieldResult(name = "datetime", column = "datetime")
+                        }
+                )
+        )
+})
+
 @IdClass(EmailConfirmationPK.class)
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="PersonTokenPK")
 public class EmailConfirmation {
     private String personId;
     private String token;

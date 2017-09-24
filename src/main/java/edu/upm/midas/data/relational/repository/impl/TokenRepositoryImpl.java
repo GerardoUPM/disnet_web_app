@@ -10,11 +10,12 @@ import java.util.List;
 /**
  * Created by gerardo on 23/9/17.
  */
-public class TokenRepositoryImpl extends AbstractDao<String, TokenRepository>
+public class TokenRepositoryImpl extends AbstractDao<String, Token>
                                     implements TokenRepository{
     @Override
     public Token findById(String token) {
-        return null;
+        Token token_ = getByKey(token);
+        return token_;
     }
 
     @Override
@@ -34,11 +35,11 @@ public class TokenRepositoryImpl extends AbstractDao<String, TokenRepository>
 
     @Override
     public void persist(Token token) {
-
+        super.persist(token);
     }
 
     @Override
-    public int insertNative(String token, String type, boolean enabled, long expire, String scope, Date date) {
+    public int insertNative(String token, String type, boolean enabled, long expiration, String scope, Date date) {
         return 0;
     }
 
@@ -54,11 +55,11 @@ public class TokenRepositoryImpl extends AbstractDao<String, TokenRepository>
 
     @Override
     public Token update(Token token) {
-        return null;
+        return super.update(token);
     }
 
     @Override
-    public int updateEnabled(String token) {
+    public int updateEnabledNative(String token) {
         return 0;
     }
 
