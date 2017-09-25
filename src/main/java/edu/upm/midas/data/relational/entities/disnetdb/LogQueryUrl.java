@@ -1,5 +1,6 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
 /**
@@ -13,6 +14,26 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "log_query_url", schema = "disnetdb", catalog = "")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "LogQueryUrl.findAll", query = "SELECT l FROM LogQueryUrl l")
+        , @NamedQuery(name = "LogQueryUrl.findByQueryId", query = "SELECT l FROM LogQueryUrl l WHERE l.queryId = :queryId")
+        , @NamedQuery(name = "LogQueryUrl.findByUrlId", query = "SELECT l FROM LogQueryUrl l WHERE l.urlId = :urlId")
+})
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "LogQueryUrlMapping",
+                entities = @EntityResult(
+                        entityClass = LogQueryUrl.class,
+                        fields = {
+                                @FieldResult(name = "queryId", column = "query_id"),
+                                @FieldResult(name = "urlId", column = "url_id")
+                        }
+                )
+        )
+})
+
 @IdClass(LogQueryUrlPK.class)
 public class LogQueryUrl {
     private String queryId;

@@ -1,5 +1,6 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
 /**
@@ -13,6 +14,26 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "log_query_service", schema = "disnetdb", catalog = "")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "LogQueryService.findAll", query = "SELECT l FROM LogQueryService l")
+        , @NamedQuery(name = "LogQueryService.findByQueryId", query = "SELECT l FROM LogQueryService l WHERE l.queryId = :queryId")
+        , @NamedQuery(name = "LogQueryService.findByServiceId", query = "SELECT l FROM LogQueryService l WHERE l.serviceId = :serviceId")
+})
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "LogQueryServiceMapping",
+                entities = @EntityResult(
+                        entityClass = LogQueryService.class,
+                        fields = {
+                                @FieldResult(name = "queryId", column = "query_id"),
+                                @FieldResult(name = "serviceId", column = "service_id")
+                        }
+                )
+        )
+})
+
 @IdClass(LogQueryServicePK.class)
 public class LogQueryService {
     private String queryId;

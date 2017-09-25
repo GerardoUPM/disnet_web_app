@@ -1,5 +1,6 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -15,6 +16,30 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "token_query", schema = "disnetdb", catalog = "")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "TokenQuery.findAll", query = "SELECT t FROM TokenQuery t")
+        , @NamedQuery(name = "TokenQuery.findByToken", query = "SELECT t FROM TokenQuery t WHERE t.token = :token")
+        , @NamedQuery(name = "TokenQuery.findByQueryId", query = "SELECT t FROM TokenQuery t WHERE t.queryId = :queryId")
+        , @NamedQuery(name = "TokenQuery.findByDate", query = "SELECT t FROM TokenQuery t WHERE t.date = :date")
+        , @NamedQuery(name = "TokenQuery.findByDatetime", query = "SELECT t FROM TokenQuery t WHERE t.datetime = :datetime")})
+
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "TokenQueryMapping",
+                entities = @EntityResult(
+                        entityClass = TokenQuery.class,
+                        fields = {
+                                @FieldResult(name = "token", column = "token"),
+                                @FieldResult(name = "queryId", column = "query_id"),
+                                @FieldResult(name = "date", column = "date"),
+                                @FieldResult(name = "datetime", column = "datetime")
+                        }
+                )
+        )
+})
+
 @IdClass(TokenQueryPK.class)
 public class TokenQuery {
     private String token;

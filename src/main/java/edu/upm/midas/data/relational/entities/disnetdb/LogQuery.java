@@ -1,5 +1,9 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
@@ -16,6 +20,30 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "log_query", schema = "disnetdb", catalog = "")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "LogQuery.findAll", query = "SELECT l FROM LogQuery l")
+        , @NamedQuery(name = "LogQuery.findByQueryId", query = "SELECT l FROM LogQuery l WHERE l.queryId = :queryId")
+        , @NamedQuery(name = "LogQuery.findByDate", query = "SELECT l FROM LogQuery l WHERE l.date = :date")
+        , @NamedQuery(name = "LogQuery.findByDatetime", query = "SELECT l FROM LogQuery l WHERE l.datetime = :datetime")
+})
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "LogQueryMapping",
+                entities = @EntityResult(
+                        entityClass = LogQuery.class,
+                        fields = {
+                                @FieldResult(name = "queryId", column = "query_id"),
+                                @FieldResult(name = "request", column = "request"),
+                                @FieldResult(name = "date", column = "date"),
+                                @FieldResult(name = "datetime", column = "datetime")
+                        }
+                )
+        )
+})
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="queryId")
 public class LogQuery {
     private String queryId;
     private String request;

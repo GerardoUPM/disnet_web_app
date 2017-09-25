@@ -1,5 +1,9 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,6 +17,28 @@ import java.util.Objects;
  * @see
  */
 @Entity
+@Table(name = "url", schema = "disnetdb", catalog = "")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "Url.findAll", query = "SELECT u FROM Url u")
+        , @NamedQuery(name = "Url.findByUrlId", query = "SELECT u FROM Url u WHERE u.urlId = :urlId")
+        , @NamedQuery(name = "Url.findByUrl", query = "SELECT u FROM Url u WHERE u.url = :url")
+})
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "UrlMapping",
+                entities = @EntityResult(
+                        entityClass = Url.class,
+                        fields = {
+                                @FieldResult(name = "urlId", column = "url_id"),
+                                @FieldResult(name = "url", column = "url")
+                        }
+                )
+        )
+})
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="urlId")
 public class Url {
     private Integer urlId;
     private String url;
