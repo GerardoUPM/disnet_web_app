@@ -4,9 +4,11 @@ import edu.upm.midas.data.relational.entities.disnetdb.LogQueryUrl;
 import edu.upm.midas.data.relational.entities.disnetdb.LogQueryUrlPK;
 import edu.upm.midas.data.relational.repository.AbstractDao;
 import edu.upm.midas.data.relational.repository.LogQueryUrlRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("LogQueryUrlRepositoryDao")
 public class LogQueryUrlRepositoryImpl extends AbstractDao<LogQueryUrlPK, LogQueryUrl>
                                         implements LogQueryUrlRepository{
     @Override

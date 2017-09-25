@@ -4,9 +4,11 @@ import edu.upm.midas.data.relational.entities.disnetdb.TokenQuery;
 import edu.upm.midas.data.relational.entities.disnetdb.TokenQueryPK;
 import edu.upm.midas.data.relational.repository.AbstractDao;
 import edu.upm.midas.data.relational.repository.TokenQueryRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("TokenQueryRepositoryDao")
 public class TokenQueryRepositoryImpl extends AbstractDao<TokenQueryPK, TokenQuery>
                                         implements TokenQueryRepository{
     @Override

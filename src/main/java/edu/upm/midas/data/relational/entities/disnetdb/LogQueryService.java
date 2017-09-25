@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author Gerardo Lagunes G. ${EMAIL}
  * @version ${<VERSION>}
  * @project web_acces_control
- * @className LogQueryService
+ * @className LogQuery_Service
  * @see
  */
 @Entity

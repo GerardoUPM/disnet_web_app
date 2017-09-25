@@ -3,9 +3,11 @@ package edu.upm.midas.data.relational.repository.impl;
 import edu.upm.midas.data.relational.entities.disnetdb.LogQuery;
 import edu.upm.midas.data.relational.repository.AbstractDao;
 import edu.upm.midas.data.relational.repository.LogQueryRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("LogQueryRepositoryDao")
 public class LogQueryRepositoryImpl extends AbstractDao<String, LogQuery>
                                     implements LogQueryRepository{
     @Override

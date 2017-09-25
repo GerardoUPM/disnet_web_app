@@ -134,6 +134,10 @@ public class JwtTokenUtil implements Serializable {
     }
 
 
+    /**
+     * @param token
+     * @return
+     */
     public ValidationRequest getServiceJWTDecode(String token){
 
         ValidationRequest validationRequest = new ValidationRequest();

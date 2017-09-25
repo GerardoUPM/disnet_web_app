@@ -3,9 +3,11 @@ package edu.upm.midas.data.relational.repository.impl;
 import edu.upm.midas.data.relational.entities.disnetdb.Url;
 import edu.upm.midas.data.relational.repository.AbstractDao;
 import edu.upm.midas.data.relational.repository.UrlRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("UrlRepositoryDao")
 public class UrlRepositoryImpl extends AbstractDao<Integer, Url>
                                 implements UrlRepository{
     @Override
