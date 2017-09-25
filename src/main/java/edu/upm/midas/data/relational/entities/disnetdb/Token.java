@@ -1,6 +1,10 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
@@ -16,11 +20,68 @@ import java.util.Objects;
  * @see
  */
 @Entity
+@Table(name = "token", schema = "disnetdb", catalog = "")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "Token.findAll", query = "SELECT t FROM Token t")
+        , @NamedQuery(name = "Token.findById", query = "SELECT t FROM Token t WHERE t.token = :token")
+        , @NamedQuery(name = "Token.findByToken", query = "SELECT t FROM Token t WHERE t.token = :token")
+        , @NamedQuery(name = "Token.findByType", query = "SELECT t FROM Token t WHERE t.type = :type")
+        , @NamedQuery(name = "Token.findByEnabled", query = "SELECT t FROM Token t WHERE t.enabled = :enabled")
+        , @NamedQuery(name = "Token.findByScope", query = "SELECT t FROM Token t WHERE t.scope = :scope")
+        , @NamedQuery(name = "Token.findByDate", query = "SELECT t FROM Token t WHERE t.date = :date")
+        , @NamedQuery(name = "Token.findByDatetime", query = "SELECT t FROM Token t WHERE t.datetime = :datetime")
+        , @NamedQuery(name = "Token.findByLastUpdate", query = "SELECT t FROM Token t WHERE t.lastUpdate = :lastUpdate")})
+
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "Token.findByIdNative",
+                query = "SELECT t.token, t.type, t.enabled, t.expiration, t.scope, t.date, t.datetime, t.last_update " +
+                        "FROM token t " +
+                        "WHERE t.token = :token "
+        ),
+
+        @NamedNativeQuery(
+                name = "Token.insertNative",
+                query = "INSERT INTO token (token, type, enabled, expiration, scope, date) " +
+                        "VALUES (:token, :type, :enabled, :expiration, :scope, :date) "
+        ),
+
+        @NamedNativeQuery(
+                name = "Token.updateEnabledNative",
+                query = "UPDATE token t " +
+                        "SET t.enabled = :enabled " +
+                        "WHERE t.token = :token "
+        )
+})
+
+
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "TokenMapping",
+                entities = @EntityResult(
+                        entityClass = Token.class,
+                        fields = {
+                                @FieldResult(name = "token", column = "token"),
+                                @FieldResult(name = "type", column = "type"),
+                                @FieldResult(name = "enabled", column = "enabled"),
+                                @FieldResult(name = "expiration", column = "expiration"),
+                                @FieldResult(name = "scope", column = "scope"),
+                                @FieldResult(name = "date", column = "date"),
+                                @FieldResult(name = "datetime", column = "datetime"),
+                                @FieldResult(name = "last_update", column = "last_update")
+                        }
+                )
+        )
+})
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="token")
 public class Token {
     private String token;
     private String type;
-    private boolean enable;
-    private String expire;
+    private boolean enabled;
+    private long expiration;
     private String scope;
     private Date date;
     private Timestamp datetime;
@@ -50,23 +111,23 @@ public class Token {
     }
 
     @Basic
-    @Column(name = "enable", nullable = false)
-    public boolean isEnable() {
-        return enable;
+    @Column(name = "enabled", nullable = false)
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Basic
-    @Column(name = "expire", nullable = true, length = -1)
-    public String getExpire() {
-        return expire;
+    @Column(name = "expiration", nullable = true, length = -1)
+    public long getExpiration() {
+        return expiration;
     }
 
-    public void setExpire(String expire) {
-        this.expire = expire;
+    public void setExpiration(long expiration) {
+        this.expiration = expiration;
     }
 
     @Basic
@@ -116,8 +177,8 @@ public class Token {
         Token token1 = (Token) o;
         return Objects.equals(token, token1.token) &&
                 Objects.equals(type, token1.type) &&
-                Objects.equals(enable, token1.enable) &&
-                Objects.equals(expire, token1.expire) &&
+                Objects.equals(enabled, token1.enabled) &&
+                Objects.equals(expiration, token1.expiration) &&
                 Objects.equals(scope, token1.scope) &&
                 Objects.equals(date, token1.date) &&
                 Objects.equals(datetime, token1.datetime) &&
@@ -126,7 +187,7 @@ public class Token {
 
     @Override
     public int hashCode() {
-        return Objects.hash(token, type, enable, expire, scope, date, datetime, lastUpdate);
+        return Objects.hash(token, type, enabled, expiration, scope, date, datetime, lastUpdate);
     }
 
     @OneToMany(mappedBy = "tokenByToken")

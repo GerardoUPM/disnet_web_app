@@ -31,47 +31,48 @@ public class PersonServiceImpl implements PersonService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public Person findById(String personId) {
-        return null;
+        Person person = daoPerson.findById(personId);
+        return person;
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public Person findByStatusNative(String status) {
         return null;
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public Person findByNameNative(String nameAndLastName) {
         return null;
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public Person findByCreateDate(Date create_date) {
         return null;
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public Person findByProfileIdNative(int resourceId) {
         return null;
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public Object[] findByIdNative(String personId) {
         return new Object[0];
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public Object[] findByIdAndStatusNative(String personId, String status) {
         return daoPerson.findByIdAndStatusNative(personId, status);
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public List<Person> findAllQuery() {
         return null;
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public List<Object[]> findAllNative() {
         return null;
     }
@@ -81,52 +82,52 @@ public class PersonServiceImpl implements PersonService {
         daoPerson.persist(person);
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public int insertNative(String personId, String status, String firstName, String lastName, String pwd, String profileId, int academicId, Date createDate) {
         return 0;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public int insertAcademicInfoNative(String institution, int country, String occupation, String interest) {
         return 0;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public int insertBlockNative(String blockId, Date createDate, int seconds, int hour) {
         return 0;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public int insertPersonBlockNative(String personId, String blockId, boolean enabled, int attempts) {
         return 0;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public int insertLoginNative(String loginId, Date createDate, int seconds, int hour) {
         return 0;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public int insertPersonLoginNative(String personId, String loginId, boolean enabled, int attempts) {
         return 0;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public boolean deleteById(String personId) {
         return false;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public void delete(Person person) {
 
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public Person update(Person person) {
         return null;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public int updateByIdQuery(Person person) {
         return 0;
     }

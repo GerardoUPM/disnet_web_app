@@ -1,5 +1,9 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -10,12 +14,65 @@ import java.util.Objects;
  * @author Gerardo Lagunes G. ${EMAIL}
  * @version ${<VERSION>}
  * @project web_acces_control
- * @className PersonToken
+ * @className PersonTokenRepository
  * @see
  */
 @Entity
 @Table(name = "person_token", schema = "disnetdb", catalog = "")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "PersonToken.findAll", query = "SELECT p FROM PersonToken p")
+        , @NamedQuery(name = "PersonToken.findById", query = "SELECT p FROM PersonToken p WHERE p.personId = :personId AND p.token = :token")
+        , @NamedQuery(name = "PersonToken.findByPersonId", query = "SELECT p FROM PersonToken p WHERE p.personId = :personId")
+        , @NamedQuery(name = "PersonToken.findByToken", query = "SELECT p FROM PersonToken p WHERE p.token = :token")
+        , @NamedQuery(name = "PersonToken.findByEnabled", query = "SELECT p FROM PersonToken p WHERE p.enabled = :enabled")
+        , @NamedQuery(name = "PersonToken.findByDate", query = "SELECT p FROM PersonToken p WHERE p.date = :date")
+        , @NamedQuery(name = "PersonToken.findByDatetime", query = "SELECT p FROM PersonToken p WHERE p.datetime = :datetime")})
+
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "PersonToken.findByIdNative",
+                query = "SELECT p.person_id, p.token, p.enabled, p.date, p.datetime " +
+                        "FROM person_token p " +
+                        "WHERE p.person_id = :personId AND p.token = :token "
+        ),
+
+        @NamedNativeQuery(
+                name = "PersonToken.insertNative",
+                query = "INSERT INTO person_token (person_id, token, enabled, date) " +
+                        "VALUES ( :personId, :token, :enabled, :date) "
+        ),
+
+        @NamedNativeQuery(
+                name = "PersonToken.updateEnabledNative",
+                query = "UPDATE person_token p " +
+                        "SET p.enabled = :enabled, " +
+                        "p.date = :date, " +
+                        "p.datetime = :datetime " +
+                        "WHERE p.person_id = :personId AND p.token = :token "
+        )
+})
+
+
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "PersonTokenMapping",
+                entities = @EntityResult(
+                        entityClass = PersonToken.class,
+                        fields = {
+                                @FieldResult(name = "personId", column = "person_id"),
+                                @FieldResult(name = "token", column = "token"),
+                                @FieldResult(name = "enabled", column = "enabled"),
+                                @FieldResult(name = "date", column = "date"),
+                                @FieldResult(name = "datetime", column = "datetime")
+                        }
+                )
+        )
+})
+
 @IdClass(PersonTokenPK.class)
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="PersonTokenPK")
 public class PersonToken {
     private String personId;
     private String token;

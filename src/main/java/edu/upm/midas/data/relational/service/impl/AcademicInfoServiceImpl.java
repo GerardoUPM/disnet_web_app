@@ -24,52 +24,53 @@ public class AcademicInfoServiceImpl implements AcademicInfoService {
     @Autowired
     private AcademicInfoRepository daoAcademicInfo;
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public AcademicInfo findById(int academicId) {
-        return null;
+        AcademicInfo academicInfo = daoAcademicInfo.findById(academicId);
+        return academicInfo;
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public Object[] findByIdNative(int academicId) {
         return new Object[0];
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public List<AcademicInfo> findAllQuery() {
         return null;
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public List<Object[]> findAllNative() {
         return null;
     }
 
-    @Transactional(propagation= Propagation.REQUIRED)
+    @Transactional(propagation=Propagation.REQUIRED)
     public void save(AcademicInfo academicInfo) {
         daoAcademicInfo.persist(academicInfo);
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public int insertNative(String institution, int country, String occupation, String interest) {
         return 0;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public boolean deleteById(int academicId) {
         return false;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public void delete(AcademicInfo academicInfo) {
 
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public AcademicInfo update(AcademicInfo academicInfo) {
         return null;
     }
 
-    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
     public int updateByIdQuery(AcademicInfo academicInfo) {
         return 0;
     }
