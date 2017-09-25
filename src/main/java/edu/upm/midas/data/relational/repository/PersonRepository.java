@@ -1,4 +1,5 @@
 package edu.upm.midas.data.relational.repository;
+import edu.upm.midas.data.relational.entities.disnetdb.Country;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
 import edu.upm.midas.data.relational.entities.disnetdb.Status;
 
@@ -31,6 +32,8 @@ public interface PersonRepository {
     Object[] findByIdAndStatusNative(String personId, String status);//por email
 
     List<Person> findAllQuery();
+
+    List<Country> findAllCountriesNative();
 
     List<Object[]> findAllNative();
 

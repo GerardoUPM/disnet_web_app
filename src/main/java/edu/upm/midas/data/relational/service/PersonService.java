@@ -1,4 +1,5 @@
 package edu.upm.midas.data.relational.service;
+import edu.upm.midas.data.relational.entities.disnetdb.Country;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
 import edu.upm.midas.data.relational.entities.disnetdb.Status;
 
@@ -33,6 +34,8 @@ public interface PersonService {
     List<Person> findAllQuery();
 
     List<Object[]> findAllNative();
+
+    List<Country> findAllCountriesNative();
 
     void save(Person person);
 

@@ -62,6 +62,13 @@ import java.util.Objects;
                         "AND p.status = 'OK' "
         ),
 
+
+        @NamedNativeQuery(
+                name = "Person.findAllCountriesNative",
+                query = "SELECT c.country_id, c.code, c.name " +
+                        "FROM country c "
+        ),
+
         @NamedNativeQuery(
                 name = "Person.insertAcademicInfoNative",
                 query = "INSERT INTO academic_info (institution_name, country_id, occupation, interest) " +

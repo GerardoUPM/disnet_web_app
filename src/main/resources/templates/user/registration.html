@@ -51,7 +51,10 @@
                                 </div>
                                 <div class="input-field col s12 m12 l6">
                                     <i class="mdi-social-school prefix"></i>
-                                    <input id="country" name="country" type="text" class="validate"  /><!--th:field="*{country}"-->
+                                    <select id="country" name="country" class="validate">
+                                        <option value="" disabled selected>Choose your option</option>
+                                        <option th:each="country : ${countries}" th:value="${country.country_id}" th:text="${country.name}" />
+                                    </select>
                                     <label for="country" class="center-align">Country</label>
                                 </div>
                                 <div class="input-field col s12 m12 l12">

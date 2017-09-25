@@ -1,4 +1,5 @@
 package edu.upm.midas.data.relational.service.impl;
+import edu.upm.midas.data.relational.entities.disnetdb.Country;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
 import edu.upm.midas.data.relational.entities.disnetdb.Status;
 import edu.upm.midas.data.relational.repository.PersonRepository;
@@ -75,6 +76,11 @@ public class PersonServiceImpl implements PersonService {
     @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public List<Object[]> findAllNative() {
         return null;
+    }
+
+    @Override
+    public List<Country> findAllCountriesNative() {
+        return daoPerson.findAllCountriesNative();
     }
 
     @Transactional(propagation= Propagation.REQUIRED)

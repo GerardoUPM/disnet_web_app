@@ -1,4 +1,5 @@
 package edu.upm.midas.data.relational.repository.impl;
+import edu.upm.midas.data.relational.entities.disnetdb.Country;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
 import edu.upm.midas.data.relational.entities.disnetdb.Status;
 import edu.upm.midas.data.relational.repository.AbstractDao;
@@ -78,6 +79,14 @@ public class PersonRepositoryImpl extends AbstractDao<String, Person>
     @Override
     public List<Person> findAllQuery() {
         return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Country> findAllCountriesNative() {
+        return (List<Country>) getEntityManager()
+                .createNamedQuery("Person.findAllCountriesNative")
+                .getResultList();
     }
 
     @SuppressWarnings("unchecked")
