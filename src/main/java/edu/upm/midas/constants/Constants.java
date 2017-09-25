@@ -29,6 +29,11 @@ public class Constants {
     public static final String VERSION_PROJECT = "1.0";
 
 
+    public final static String ERR_NO_PARAMETER = "No parameter was sent";
+    public final static String ERR_EMPTY_PARAMETER = "Empty parameter";
+    public final static String OK = "OK";
+
+
     public static final String IMAGE_PATTERN =
             "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";
 

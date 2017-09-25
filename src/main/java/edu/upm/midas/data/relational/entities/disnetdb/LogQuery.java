@@ -1,5 +1,6 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
@@ -17,14 +18,9 @@ import java.util.Objects;
 @Table(name = "log_query", schema = "disnetdb", catalog = "")
 public class LogQuery {
     private String queryId;
-    private String status;
-    private String query;
-    private Byte success;
-    private String page;
     private String request;
-    private String response;
-    private Timestamp startDate;
-    private Timestamp endDate;
+    private Date date;
+    private Timestamp datetime;
     private List<LogQueryService> logQueryServicesByQueryId;
     private List<LogQueryUrl> logQueryUrlsByQueryId;
     private List<TokenQuery> tokenQueriesByQueryId;
@@ -40,46 +36,6 @@ public class LogQuery {
     }
 
     @Basic
-    @Column(name = "status", nullable = false, length = 10)
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    @Basic
-    @Column(name = "query", nullable = false, length = -1)
-    public String getQuery() {
-        return query;
-    }
-
-    public void setQuery(String query) {
-        this.query = query;
-    }
-
-    @Basic
-    @Column(name = "success", nullable = false)
-    public Byte getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(Byte success) {
-        this.success = success;
-    }
-
-    @Basic
-    @Column(name = "page", nullable = true, length = 100)
-    public String getPage() {
-        return page;
-    }
-
-    public void setPage(String page) {
-        this.page = page;
-    }
-
-    @Basic
     @Column(name = "request", nullable = true, length = -1)
     public String getRequest() {
         return request;
@@ -90,33 +46,23 @@ public class LogQuery {
     }
 
     @Basic
-    @Column(name = "response", nullable = true, length = -1)
-    public String getResponse() {
-        return response;
+    @Column(name = "date", nullable = true)
+    public Date getDate() {
+        return date;
     }
 
-    public void setResponse(String response) {
-        this.response = response;
-    }
-
-    @Basic
-    @Column(name = "start_date", nullable = true)
-    public Timestamp getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Timestamp startDate) {
-        this.startDate = startDate;
+    public void setDate(Date startDate) {
+        this.date = startDate;
     }
 
     @Basic
-    @Column(name = "end_date", nullable = true)
-    public Timestamp getEndDate() {
-        return endDate;
+    @Column(name = "datetime", nullable = true)
+    public Timestamp getDatetime() {
+        return datetime;
     }
 
-    public void setEndDate(Timestamp endDate) {
-        this.endDate = endDate;
+    public void setDatetime(Timestamp endDate) {
+        this.datetime = endDate;
     }
 
     @Override
@@ -125,19 +71,14 @@ public class LogQuery {
         if (o == null || getClass() != o.getClass()) return false;
         LogQuery logQuery = (LogQuery) o;
         return Objects.equals(queryId, logQuery.queryId) &&
-                Objects.equals(status, logQuery.status) &&
-                Objects.equals(query, logQuery.query) &&
-                Objects.equals(success, logQuery.success) &&
-                Objects.equals(page, logQuery.page) &&
                 Objects.equals(request, logQuery.request) &&
-                Objects.equals(response, logQuery.response) &&
-                Objects.equals(startDate, logQuery.startDate) &&
-                Objects.equals(endDate, logQuery.endDate);
+                Objects.equals(date, logQuery.date) &&
+                Objects.equals(datetime, logQuery.datetime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(queryId, status, query, success, page, request, response, startDate, endDate);
+        return Objects.hash(queryId, request, date, datetime);
     }
 
     @OneToMany(mappedBy = "logQueryByQueryId")

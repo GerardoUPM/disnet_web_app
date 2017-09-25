@@ -30,7 +30,7 @@ public class Url {
     }
 
     @Basic
-    @Column(name = "url", nullable = false, length = 250)
+    @Column(name = "url", nullable = false, length = -1)
     public String getUrl() {
         return url;
     }

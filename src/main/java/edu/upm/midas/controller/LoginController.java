@@ -1,6 +1,7 @@
 package edu.upm.midas.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
+import edu.upm.midas.data.relational.service.CountryService;
 import edu.upm.midas.data.relational.service.helper.PersonHelper;
 import edu.upm.midas.email.component.EmailHtmlSender;
 import edu.upm.midas.email.model.EmailStatus;
@@ -12,11 +13,9 @@ import org.springframework.mobile.device.Device;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.context.Context;
 
@@ -37,6 +36,30 @@ public class LoginController {
 
     @Autowired
     private PersonHelper personHelper;
+    @Autowired
+    private CountryService countryService;
+
+
+
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    public String userRegister(Model model){
+        model.addAttribute("countries", countryService.findAll());
+        return "/user/registration";
+    }
+
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String userLogin(Model model){
+        return "/user/login";
+    }
+
+
+    @RequestMapping(value = "/forgot", method = RequestMethod.GET)
+    public String userRecovery(Model model){
+        return "/user/forgot";
+    }
+
+
 
 
     @RequestMapping(value="/client/home", method = RequestMethod.GET)
@@ -80,25 +103,6 @@ public class LoginController {
                 modelAndView.setViewName("/user/confirmation");
             }
         }
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/confirmation_email", method = RequestMethod.GET)
-    public ModelAndView confirmationEmail(@Valid String token, Device device) throws JsonProcessingException {
-        ModelAndView modelAndView = new ModelAndView();
-
-        String personId = personHelper.emailConfirm( token );
-
-        if (!personId.isEmpty()) {
-            modelAndView.addObject("successMessage", "Congratulation!. Your disnet account has been successfully confirmed with the email address " + personId);
-            modelAndView.addObject("personId", personId);
-            modelAndView.setViewName("/user/confirmation_email_response");
-        }else{
-            modelAndView.addObject("errorMessage", "A problem has occurred with your account confirmation. Please contact the application administrator");
-            modelAndView.addObject("personId", personId);
-            modelAndView.setViewName("/user/confirmation_email_response");
-        }
-
         return modelAndView;
     }
 

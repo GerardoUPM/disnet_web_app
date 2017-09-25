@@ -3,6 +3,10 @@
  */
 $(function () {
 
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+
     $('#register_now-btn').on('click', function() {
         $(this).removeClass("waves-effect waves-light submit").addClass('disabled');
     });

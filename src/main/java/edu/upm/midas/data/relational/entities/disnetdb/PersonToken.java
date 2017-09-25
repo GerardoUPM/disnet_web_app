@@ -72,7 +72,6 @@ import java.util.Objects;
 })
 
 @IdClass(PersonTokenPK.class)
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="PersonTokenPK")
 public class PersonToken {
     private String personId;
     private String token;

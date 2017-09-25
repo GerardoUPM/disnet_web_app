@@ -8,7 +8,7 @@
     </head>
     <body class="login-content" >
         <div class="container">
-            <div id="login-page" class="row" >
+            <div id="login-request" class="row" >
                 <div class="col s12 m8 l8 offset-m2 offset-l2">
                     <div class="z-depth-5 card-panel">
                         <div class="row">
@@ -51,9 +51,9 @@
                                 </div>
                                 <div class="input-field col s12 m12 l6">
                                     <i class="mdi-social-school prefix"></i>
-                                    <select id="country" name="country" class="validate">
-                                        <option value="" disabled selected>Choose your option</option>
-                                        <option th:each="country : ${countries}" th:value="${country.country_id}" th:text="${country.name}" />
+                                    <select id="country" name="country">
+                                        <option value="" disabled="disabled" selected="selected">Choose your option</option>
+                                        <option th:each="country : ${countries}" th:value="${{country.countryId}}" th:text="${{country.name}}" ></option>
                                     </select>
                                     <label for="country" class="center-align">Country</label>
                                 </div>

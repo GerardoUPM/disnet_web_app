@@ -1,8 +1,10 @@
 package edu.upm.midas.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,6 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     //@Autowired
     //private JwtAuthenticationEntryPoint unauthorizedHandler;
 
+    @Qualifier("dataSource")
     @Autowired
     private DataSource dataSource;
 
@@ -50,11 +53,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests()
                 .antMatchers("/",
+                        "/confirmation_email",
                         "/user/admin/home",
                         "/user/client/home").permitAll()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/user/confirmation").permitAll()
+                .antMatchers(HttpMethod.GET,"/user/confirmation_email_response").permitAll()
                 .antMatchers("/user/test").permitAll()
                 .antMatchers("/user/client/**").hasAuthority("USER").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()

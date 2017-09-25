@@ -2,6 +2,7 @@ package edu.upm.midas.token.model;
 
 import edu.upm.midas.common.utils.TimeProvider;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
+import edu.upm.midas.validation.model.ValidationRequest;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -97,6 +98,8 @@ public class JwtTokenUtil implements Serializable {
     public String generateToken(Person person, Device device) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("user", true);
+        claims.put("name", person.getFirstName() + " " + person.getLastName());
+        claims.put("secret_claim", "Perter Parker");
         return doGenerateToken(claims, person, generateAudience(device));
     }
 
@@ -109,7 +112,7 @@ public class JwtTokenUtil implements Serializable {
         return Jwts.builder()
                 .setId(person.getPersonId())
                 .setClaims(claims)
-                .setSubject(person.getFirstName() + " " + person.getLastName())
+                .setSubject(person.getPersonId())
                 .setAudience(audience)
                 .setIssuedAt(createdDate)
                 //.setExpiration(expirationDate)
@@ -123,9 +126,33 @@ public class JwtTokenUtil implements Serializable {
                 .setSigningKey(secret)
                 .parseClaimsJws(token).getBody();
 
-        return claims.getId();
+        System.out.println("CLAIMS "+claims.toString());
+        System.out.println("EXTRACT CLAIM: " + claims.get("secret_claim"));
+
+        return claims.getSubject();
 
     }
+
+
+    public ValidationRequest getServiceJWTDecode(String token){
+
+        ValidationRequest validationRequest = new ValidationRequest();
+
+        Claims claims = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token).getBody();
+
+        System.out.println(claims.toString());
+
+        validationRequest.setToken(claims.get("token").toString());
+        validationRequest.setApiCode(claims.get("api_code").toString());
+        validationRequest.setRequest(claims.get("request").toString());
+        validationRequest.setRequest(claims.get("url").toString());
+
+        return validationRequest;
+
+    }
+
 
     public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
         final Date created = getIssuedAtDateFromToken(token);

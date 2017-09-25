@@ -46,6 +46,7 @@ public class EmailSender {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(text, isHtml);
+            helper.setFrom("noreply@disnet.ctb.upm.es");
 /*
             InputStreamSource imageSource = new ByteArrayResource(image.getBytes());
             helper.addInline(image.getName(), imageSource, image.getContentType());

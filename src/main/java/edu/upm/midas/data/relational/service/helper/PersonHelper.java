@@ -37,6 +37,8 @@ public class PersonHelper {
     ObjectMapper objectMapper;
 
     @Autowired
+    private AcademicInfoService academicInfoService;
+    @Autowired
     private PersonService personService;
     @Autowired
     private TokenService tokenService;
@@ -138,7 +140,7 @@ public class PersonHelper {
         academicInfo.setInterest( user.getInterest() );
 
         logger.info( "Object Persist: {}",objectMapper.writeValueAsString(academicInfo) );
-        //academicInfoService.save(academicInfo);
+        academicInfoService.save(academicInfo);
         logger.info( "Object Persist: {}",objectMapper.writeValueAsString(academicInfo) );
 
         Person person = new Person();
@@ -155,7 +157,7 @@ public class PersonHelper {
         person.setLastUpdate(timeProvider.getTimestamp());
 
         logger.info( "Object Persist: {}",objectMapper.writeValueAsString(person) );
-        //personService.save(person);
+        personService.save(person);
         logger.info( "Object Persist: {}",objectMapper.writeValueAsString(person) );
 
         boolean isSuccessful =  ( personService.findById(person.getPersonId()) != null );// true;//(findByEmailAndStatusNW( user.getEmail() ) != null );
@@ -187,10 +189,11 @@ public class PersonHelper {
                                             Constants.PARAM_SEP_2 +
                                             constants.PARAMETER_CONFIRMATION_TOKEN_NAME +
                                             Constants.EQUAL + token;
+            System.out.println("GLG"+tokenConfirmationLink);
             Context context = new Context();
             context.setVariable("user", person.getFirstName() + " " + person.getLastName());
             context.setVariable("email", person.getPersonId());
-            context.setVariable("token", token);
+            context.setVariable("token", tokenConfirmationLink);
             EmailStatus confirmationEmailStatus= emailService.sendConfirmation( person.getPersonId(), context );
 
             EmailConfirmation emailConfirmation = new EmailConfirmation();
@@ -200,9 +203,9 @@ public class PersonHelper {
             emailConfirmation.setSentDate(timeProvider.getNow());
             emailConfirmation.setSentDatetime(timeProvider.getTimestamp());
             emailConfirmation.setEnabled(true);
-            logger.info( "Object Persist: {}",objectMapper.writeValueAsString(emailConfirmation) );
-            emailConfirmationService.save(emailConfirmation);
-            logger.info( "Object Persist: {}",objectMapper.writeValueAsString(emailConfirmation) );
+            logger.info( "Object Persist: {}",objectMapper.writeValueAsString( emailConfirmation ) );
+            emailConfirmationService.save( emailConfirmation );
+            logger.info( "Object Persist: {}",objectMapper.writeValueAsString( emailConfirmation ) );
 
         }
 
@@ -255,6 +258,8 @@ public class PersonHelper {
         return personId;
 
     }
+
+
 
 
 }

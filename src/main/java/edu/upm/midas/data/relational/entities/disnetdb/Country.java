@@ -1,5 +1,9 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,11 +17,36 @@ import java.util.Objects;
  * @see
  */
 @Entity
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "Country.findAll", query = "SELECT c FROM Country c")
+        , @NamedQuery(name = "Country.findByCountryId", query = "SELECT c FROM Country c WHERE c.countryId = :countryId")
+        , @NamedQuery(name = "Country.findByCode", query = "SELECT c FROM Country c WHERE c.code = :code")
+        , @NamedQuery(name = "Country.findByName", query = "SELECT c FROM Country c WHERE c.name = :name")
+})
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "CountryMapping",
+                entities = @EntityResult(
+                        entityClass = Country.class,
+                        fields = {
+                                @FieldResult(name = "countryId", column = "country:id"),
+                                @FieldResult(name = "code", column = "code"),
+                                @FieldResult(name = "name", column = "name")
+                        }
+                )
+        )
+})
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="countryId")
 public class Country {
     private Integer countryId;
     private String code;
     private String name;
     private List<AcademicInfo> academicInfosByCountryId;
+
+    public Country(){}
 
     @Id
     @Column(name = "country_id", nullable = false)

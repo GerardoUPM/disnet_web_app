@@ -6,7 +6,7 @@
 
     <div th:replace="fragments/header :: header-css"/>
     <link type="text/css" rel="stylesheet"  th:href="@{/css/error.css}" media="screen,projection" />
-    <link type="text/css" rel="stylesheet"  th:href="@{/css/page-center.css}" media="screen,projection" />
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/request-center.css}" media="screen,projection" />
 
 </head>
 <body class="white loaded">
@@ -16,7 +16,7 @@
     <div class="loader-section section-right"></div>
 </div>
 
-<div id="error-page">
+<div id="error-request">
 
     <div class="row">
         <div class="col s12">
@@ -38,7 +38,7 @@
                                 <h1 class="blue darken-2 text-long-shadow col s12">405</h1>
                             </div>
                             <div class="row center">
-                                <p class="center white-text col s12">A request was made of a page using a request method not supported by that service.</p>
+                                <p class="center white-text col s12">A url was made of a request using a url method not supported by that service.</p>
                                 <p class="center s12"><!--<button onclick="goBack()" class="btn waves-effect waves-light">Back</button>-->
                                     <a href="/" class="btn waves-effect waves-light blue darken-4">Homepage</a>
                                 </p>
