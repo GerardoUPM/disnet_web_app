@@ -26,7 +26,7 @@ import java.util.Objects;
         , @NamedQuery(name = "EmailConfirmation.findById", query = "SELECT e FROM EmailConfirmation e WHERE e.personId = :personId AND e.token = :token")
         , @NamedQuery(name = "EmailConfirmation.findByPersonId", query = "SELECT e FROM EmailConfirmation e WHERE e.personId = :personId")
         , @NamedQuery(name = "EmailConfirmation.findByToken", query = "SELECT e FROM EmailConfirmation e WHERE e.token = :token")
-        , @NamedQuery(name = "EmailConfirmation.findBySent", query = "SELECT e FROM EmailConfirmation e WHERE e.sent = :sent")
+        , @NamedQuery(name = "EmailConfirmation.findBySent", query = "SELECT e FROM EmailConfirmation e WHERE e.isSent = :sent")
         , @NamedQuery(name = "EmailConfirmation.findBySentDate", query = "SELECT e FROM EmailConfirmation e WHERE e.sentDate = :sentDate")
         , @NamedQuery(name = "EmailConfirmation.findBySentDatetime", query = "SELECT e FROM EmailConfirmation e WHERE e.sentDatetime = :sentDatetime")
         , @NamedQuery(name = "EmailConfirmation.findByEnabled", query = "SELECT e FROM EmailConfirmation e WHERE e.enabled = :enabled")
@@ -84,7 +84,7 @@ import java.util.Objects;
 public class EmailConfirmation {
     private String personId;
     private String token;
-    private Byte sent;
+    private boolean sent;
     private Date sentDate;
     private Timestamp sentDatetime;
     private boolean enabled;
@@ -115,11 +115,11 @@ public class EmailConfirmation {
 
     @Basic
     @Column(name = "sent", nullable = false)
-    public Byte getSent() {
+    public boolean isSent() {
         return sent;
     }
 
-    public void setSent(Byte sent) {
+    public void setSent(boolean sent) {
         this.sent = sent;
     }
 

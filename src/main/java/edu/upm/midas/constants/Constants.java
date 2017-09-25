@@ -20,6 +20,8 @@ public class Constants {
     public String HTTPS_HEADER;
     @Value("${http.header}")
     public String HTTP_HEADER;
+    @Value("${url.disnet}")
+    public String URL_DISNET;
     @Value("${url.user.confirmation}")
     public String URL_USER_CONFIRMATION;
     @Value("${parameter.user.confirmation.token.name}")

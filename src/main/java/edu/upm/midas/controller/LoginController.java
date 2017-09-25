@@ -83,5 +83,24 @@ public class LoginController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/confirmation_email", method = RequestMethod.GET)
+    public ModelAndView confirmationEmail(@Valid String token, Device device) throws JsonProcessingException {
+        ModelAndView modelAndView = new ModelAndView();
+
+        String personId = personHelper.emailConfirm( token );
+
+        if (!personId.isEmpty()) {
+            modelAndView.addObject("successMessage", "Congratulation!. Your disnet account has been successfully confirmed with the email address " + personId);
+            modelAndView.addObject("personId", personId);
+            modelAndView.setViewName("/user/confirmation_email_response");
+        }else{
+            modelAndView.addObject("errorMessage", "A problem has occurred with your account confirmation. Please contact the application administrator");
+            modelAndView.addObject("personId", personId);
+            modelAndView.setViewName("/user/confirmation_email_response");
+        }
+
+        return modelAndView;
+    }
+
 
 }

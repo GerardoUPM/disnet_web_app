@@ -124,7 +124,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Transactional(propagation=Propagation.REQUIRED)
     public Person update(Person person) {
-        return null;
+        return daoPerson.update(person);
     }
 
     @Transactional(propagation=Propagation.REQUIRED)

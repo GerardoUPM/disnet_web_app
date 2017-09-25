@@ -5,6 +5,7 @@ import edu.upm.midas.common.utils.TimeProvider;
 import edu.upm.midas.constants.Constants;
 import edu.upm.midas.data.relational.entities.disnetdb.*;
 import edu.upm.midas.data.relational.service.*;
+import edu.upm.midas.email.model.EmailStatus;
 import edu.upm.midas.email.service.EmailService;
 import edu.upm.midas.model.user.UserRegistrationForm;
 import edu.upm.midas.token.model.JwtTokenUtil;
@@ -34,23 +35,26 @@ public class PersonHelper {
     private static final Logger logger = LoggerFactory.getLogger(PersonHelper.class);
     @Autowired
     ObjectMapper objectMapper;
-    @Autowired
-    private Constants constants;
 
     @Autowired
     private PersonService personService;
     @Autowired
     private TokenService tokenService;
     @Autowired
+    private EmailConfirmationService emailConfirmationService;
+    @Autowired
+    private PersonTokenService personTokenService;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private TimeProvider timeProvider;
-
     @Autowired
     private EmailService emailService;
-
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private Constants constants;
 
 
     /**
@@ -154,7 +158,7 @@ public class PersonHelper {
         //personService.save(person);
         logger.info( "Object Persist: {}",objectMapper.writeValueAsString(person) );
 
-        boolean isSuccessful = true;//(findByEmailAndStatusNW( user.getEmail() ) != null );
+        boolean isSuccessful =  ( personService.findById(person.getPersonId()) != null );// true;//(findByEmailAndStatusNW( user.getEmail() ) != null );
 
         //Enviar correo de confirmación
         if (isSuccessful){
@@ -165,29 +169,91 @@ public class PersonHelper {
 
             Token oToken = new Token();
             oToken.setToken(token);
-            oToken.setType("C");
+            oToken.setType("C");//De Confirmación
             oToken.setEnabled(true);
             oToken.setExpiration(0);
             oToken.setScope("");
             oToken.setDate(timeProvider.getNow());
             oToken.setDatetime(timeProvider.getTimestamp());
             oToken.setLastUpdate(timeProvider.getTimestamp());
-
             logger.info( "Object Persist: {}",objectMapper.writeValueAsString(oToken) );
             tokenService.save(oToken);
             logger.info( "Object Persist: {}",objectMapper.writeValueAsString(oToken) );
-
             //</editor-fold>
 
+            String tokenConfirmationLink =  constants.HTTP_HEADER +
+                                            constants.URL_DISNET +
+                                            constants.URL_USER_CONFIRMATION +
+                                            Constants.PARAM_SEP_2 +
+                                            constants.PARAMETER_CONFIRMATION_TOKEN_NAME +
+                                            Constants.EQUAL + token;
             Context context = new Context();
             context.setVariable("user", person.getFirstName() + " " + person.getLastName());
             context.setVariable("email", person.getPersonId());
             context.setVariable("token", token);
-            emailService.sendConfirmation( person.getPersonId(), context );
+            EmailStatus confirmationEmailStatus= emailService.sendConfirmation( person.getPersonId(), context );
+
+            EmailConfirmation emailConfirmation = new EmailConfirmation();
+            emailConfirmation.setPersonId( person.getPersonId() );
+            emailConfirmation.setToken( oToken.getToken() );
+            emailConfirmation.setSent(confirmationEmailStatus.isSuccess());
+            emailConfirmation.setSentDate(timeProvider.getNow());
+            emailConfirmation.setSentDatetime(timeProvider.getTimestamp());
+            emailConfirmation.setEnabled(true);
+            logger.info( "Object Persist: {}",objectMapper.writeValueAsString(emailConfirmation) );
+            emailConfirmationService.save(emailConfirmation);
+            logger.info( "Object Persist: {}",objectMapper.writeValueAsString(emailConfirmation) );
+
         }
 
         // Se verifica que se haya insertado bien (TRUE) y lo retorna
         return isSuccessful;
+    }
+
+
+    @Transactional
+    public String emailConfirm(String token) throws JsonProcessingException {
+
+        Token oToken = tokenService.findById(token);
+        String personId = jwtTokenUtil.getEmailWithJWTDecode(token);
+
+        System.out.println("email recuperado desde el token: " + personId);
+
+        if ( oToken != null && !personId.isEmpty() ) {
+
+            PersonToken personToken = new PersonToken();
+            personToken.setPersonId(personId);
+            personToken.setToken(token);
+            personToken.setEnabled(true);
+            personToken.setDate(timeProvider.getNow());
+            personToken.setDatetime(timeProvider.getTimestamp());
+            logger.info("Object Persist: {}", objectMapper.writeValueAsString(personToken));
+            personTokenService.save( personToken );
+            logger.info("Object Persist: {}", objectMapper.writeValueAsString(personToken));
+
+            EmailConfirmationPK emailConfirmationPK = new EmailConfirmationPK();
+            emailConfirmationPK.setPersonId( personId );
+            emailConfirmationPK.setToken( token );
+
+            EmailConfirmation emailConfirmation = emailConfirmationService.findById( emailConfirmationPK );
+            emailConfirmation.setDate( timeProvider.getNow() );
+            emailConfirmation.setDatetime( timeProvider.getTimestamp() );
+            logger.info("Object Persist: {}", objectMapper.writeValueAsString(emailConfirmation));
+            emailConfirmationService.update( emailConfirmation );
+            logger.info("Object Persist: {}", objectMapper.writeValueAsString(emailConfirmation));
+
+            Person person = personService.findById( personId );
+            person.setStatus( Status.OK );
+            person.setEnabled( true );
+            person.setLastUpdate( timeProvider.getTimestamp() );
+            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
+            personService.update( person );
+            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
+
+        }
+
+        return personId;
+
     }
 
 

@@ -5,6 +5,7 @@ import edu.upm.midas.data.relational.entities.disnetdb.EmailConfirmationPK;
 import edu.upm.midas.data.relational.repository.EmailConfirmationRepository;
 import edu.upm.midas.data.relational.service.EmailConfirmationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.List;
 /**
  * Created by gerardo on 24/9/17.
  */
+@Service("emailConfirmationService")
 public class EmailConfirmationServiceImpl implements EmailConfirmationService {
 
     @Autowired
@@ -62,7 +64,7 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
 
     @Transactional(propagation=Propagation.REQUIRED)
     public EmailConfirmation update(EmailConfirmation emailConfirmation) {
-        return null;
+        return daoEmailConfirmation.update(emailConfirmation);
     }
 
     @Transactional(propagation=Propagation.REQUIRED)

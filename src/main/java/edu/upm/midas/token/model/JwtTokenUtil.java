@@ -117,6 +117,16 @@ public class JwtTokenUtil implements Serializable {
                 .compact();
     }
 
+    public String getEmailWithJWTDecode(String token){
+
+        Claims claims = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token).getBody();
+
+        return claims.getId();
+
+    }
+
     public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
         final Date created = getIssuedAtDateFromToken(token);
         return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)

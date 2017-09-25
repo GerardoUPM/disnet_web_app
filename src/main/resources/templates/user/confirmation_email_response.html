@@ -2,19 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>DISNET - Registration Confirmation</title>
+    <title>DISNET - Account Validation</title>
     <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
     <!--<div th:replace="fragments/header :: header"/>-->
 
     <div class="container">
-        Registration Confirmation
+        Account Validation
         <div>
             <span th:if="${successMessage != ''}" th:utext="${successMessage}"></span>
             <span th:if="${errorMessage != ''}" th:utext="${errorMessage}"></span>
         </div>
-        <form th:object="${user}"></form>
+        <br/>
+        <p class="margin center medium-small sign-up"><a th:href="@{/user/login}">Make login!</a></p>
         <br/><br/>
     </div>
     <!-- /.container -->

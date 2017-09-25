@@ -139,7 +139,7 @@ public class PersonRepositoryImpl extends AbstractDao<String, Person>
 
     @Override
     public Person update(Person person) {
-        return null;
+        return super.update(person);
     }
 
     @Override
