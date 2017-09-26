@@ -8,6 +8,8 @@ public interface UrlRepository {
 
     Url findById(Integer urlId);
 
+    Url findByUrl(String url);
+
     List<Url> findAllQuery();
 
     void persist(Url url);

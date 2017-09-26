@@ -32,6 +32,8 @@ public class ValidationRequest {
     @NotNull(message = Constants.ERR_NO_PARAMETER)
     @NotEmpty(message = Constants.ERR_EMPTY_PARAMETER)
     private String url;
+    private boolean enabled;
+    private String message;
 
 
     public String getToken() {
@@ -64,5 +66,21 @@ public class ValidationRequest {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

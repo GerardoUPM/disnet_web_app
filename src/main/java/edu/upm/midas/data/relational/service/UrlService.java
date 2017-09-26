@@ -8,6 +8,8 @@ public interface UrlService {
 
     Url findById(Integer urlId);
 
+    Url findByUrl(String url);
+
     List<Url> findAllQuery();
 
     void save(Url url);

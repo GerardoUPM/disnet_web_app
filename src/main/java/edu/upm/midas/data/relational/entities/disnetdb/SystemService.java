@@ -1,5 +1,9 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,6 +18,31 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "system_service", schema = "disnetdb", catalog = "")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "SystemService.findAll", query = "SELECT s FROM SystemService s")
+        , @NamedQuery(name = "SystemService.findByServiceId", query = "SELECT s FROM SystemService s WHERE s.serviceId = :serviceId")
+        , @NamedQuery(name = "SystemService.findByEnabled", query = "SELECT s FROM SystemService s WHERE s.enabled = :enabled")
+        , @NamedQuery(name = "SystemService.findByName", query = "SELECT s FROM SystemService s WHERE s.name = :name")
+        , @NamedQuery(name = "SystemService.findByDescription", query = "SELECT s FROM SystemService s WHERE s.description = :description")
+})
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "SystemServiceMapping",
+                entities = @EntityResult(
+                        entityClass = SystemService.class,
+                        fields = {
+                                @FieldResult(name = "serviceId", column = "service_id"),
+                                @FieldResult(name = "enabled", column = "enabled"),
+                                @FieldResult(name = "name", column = "name"),
+                                @FieldResult(name = "description", column = "description")
+                        }
+                )
+        )
+})
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="serviceId")
 public class SystemService {
     private String serviceId;
     private boolean enabled;

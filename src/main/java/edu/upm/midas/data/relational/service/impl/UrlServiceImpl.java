@@ -23,6 +23,11 @@ public class UrlServiceImpl implements UrlService {
         return url;
     }
 
+    @Override
+    public Url findByUrl(String url) {
+        return daoUrl.findByUrl(url);
+    }
+
     @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public List<Url> findAllQuery() {
         return daoUrl.findAllQuery();

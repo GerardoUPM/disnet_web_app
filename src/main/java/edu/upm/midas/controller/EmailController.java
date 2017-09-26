@@ -19,6 +19,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.Multipart;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,7 @@ import java.util.Map;
  * @see
  */
 @Controller
+@RequestMapping("/user")
 public class EmailController {
 
     @Autowired
@@ -40,13 +42,12 @@ public class EmailController {
     @Autowired
     private Constants constants;
 
-    @Autowired
-    private Configuration freemarkerConfig;
 
-    @RequestMapping(value = "/user/test", method = RequestMethod.GET)
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
     @ResponseBody
-    String home() {
+    String home(HttpServletRequest request) {
         try {
+            System.out.println( request.getServletPath() );
             Context context = new Context();
             context.setVariable("user", "Gerardo Lagunes");
             context.setVariable("email","grardolagar@gmail.com");

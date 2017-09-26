@@ -47,6 +47,7 @@ public class Url {
 
     @Id
     @Column(name = "url_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getUrlId() {
         return urlId;
     }

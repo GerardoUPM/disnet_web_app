@@ -139,22 +139,24 @@ public class JwtTokenUtil implements Serializable {
      * @return
      */
     public ValidationRequest getServiceJWTDecode(String token){
-
         ValidationRequest validationRequest = new ValidationRequest();
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token).getBody();
 
-        Claims claims = Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token).getBody();
+            System.out.println(claims.toString());
 
-        System.out.println(claims.toString());
-
-        validationRequest.setToken(claims.get("token").toString());
-        validationRequest.setApiCode(claims.get("api_code").toString());
-        validationRequest.setRequest(claims.get("request").toString());
-        validationRequest.setRequest(claims.get("url").toString());
+            validationRequest.setToken( claims.get("token").toString() );
+            validationRequest.setApiCode( claims.get("api_code").toString() );
+            validationRequest.setRequest( claims.get("request").toString() );
+            validationRequest.setUrl( claims.get("url").toString() );
+        }catch (Exception e){
+            validationRequest.setEnabled(false);
+            validationRequest.setMessage("Can't read the token's properties. Please verify!");
+        }
 
         return validationRequest;
-
     }
 
 
