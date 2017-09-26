@@ -24,6 +24,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "LogQuery.findAll", query = "SELECT l FROM LogQuery l")
         , @NamedQuery(name = "LogQuery.findByQueryId", query = "SELECT l FROM LogQuery l WHERE l.queryId = :queryId")
+        , @NamedQuery(name = "LogQuery.findByAuthorized", query = "SELECT l FROM LogQuery l WHERE l.authorized = :authorized")
         , @NamedQuery(name = "LogQuery.findByDate", query = "SELECT l FROM LogQuery l WHERE l.date = :date")
         , @NamedQuery(name = "LogQuery.findByDatetime", query = "SELECT l FROM LogQuery l WHERE l.datetime = :datetime")
 })
@@ -35,6 +36,7 @@ import java.util.Objects;
                         entityClass = LogQuery.class,
                         fields = {
                                 @FieldResult(name = "queryId", column = "query_id"),
+                                @FieldResult(name = "authorized", column = "authorized"),
                                 @FieldResult(name = "request", column = "request"),
                                 @FieldResult(name = "date", column = "date"),
                                 @FieldResult(name = "datetime", column = "datetime")
@@ -46,6 +48,7 @@ import java.util.Objects;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="queryId")
 public class LogQuery {
     private String queryId;
+    private boolean authorized;
     private String request;
     private Date date;
     private Timestamp datetime;
@@ -61,6 +64,16 @@ public class LogQuery {
 
     public void setQueryId(String queryId) {
         this.queryId = queryId;
+    }
+
+    @Basic
+    @Column(name = "authorized", nullable = false)
+    public boolean isAuthorized() {
+        return authorized;
+    }
+
+    public void setAuthorized(boolean authorized) {
+        this.authorized = authorized;
     }
 
     @Basic
@@ -99,6 +112,7 @@ public class LogQuery {
         if (o == null || getClass() != o.getClass()) return false;
         LogQuery logQuery = (LogQuery) o;
         return Objects.equals(queryId, logQuery.queryId) &&
+                Objects.equals(authorized, logQuery.authorized) &&
                 Objects.equals(request, logQuery.request) &&
                 Objects.equals(date, logQuery.date) &&
                 Objects.equals(datetime, logQuery.datetime);
@@ -106,7 +120,7 @@ public class LogQuery {
 
     @Override
     public int hashCode() {
-        return Objects.hash(queryId, request, date, datetime);
+        return Objects.hash(queryId, authorized, request, date, datetime);
     }
 
     @OneToMany(mappedBy = "logQueryByQueryId")
