@@ -1,4 +1,4 @@
-package edu.upm.midas.token.model;
+package edu.upm.midas.token.component;
 
 import edu.upm.midas.common.utils.TimeProvider;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
@@ -9,7 +9,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;

@@ -60,7 +60,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/user/confirmation").permitAll()
                 .antMatchers(HttpMethod.GET,"/user/confirmation_email_response").permitAll()
-                .antMatchers(HttpMethod.POST, "/validation_service").permitAll()
                 .antMatchers("/user/test").permitAll()
                 .antMatchers("/user/client/**").hasAuthority("USER").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()

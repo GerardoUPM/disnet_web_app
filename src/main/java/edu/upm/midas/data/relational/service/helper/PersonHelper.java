@@ -8,7 +8,7 @@ import edu.upm.midas.data.relational.service.*;
 import edu.upm.midas.email.model.EmailStatus;
 import edu.upm.midas.email.service.EmailService;
 import edu.upm.midas.model.user.UserRegistrationForm;
-import edu.upm.midas.token.model.JwtTokenUtil;
+import edu.upm.midas.token.component.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
