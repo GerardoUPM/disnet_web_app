@@ -31,13 +31,13 @@ public class EmailConfirmationController {
         System.out.println("Se va a confirmar el mail");
         String personId = personHelper.emailConfirm( token );
 
-        if (!personId.isEmpty()) {
+        if (!personId.isEmpty()) {System.out.println("Entra success");
             modelAndView.addObject("successMessage", "Congratulation!. Your disnet account has been successfully confirmed with the email address " + personId);
-            modelAndView.addObject("personId", personId);
+            //modelAndView.addObject("personId", personId);
             modelAndView.setViewName("/user/confirmation_email_response");
         }else{
             modelAndView.addObject("errorMessage", "A problem has occurred with your account confirmation. Please contact the application administrator");
-            modelAndView.addObject("personId", personId);
+            //modelAndView.addObject("personId", personId);
             modelAndView.setViewName("/user/confirmation_email_response");
         }
 

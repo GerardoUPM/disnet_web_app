@@ -7,17 +7,18 @@
 </head>
 <body>
     <!--<div th:replace="fragments/header :: header"/>-->
-
-    <div class="container white-text">
-        Account Validation
-        <div>
-            <span th:if="${successMessage != ''}" th:utext="${successMessage}"></span>
-            <span th:if="${errorMessage != ''}" th:utext="${errorMessage}"></span>
+    <main>
+        <div class="container white-text">
+            Account Validation
+            <div>
+                <span th:if="${successMessage != ''}" th:utext="${successMessage}"></span>
+                <span th:if="${errorMessage != ''}" th:utext="${errorMessage}"></span>
+            </div>
+            <br/>
+            <p class="margin center medium-small sign-up"><a th:href="@{/user/login}">Make login!</a></p>
+            <br/><br/>
         </div>
-        <br/>
-        <p class="margin center medium-small sign-up"><a th:href="@{/user/login}">Make login!</a></p>
-        <br/><br/>
-    </div>
+    </main>
     <!-- /.container -->
 
     <div th:replace="fragments/footer :: footer"/>

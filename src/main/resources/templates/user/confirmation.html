@@ -7,16 +7,17 @@
 </head>
 <body>
     <!--<div th:replace="fragments/header :: header"/>-->
-
-    <div class="container">
-        Registration Confirmation
-        <div>
-            <span th:if="${successMessage != ''}" th:utext="${successMessage}"></span>
-            <span th:if="${errorMessage != ''}" th:utext="${errorMessage}"></span>
+    <main>
+        <div class="container">
+            Registration Confirmation
+            <div>
+                <span th:if="${successMessage != ''}" th:utext="${successMessage}"></span>
+                <span th:if="${errorMessage != ''}" th:utext="${errorMessage}"></span>
+            </div>
+            <form th:object="${user}"></form>
+            <br/><br/>
         </div>
-        <form th:object="${user}"></form>
-        <br/><br/>
-    </div>
+    </main>
     <!-- /.container -->
 
     <div th:replace="fragments/footer :: footer"/>
