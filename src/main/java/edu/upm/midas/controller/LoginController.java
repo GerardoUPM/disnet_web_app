@@ -60,8 +60,6 @@ public class LoginController {
     }
 
 
-
-
     @RequestMapping(value="/client/home", method = RequestMethod.GET)
     public ModelAndView home(){
         ModelAndView modelAndView = new ModelAndView();
@@ -70,6 +68,7 @@ public class LoginController {
         Person user = personHelper.findByEmailAndStatusOK( auth.getName() );
         System.out.println(user.toString());
         modelAndView.addObject("userName", "Welcome " + user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonId() + ")");
+        modelAndView.addObject("email", user.getPersonId());
         modelAndView.addObject("clientMessage","Content Available Only for Users with USER Role");
         modelAndView.setViewName("user/client/home");
         return modelAndView;

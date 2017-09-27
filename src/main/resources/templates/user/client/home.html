@@ -6,10 +6,11 @@
     <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
-    <!--<div th:replace="fragments/header :: header"/>-->
+    <div th:replace="fragments/header :: header"/>
 
+    <main>
     <div class="container">
-        <form th:action="@{/user/logout}" method="get">
+        <form th:if="${email}" th:action="@{/user/logout}" method="get">
             <button class="btn btn-md btn-danger btn-block" name="registration"
                     type="Submit">Logout</button>
         </form>
@@ -19,6 +20,7 @@
         <p th:utext="${clientMessage}"></p>
         <br/><br/>
     </div>
+    </main>
     <!-- /.container -->
 
     <div th:replace="fragments/footer :: footer"/>

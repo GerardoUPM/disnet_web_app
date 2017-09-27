@@ -3,14 +3,12 @@
 <body>
 <div th:fragment="footer">
     <!--<div class="container"> DESACTIVO PARA TENGA WEIGHT al 100%-->
-        <footer class="request-footer blue darken-4"><!--orange-->
+        <footer class="page-footer blue darken-4"><!--orange-->
             <div class="container">
                 <div class="row">
                     <div class="col l6 s12">
                         <h5 class="white-text">DISNET</h5>
                         <p class="grey-text text-lighten-4">DISNET project is being developed in the Medical Data Analytics Laboratory (MEDAL) at the <a class="footer-color-link" target="_blank" href="http://www.ctb.upm.es">Center of Biomedical Technology (CTB)</a>. CTB is part of <a class="footer-color-link" target="_blank" href="http://www.upm.es">Universidad Politécnica de Madrid (UPM)</a>. If you have any inquiry please contact with the project leader: <a class="footer-color-link" target="_blank" href="http://www.alejandrorg.com">Prof. Alejandro Rodríguez González</a>.</p>
-
-
                     </div>
                     <!--<div class="col l3 s12">
                         <h5 class="white-text">Settings</h5>
@@ -33,7 +31,7 @@
                 </div>
             </div>
             <div class="footer-copyright">
-                <div class="container">
+                <div class="container grey-text text-lighten-4">
                     Made by <a class="orange-text text-lighten-3" href="http://disnet.ctb.upm.es">DISNET</a>
                 </div>
             </div>
@@ -43,6 +41,7 @@
 <div th:fragment="footer-js">
     <!--  Scripts-->
     <!--Import jQuery before materialize.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" th:src="@{/js/materialize.js}"></script>
     <script type="text/javascript" th:src="@{/js/init.js}"></script>

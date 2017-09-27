@@ -2,7 +2,6 @@ package edu.upm.midas.token.component;
 
 import edu.upm.midas.common.utils.TimeProvider;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
-import edu.upm.midas.validation.model.ValidationRequest;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -130,32 +129,6 @@ public class JwtTokenUtil implements Serializable {
 
         return claims.getSubject();
 
-    }
-
-
-    /**
-     * @param token
-     * @return
-     */
-    public ValidationRequest getServiceJWTDecode(String token){
-        ValidationRequest validationRequest = new ValidationRequest();
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(secret)
-                    .parseClaimsJws(token).getBody();
-
-            System.out.println(claims.toString());
-
-            validationRequest.setToken( claims.get("token").toString() );
-            validationRequest.setApiCode( claims.get("api_code").toString() );
-            validationRequest.setRequest( claims.get("request").toString() );
-            validationRequest.setUrl( claims.get("url").toString() );
-        }catch (Exception e){
-            validationRequest.setEnabled(false);
-            validationRequest.setMessage("Can't read the token's properties. Please verify!");
-        }
-
-        return validationRequest;
     }
 
 
