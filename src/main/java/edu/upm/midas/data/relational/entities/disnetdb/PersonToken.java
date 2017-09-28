@@ -23,7 +23,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "PersonToken.findAll", query = "SELECT p FROM PersonToken p")
         , @NamedQuery(name = "PersonToken.findById", query = "SELECT p FROM PersonToken p WHERE p.personId = :personId AND p.token = :token")
-        , @NamedQuery(name = "PersonToken.findByPersonId", query = "SELECT p FROM PersonToken p WHERE p.personId = :personId")
+        , @NamedQuery(name = "PersonToken.findByPersonId", query = "SELECT p FROM PersonToken p WHERE p.personId = :personId AND p.enabled = true")
         , @NamedQuery(name = "PersonToken.findByToken", query = "SELECT p FROM PersonToken p WHERE p.token = :token")
         , @NamedQuery(name = "PersonToken.findByEnabled", query = "SELECT p FROM PersonToken p WHERE p.enabled = :enabled")
         , @NamedQuery(name = "PersonToken.findByDate", query = "SELECT p FROM PersonToken p WHERE p.date = :date")

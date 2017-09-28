@@ -13,6 +13,8 @@ public interface PersonTokenRepository {
 
     PersonToken findById(PersonTokenPK personTokenPK);
 
+    PersonToken findByPersonId(String personId);
+
     Object[] findByIdNative(String personId, String token);
 
     List<PersonToken> findAllQuery();

@@ -1,7 +1,10 @@
 package edu.upm.midas.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
+import edu.upm.midas.data.relational.entities.disnetdb.PersonToken;
 import edu.upm.midas.data.relational.service.CountryService;
+import edu.upm.midas.data.relational.service.PersonService;
+import edu.upm.midas.data.relational.service.PersonTokenService;
 import edu.upm.midas.data.relational.service.helper.PersonHelper;
 import edu.upm.midas.email.component.EmailHtmlSender;
 import edu.upm.midas.email.model.EmailStatus;
@@ -37,6 +40,10 @@ public class LoginController {
     @Autowired
     private PersonHelper personHelper;
     @Autowired
+    private PersonService personService;
+    @Autowired
+    private PersonTokenService personTokenService;
+    @Autowired
     private CountryService countryService;
 
 
@@ -65,12 +72,15 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(auth.getName());
-        Person user = personHelper.findByEmailAndStatusOK( auth.getName() );
+        Person user = personService.findById( auth.getName() );
+        PersonToken token = personTokenService.findByPersonId( auth.getName() );
         System.out.println(user.toString());
         modelAndView.addObject("userName", "Welcome " + user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonId() + ")");
         modelAndView.addObject("email", user.getPersonId());
         modelAndView.addObject("user", user);
-        modelAndView.addObject("clientMessage","Content Available Only for Users with USER Role");
+        modelAndView.addObject("token", token.getToken());
+        modelAndView.addObject("countries", countryService.findAll());
+        modelAndView.addObject("clientMessage","Content Available Only for DISNET clients");
         modelAndView.setViewName("user/client/home");
         return modelAndView;
     }

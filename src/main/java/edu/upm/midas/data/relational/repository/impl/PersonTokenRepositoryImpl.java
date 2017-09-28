@@ -23,6 +23,21 @@ public class PersonTokenRepositoryImpl extends AbstractDao<PersonTokenPK, Person
     }
 
     @SuppressWarnings("unchecked")
+    @Override
+    public PersonToken findByPersonId(String personId) {
+        PersonToken personToken = null;
+        List<PersonToken> emailConfirmationList = (List<PersonToken>) getEntityManager()
+                .createNamedQuery("PersonToken.findByPersonId")
+                .setParameter("personId", personId)
+                .setMaxResults(1)
+                .getResultList();
+        if (CollectionUtils.isNotEmpty(emailConfirmationList))
+            personToken = emailConfirmationList.get(0);
+
+        return personToken;
+    }
+
+    @SuppressWarnings("unchecked")
     public Object[] findByIdNative(String personId, String token) {
         Object[] oEmailConfirmation = null;
         List<Object[]> emailConfirmationList = (List<Object[]>) getEntityManager()

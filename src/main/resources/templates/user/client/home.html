@@ -10,50 +10,90 @@
 
     <main>
         <div class="container">
-
-            <!-- Navbar goes here -->
-
-            <!-- Page Layout here -->
-            <div class="row">
-
-                <div class="col s3 color-gray" >
-                    <!-- Grey navigation panel -->
-                    <ul id="slide-out" class="side-nav">
-                        <li>
-                            <div class="user-view">
-                                <div class="background">
-                                    <img src="#"/>
-                                </div>
-                                <a href="#!user"><img class="circle" src="#"/></a>
-                                <a href="#!name"><span class="white-text name">John Doe</span></a>
-                                <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-                            </div>
-                        </li>
-                        <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-                        <li><a href="#!">Second Link</a></li>
-                        <li><div class="divider"></div></li>
-                        <li><a class="subheader">Subheader</a></li>
-                        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-                    </ul>
-                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+<!--
+            <div class="col s9">
+                &lt;!&ndash; Teal page content  &ndash;&gt;
+                <div class="container">
+                    <form th:if="${email}" th:action="@{/user/logout}" method="get">
+                        <button class="btn btn-md btn-danger btn-block" name="registration"
+                                type="Submit">Logout</button>
+                    </form>
                 </div>
-
-                <div class="col s9">
-                    <!-- Teal page content  -->
-                    <div class="container">
-                        <form th:if="${email}" th:action="@{/user/logout}" method="get">
-                            <button class="btn btn-md btn-danger btn-block" name="registration"
-                                    type="Submit">Logout</button>
-                        </form>
-
-                        HOME
-                        <div><span th:utext="${userName}"></span></div>
-                        <p th:utext="${clientMessage}"></p>
-                        <br/><br/>
-                    </div>
-                </div>
-
             </div>
+-->
+            <br/><br/>
+            <h4>USER HOME</h4>
+            <div><h5><span th:utext="${userName}"></span></h5></div>
+            <p th:utext="${clientMessage}"></p>
+            <br/>
+            <ul class="collapsible" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">person</i>Your Information</div>
+                    <div class="collapsible-body">
+
+                        <div class="row">
+
+                        <div class="input-field col s12 m12 l6">
+                            <i class="medium material-icons prefix">person_outline</i>
+                            <input id="firstName" name="firstName" type="text" class="validate" th:value="${user.firstName}"  /><!--th:field="*{firstName}"-->
+                            <label for="firstName" class="center-align" data-error="wrong" data-success="right">Name</label><!--th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"-->
+                        </div>
+                        <div class="input-field col s12 m12 l6">
+                            <i class="medium material-icons prefix">person_outline</i>
+                            <input id="lastName" name="lastName" type="text" class="validate" th:value="${user.lastName}"  /><!--th:field="*{lastName}"-->
+                            <label for="lastName" class="center-align">Last Name</label>
+                        </div>
+                        <div class="input-field col s12 m12 l12">
+                            <i class="medium material-icons prefix">email</i>
+                            <input id="email" name="email" type="email" class="validate" th:value="${user.personId}" /><!--th:field="*{email}"-->
+                            <label for="email" class="center-align">Email</label>
+                        </div>
+                        <div class="input-field col s12 m12 l6">
+                            <i class="medium material-icons prefix">school</i>
+                            <input id="institution" name="institution" type="text" class="validate" th:value="${user.academicInfoByAcademicInfoId.institutionName}" /><!--th:field="*{institution}"-->
+                            <label for="institution" class="center-align">Institute</label>
+                        </div>
+                        <div class="input-field col s12 m12 l6">
+                            <i class="medium material-icons prefix">school</i>
+                            <select id="country" name="country" >
+                                <option value="" disabled="disabled" selected="selected">Choose your option</option>
+                                <option th:selected="${user.academicInfoByAcademicInfoId.countryId}" th:each="country : ${countries}" th:value="${{country.countryId}}" th:text="${{country.name}}" ></option>
+                            </select>
+                            <label for="country" class="center-align">Country</label>
+                        </div>
+                        <div class="input-field col s12 m12 l12">
+                            <i class="medium material-icons prefix">school</i>
+                            <input id="occupation" name="occupation" type="text" class="validate" th:value="${user.academicInfoByAcademicInfoId.occupation}"  /><!--th:field="*{occupation}"-->
+                            <label for="occupation" class="center-align">Position/Occupation</label>
+                        </div>
+                        <div class="input-field col s12 m12 l12">
+                            <i class="medium material-icons prefix">school</i>
+                            <textarea id="interest" name="interest" type="text" class="materialize-textarea validate" th:text="${user.academicInfoByAcademicInfoId.interest}" ></textarea><!--th:field="*{interest}"-->
+                            <label for="interest" class="center-align">Interest in use DISNET</label>
+                        </div>
+
+                        </div>
+
+
+
+
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">lock_open</i>Your Acces Token</div>
+                    <div class="collapsible-body">
+                        <p class="text-align-justify">
+                            <div class="row">
+                                <div class="card-content" th:text="${token}" />
+                            </div>
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">data_usage</i>Your Requests</div>
+                    <div class="collapsible-body"><span>Historial de peticiones.</span></div>
+                </li>
+            </ul>
 
 
         </div>

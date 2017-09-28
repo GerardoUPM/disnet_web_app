@@ -27,6 +27,11 @@ public class PersonTokenServiceImpl implements PersonTokenService {
         return personToken;
     }
 
+    @Override
+    public PersonToken findByPersonId(String personId) {
+        return daoPersonToken.findByPersonId(personId);
+    }
+
     @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public Object[] findByIdNative(String personId, String token) {
         return daoPersonToken.findByIdNative(personId, token);
