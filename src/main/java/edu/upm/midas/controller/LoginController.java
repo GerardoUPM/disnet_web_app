@@ -69,6 +69,7 @@ public class LoginController {
         System.out.println(user.toString());
         modelAndView.addObject("userName", "Welcome " + user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonId() + ")");
         modelAndView.addObject("email", user.getPersonId());
+        modelAndView.addObject("user", user);
         modelAndView.addObject("clientMessage","Content Available Only for Users with USER Role");
         modelAndView.setViewName("user/client/home");
         return modelAndView;
