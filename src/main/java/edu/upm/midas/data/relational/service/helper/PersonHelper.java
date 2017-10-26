@@ -12,12 +12,14 @@ import edu.upm.midas.token.component.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 
+import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 
 /**
@@ -58,6 +60,20 @@ public class PersonHelper {
     @Autowired
     private Constants constants;
 
+    @Value("${spring.datasource.url}")
+    private String spring_datasource_url;
+    @Value("${spring.datasource.username}")
+    private String spring_datasource_username;
+    @Value("${spring.datasource.password}")
+    private String spring_datasource_password;
+
+    @PostConstruct
+    public void setup(){
+        System.out.println(
+                "MySQL Variables: URL: " + this.spring_datasource_url + "\n" +
+                "USERNAME: " + this.spring_datasource_username + "\n" +
+                "PASS: " + this.spring_datasource_password);
+    }
 
     /**
      * @param email
@@ -184,8 +200,8 @@ public class PersonHelper {
             //</editor-fold>
 
             String tokenConfirmationLink =  constants.HTTP_HEADER +
-                                            constants.URL_DISNET +
-                                            constants.URL_USER_CONFIRMATION +
+                                            constants.URL_DISNET_WEB_APP +
+                                            constants.USER_CONFIRMATION_PATH +
                                             Constants.PARAM_SEP_2 +
                                             constants.PARAMETER_CONFIRMATION_TOKEN_NAME +
                                             Constants.EQUAL + token;

@@ -51,19 +51,19 @@ public class LoginController {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String userRegister(Model model){
         model.addAttribute("countries", countryService.findAll());
-        return "/user/registration";
+        return "user/registration";
     }
 
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login")
     public String userLogin(Model model){
-        return "/user/login";
+        return "user/login";
     }
 
 
     @RequestMapping(value = "/forgot", method = RequestMethod.GET)
     public String userRecovery(Model model){
-        return "/user/forgot";
+        return "user/forgot";
     }
 
 
@@ -99,18 +99,19 @@ public class LoginController {
                             "There is already a user registered with the email provided");
         }
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("/user/registration");
+            modelAndView.setViewName("user/registration");
         } else {
+            //PONER VALIDACIÖN PARA CACHAR ERRORES Y MOSTRARLOS
             if ( personHelper.saveNewUser(userRegistrationForm, device) ){
                 System.out.println("BIEN");
                 modelAndView.addObject("successMessage", "User has been registered successfully");
                 modelAndView.addObject("user", userRegistrationForm);
-                modelAndView.setViewName("/user/confirmation");
+                modelAndView.setViewName("user/confirmation");
             }else{
                 System.out.println("MAL");
                 modelAndView.addObject("errorMessage", "Problems registering user");
                 modelAndView.addObject("user", userRegistrationForm);
-                modelAndView.setViewName("/user/confirmation");
+                modelAndView.setViewName("user/confirmation");
             }
         }
         return modelAndView;

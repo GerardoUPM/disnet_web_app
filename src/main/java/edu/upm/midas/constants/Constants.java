@@ -16,14 +16,16 @@ import java.util.Date;
 @Component
 public class Constants {
 
+
+
     @Value("${constants.https.header}")
     public String HTTPS_HEADER;
     @Value("${constants.http.header}")
     public String HTTP_HEADER;
-    @Value("${constants.url.disnet}")
-    public String URL_DISNET;
-    @Value("${constants.url.user.confirmation}")
-    public String URL_USER_CONFIRMATION;
+    @Value("${constants.url.disnet_web_app}")
+    public String URL_DISNET_WEB_APP;
+    @Value("${constants.user.confirmation.path}")
+    public String USER_CONFIRMATION_PATH;
     @Value("${constants.parameter.user.confirmation.token.name}")
     public String PARAMETER_CONFIRMATION_TOKEN_NAME;
     public static final String VERSION_PROJECT = "1.0";
