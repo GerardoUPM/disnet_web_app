@@ -35,6 +35,10 @@ public class Constants {
     public final static String ERR_EMPTY_PARAMETER = "Empty parameter";
     public final static String OK = "OK";
 
+    /*ACCIONES*/
+    public final static String UPDATE_ACTION = "update";
+    public final static String RESET_ACTION = "reset";
+
 
     public static final String IMAGE_PATTERN =
             "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";

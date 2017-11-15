@@ -3,6 +3,7 @@ import edu.upm.midas.email.model.EmailStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +11,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.Address;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 
@@ -30,6 +33,11 @@ public class EmailSender {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    @Value("${email.template.from.noreply.address}")
+    private String noReplyAddress;
+    @Value("${email.template.from.noreply.personal}")
+    private String noReplyPersonal;
+
     public EmailStatus sendPlainText(String to, String subject, String text) {
         return sendM(to, subject, text, false);
     }
@@ -42,11 +50,14 @@ public class EmailSender {
         try {
             MimeMessage mail = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
+            InternetAddress address = new InternetAddress(this.noReplyAddress, this.noReplyPersonal);
 
+            //mail.setSender(address);
+            //mail.setFrom(address);
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(text, isHtml);
-            helper.setFrom("noreply@disnet.ctb.upm.es");
+            helper.setFrom(address);
 /*
             InputStreamSource imageSource = new ByteArrayResource(image.getBytes());
             helper.addInline(image.getName(), imageSource, image.getContentType());

@@ -2,22 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>DISNET - Registration Confirmation</title>
+    <title>DISNET - Error</title>
     <div th:replace="fragments/header :: header-css"/>
     <link type="text/css" rel="stylesheet"  th:href="@{/css/user.css}" media="screen,projection" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body class="login-content">
-    <div class="container"><br/><br/><br/><br/><br/><br/><br/>
+    <div class="container">
         <div id="login-request" class="row" >
             <div class="col s12 m8 l8 offset-m2 offset-l2">
                 <div class="z-depth-5 card-panel">
                     <div class="row">
                             <div class="input-field col s12 m12 l12 center">
-                                <a href="http://disnet.ctb.upm.es">
-                                    <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt=""
-                                         class="responsive-img valign profile-image-login tooltipped"
-                                         data-position="bottom" data-delay="50" data-tooltip="Go to the DISNET home" />
-                                </a>
+                                <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt="" class="responsive-img valign profile-image-login" />
                                 <br/>
                                 <br/>
                                 <p class="center login-form-text"><h5>Registration Confirmation</h5></p>
@@ -28,6 +25,7 @@
                                 <span th:if="${errorMessage != ''}" th:utext="${errorMessage}"></span>
                                 <!--<form th:object="${user}"></form>-->
                                 <br/><br/>
+                                <script>swal("Hello world!");</script>
                             </div>
                     </div>
                 </div>

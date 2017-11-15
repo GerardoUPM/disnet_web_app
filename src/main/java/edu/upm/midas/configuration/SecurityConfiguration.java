@@ -57,12 +57,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/user/admin/home",
                         "/user/client/home").permitAll()
                 .antMatchers("/user/login").permitAll()
+                .antMatchers(HttpMethod.POST,"/user/update").permitAll()
+                .antMatchers(HttpMethod.POST,"/user/reset_password").permitAll()
+                .antMatchers("/user/forgot").permitAll()
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/user/confirmation").permitAll()
                 .antMatchers(HttpMethod.GET,"/user/confirmation_email_response").permitAll()
                 .antMatchers("/user/test").permitAll()
                 .antMatchers("/user/client/**").hasAuthority("USER").anyRequest()
-                .authenticated().and().csrf().disable().formLogin()
+                .authenticated().and().csrf().disable()
+                .formLogin()
                 .loginPage("/user/login").failureUrl("/user/login?error=true")
                 .defaultSuccessUrl("/user/client/home")
                 .usernameParameter("email")
@@ -77,7 +81,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/fonts/**");
     }
 
 /* TOKEN

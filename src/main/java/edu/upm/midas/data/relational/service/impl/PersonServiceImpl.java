@@ -1,4 +1,5 @@
 package edu.upm.midas.data.relational.service.impl;
+
 import edu.upm.midas.data.relational.entities.disnetdb.Country;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
 import edu.upm.midas.data.relational.entities.disnetdb.Status;
@@ -29,8 +30,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private PersonRepository daoPerson;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public Person findById(String personId) {

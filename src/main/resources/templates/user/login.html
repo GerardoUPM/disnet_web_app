@@ -7,14 +7,19 @@
     <link type="text/css" rel="stylesheet"  th:href="@{/css/user.css}" media="screen,projection" />
 </head>
 <body class="login-content" >
-    <div class="container">
+    <div class="container"><br/><br/><br/><br/><br/><br/><br/>
         <div id="login-request" class="row" >
             <div class="col s12 m8 l8 offset-m2 offset-l2">
                 <div class="z-depth-5 card-panel">
                     <div class="row">
                         <form class="login-form" method="post" th:action="@{/user/login}" ><!---->
                             <div class="input-field col s12 m12 l12 center">
-                                <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt="" class="responsive-img valign profile-image-login" />
+                                <a href="http://disnet.ctb.upm.es">
+                                    <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt=""
+                                        class="responsive-img valign profile-image-login tooltipped"
+                                        data-position="bottom" data-delay="50" data-tooltip="Come back to the DISNET home" />
+                                </a>
+                                <br/>
                                 <br/>
                                 <p class="center login-form-text"><h5>User Login</h5></p>
                                 <br/>
@@ -30,7 +35,7 @@
                                 <label for="password">Password</label>
                             </div>
                             <div class="input-field col s12 m12 l12 center ">
-                                <p class="center login-form-text">By creating an account by clicking on "Register now" <br/> you are accepting the <a href="#">Terms and Conditions of DISNET</a>.</p>
+                                <p class="center login-form-text">By creating an account by clicking on "Register now" <br/> you are accepting the <a class="modal-trigger" href="#modal1"><!--onclick="showTermsAndConditions()"-->Terms and Conditions of DISNET</a>.</p>
                             </div>
                             <div class="input-field col s12 m12 l12">
                                 <button type="submit" class="btn waves-effect waves-light col s12 m12 l8 offset-l2 blue darken-3">Login</button>
@@ -42,10 +47,21 @@
                             <div class="col s6 m6 l6 right-align">
                                 <a th:href="@{/user/forgot}">Forgot password?</a>
                             </div>
-                            <!--<div align="center" th:if="${param.error}">-->
-                                <!--<p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>-->
-                            <!--</div>-->
                         </form>
+                        <!-- Modal Trigger -->
+                        <!--<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>-->
+
+                        <!-- Modal Structure -->
+                        <div id="modal1" class="modal modal-fixed-footer">
+                            <div class="modal-content">
+                                <h4>DISNET Terms And Conditions</h4>
+                                <p>A bunch of text</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Disagree</a>
+                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -54,5 +70,11 @@
 
     <div th:replace="fragments/footer :: footer-js"/>
     <script type="text/javascript" th:src="@{/js/user/login.js}"></script>
+    <!--Se encuentra al final para que cargue al encontrar un error-->
+    <div th:if="${param.error}" class="input-field col s12 m12 l12 center red-text text-darken-4">
+        <script>
+            var $toastContent = $('<span class="red-text text-lighten-4">Email or Password invalid, please verify!</span>');
+            Materialize.toast($toastContent, 8000);</script>
+    </div>
 </body>
 </html>

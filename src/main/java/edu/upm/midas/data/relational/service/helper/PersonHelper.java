@@ -1,18 +1,22 @@
 package edu.upm.midas.data.relational.service.helper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.upm.midas.common.utils.Common;
 import edu.upm.midas.common.utils.TimeProvider;
 import edu.upm.midas.constants.Constants;
 import edu.upm.midas.data.relational.entities.disnetdb.*;
 import edu.upm.midas.data.relational.service.*;
 import edu.upm.midas.email.model.EmailStatus;
 import edu.upm.midas.email.service.EmailService;
+import edu.upm.midas.model.user.Response;
 import edu.upm.midas.model.user.UserRegistrationForm;
+import edu.upm.midas.model.user.UserUpdateForm;
 import edu.upm.midas.token.component.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 
 import javax.annotation.PostConstruct;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
@@ -59,6 +64,8 @@ public class PersonHelper {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private Constants constants;
+    @Autowired
+    private Common common;
 
     @Value("${spring.datasource.url}")
     private String spring_datasource_url;
@@ -110,14 +117,29 @@ public class PersonHelper {
             user.setFirstName((String) person[3]);
             user.setLastName((String) person[4]);
             user.setPassword((String) person[5]);
-            user.setLastUpdate((Timestamp) person[16]);
+            user.setAcademicInfoId((int) person[10]);
+            user.setProfileId((String) person[6]);
+            user.setDate((Date) person[16]);
+            user.setDatetime((Timestamp) person[17]);
+            user.setLastUpdate((Timestamp) person[18]);
+
+            AcademicInfo academicInfo = new AcademicInfo();
+            academicInfo.setAcademicInfoId((int) person[10]);
+            academicInfo.setInstitutionName((String) person[11]);
+            academicInfo.setCountryId((int) person[12]);
+            academicInfo.setOccupation((String) person[13]);
+            academicInfo.setInterest((String) person[14]);
+
+            user.setAcademicInfoByAcademicInfoId(academicInfo);
 
             Profile profile = new Profile();
             profile.setProfileId((String) person[6]);
             profile.setName((String) person[7]);
             profile.setAuthority( getAuthority( (String) person[8] ) );
+            profile.setEnabled((boolean) person[9]);
 
             user.setProfileByProfileId(profile);
+
         }
         return user;
     }
@@ -129,7 +151,8 @@ public class PersonHelper {
     public Status getStatus(String status){
         Status statusFound = Status.DW;
         for (Status stat: Status.values()) {
-            if (stat.equals(status.trim())) statusFound = stat;
+            /*System.out.println(stat.toString().trim() + ", " + status.trim() + " = " + (stat.toString().trim().equals(status.trim())));*/
+            if (stat.toString().trim().equals(status.trim())) statusFound = stat;
         }
         return statusFound;
     }
@@ -218,7 +241,7 @@ public class PersonHelper {
             emailConfirmation.setSent(confirmationEmailStatus.isSuccess());
             emailConfirmation.setSentDate(timeProvider.getNow());
             emailConfirmation.setSentDatetime(timeProvider.getTimestamp());
-            emailConfirmation.setEnabled(true);
+            emailConfirmation.setEnabled(false);
             logger.info( "Object Persist: {}",objectMapper.writeValueAsString( emailConfirmation ) );
             emailConfirmationService.save( emailConfirmation );
             logger.info( "Object Persist: {}",objectMapper.writeValueAsString( emailConfirmation ) );
@@ -255,10 +278,11 @@ public class PersonHelper {
             emailConfirmationPK.setToken( token );
 
             EmailConfirmation emailConfirmation = emailConfirmationService.findById( emailConfirmationPK );
-            emailConfirmation.setDate( timeProvider.getNow() );
-            emailConfirmation.setDatetime( timeProvider.getTimestamp() );
+            emailConfirmation.setDate(timeProvider.getNow());
+            emailConfirmation.setDatetime(timeProvider.getTimestamp());
+            emailConfirmation.setEnabled(true);
             logger.info("Object Persist: {}", objectMapper.writeValueAsString(emailConfirmation));
-            emailConfirmationService.update( emailConfirmation );
+            emailConfirmationService.update(emailConfirmation);
             logger.info("Object Persist: {}", objectMapper.writeValueAsString(emailConfirmation));
 
             Person person = personService.findById( personId );
@@ -272,6 +296,51 @@ public class PersonHelper {
         }
 
         return personId;
+
+    }
+
+
+    public Response update(Person person, UserUpdateForm user, Response response, Device device) throws Exception {
+        try {
+            AcademicInfo academicInfo = person.getAcademicInfoByAcademicInfoId();
+
+            academicInfo.setInstitutionName(user.getInstitution());
+            academicInfo.setCountryId(user.getCountry());
+            academicInfo.setOccupation(user.getOccupation());
+            academicInfo.setInterest(user.getInterest());
+
+            logger.info("Object Persist: {}", objectMapper.writeValueAsString(academicInfo));
+            academicInfoService.update(academicInfo);
+            logger.info("Object Persist: {}", objectMapper.writeValueAsString(academicInfo));
+
+            person.setPersonId(user.getEmail());
+            person.setFirstName(user.getFirstName());
+            person.setLastName(user.getLastName());
+            if (!common.isEmpty(user.getPassword())) {
+                person.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            }
+            person.setAcademicInfoId(academicInfo.getAcademicInfoId());
+            /*person.setDate(timeProvider.getNow());
+            person.setDatetime(timeProvider.getTimestamp());*/
+            person.setLastUpdate(timeProvider.getTimestamp());
+
+            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
+            personService.update(person);
+            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
+            System.out.println("BIEN");
+            response.setCode(HttpStatus.OK.value());
+            response.setStatus(HttpStatus.OK);
+            response.setAction(Constants.UPDATE_ACTION);
+            response.setMessage("User has been updated successfully.");
+        }catch (Exception e){
+            System.out.println("MUY MAL");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setAction(Constants.UPDATE_ACTION);
+            response.setMessage("Internal problems with user update.");
+        }
+
+        return response;
 
     }
 

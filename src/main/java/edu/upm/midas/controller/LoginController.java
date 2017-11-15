@@ -9,9 +9,13 @@ import edu.upm.midas.data.relational.service.helper.PersonHelper;
 import edu.upm.midas.email.component.EmailHtmlSender;
 import edu.upm.midas.email.model.EmailStatus;
 import edu.upm.midas.email.service.EmailService;
+import edu.upm.midas.model.user.RequestResetPassword;
+import edu.upm.midas.model.user.Response;
 import edu.upm.midas.model.user.UserRegistrationForm;
+import edu.upm.midas.model.user.UserUpdateForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -98,17 +102,25 @@ public class LoginController {
                     .rejectValue("email", "error.user",
                             "There is already a user registered with the email provided");
         }
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {//System.out.println("que pasa" + bindingResult.toString());
+            modelAndView.addObject("countries", countryService.findAll());
             modelAndView.setViewName("user/registration");
         } else {
             //PONER VALIDACIÖN PARA CACHAR ERRORES Y MOSTRARLOS
-            if ( personHelper.saveNewUser(userRegistrationForm, device) ){
-                System.out.println("BIEN");
-                modelAndView.addObject("successMessage", "User has been registered successfully");
-                modelAndView.addObject("user", userRegistrationForm);
-                modelAndView.setViewName("user/confirmation");
-            }else{
-                System.out.println("MAL");
+            try {
+                if (personHelper.saveNewUser(userRegistrationForm, device)) {
+                    System.out.println("BIEN");
+                    modelAndView.addObject("successMessage", "User has been registered successfully. Please verify your email for complete the registration.");
+                    modelAndView.addObject("user", userRegistrationForm);
+                    modelAndView.setViewName("user/confirmation");
+                } else {
+                    System.out.println("MAL");
+                    modelAndView.addObject("errorMessage", "Problems registering user");
+                    modelAndView.addObject("user", userRegistrationForm);
+                    modelAndView.setViewName("user/confirmation");
+                }
+            }catch (Exception e){
+                System.out.println("MUY MAL");
                 modelAndView.addObject("errorMessage", "Problems registering user");
                 modelAndView.addObject("user", userRegistrationForm);
                 modelAndView.setViewName("user/confirmation");
@@ -118,4 +130,4 @@ public class LoginController {
     }
 
 
-}
+    }

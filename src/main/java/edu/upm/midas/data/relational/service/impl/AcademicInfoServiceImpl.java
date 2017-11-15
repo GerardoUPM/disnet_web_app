@@ -67,7 +67,7 @@ public class AcademicInfoServiceImpl implements AcademicInfoService {
 
     @Transactional(propagation=Propagation.REQUIRED)
     public AcademicInfo update(AcademicInfo academicInfo) {
-        return null;
+        return daoAcademicInfo.update(academicInfo);
     }
 
     @Transactional(propagation=Propagation.REQUIRED)

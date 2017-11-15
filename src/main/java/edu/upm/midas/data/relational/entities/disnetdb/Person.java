@@ -37,7 +37,11 @@ import java.util.Objects;
 @NamedNativeQueries({
         @NamedNativeQuery(
                 name = "Person.findByIdAndStatusNative",
-                query = "SELECT p.person_id, p.status, p.enabled, p.first_name, p.last_name, p.password, pp.profile_id, pp.name profile_name, pp.authority, pp.enabled enabled_profile, a.institution_name, a.occupation, a.interest, c.name country_name, p.date, p.datetime, p.last_update " +
+                query = "SELECT p.person_id, p.status, p.enabled, p.first_name, p.last_name, " +
+                        "p.password, pp.profile_id, pp.name profile_name, " +
+                        "pp.authority, pp.enabled enabled_profile, " +
+                        "a.academic_info_id, a.institution_name, a.country_id, a.occupation, a.interest, " +
+                        "c.name country_name, p.date, p.datetime, p.last_update " +
                         "FROM person p " +
                         "INNER JOIN academic_info a ON a.academic_info_id = p.academic_info_id " +
                         "INNER JOIN profile pp ON pp.profile_id = p.profile_id " +

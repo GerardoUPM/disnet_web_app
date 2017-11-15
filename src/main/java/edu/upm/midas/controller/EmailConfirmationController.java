@@ -29,14 +29,22 @@ public class EmailConfirmationController {
     public ModelAndView confirmationEmail(@RequestParam(value = "token") String token, Device device) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         System.out.println("Se va a confirmar el mail");
-        String personId = personHelper.emailConfirm( token );
 
-        if (!personId.isEmpty()) {System.out.println("Entra success");
-            modelAndView.addObject("successMessage", "Congratulation!. Your disnet account has been successfully confirmed with the email address " + personId);
-            //modelAndView.addObject("personId", personId);
-            modelAndView.setViewName("user/confirmation_email_response");
-        }else{
-            modelAndView.addObject("errorMessage", "A problem has occurred with your account confirmation. Please contact the application administrator");
+        try {
+            String personId = personHelper.emailConfirm(token);
+
+            if (!personId.isEmpty()) {
+                System.out.println("Entra success");
+                modelAndView.addObject("successMessage", "Congratulation!. Your disnet account has been successfully confirmed with the email address " + personId);
+                //modelAndView.addObject("personId", personId);
+                modelAndView.setViewName("user/confirmation_email_response");
+            } else {
+                modelAndView.addObject("errorMessage", "A problem has occurred with your account confirmation. Please contact the administrator");
+                //modelAndView.addObject("personId", personId);
+                modelAndView.setViewName("user/confirmation_email_response");
+            }
+        }catch (Exception e){
+            modelAndView.addObject("errorMessage", "There has been a problem validating the email. Check if your account is already validated by logging in or please contact the administrator");
             //modelAndView.addObject("personId", personId);
             modelAndView.setViewName("user/confirmation_email_response");
         }

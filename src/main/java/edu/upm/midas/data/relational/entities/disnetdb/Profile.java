@@ -1,4 +1,7 @@
 package edu.upm.midas.data.relational.entities.disnetdb;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -13,6 +16,9 @@ import java.util.Objects;
  * @see
  */
 @Entity
+@Table(name = "profile", schema = "disnetdb", catalog = "")
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="profileId")
 public class Profile {
     private String profileId;
     private boolean enabled;

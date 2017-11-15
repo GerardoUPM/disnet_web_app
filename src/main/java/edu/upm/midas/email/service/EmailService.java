@@ -25,11 +25,15 @@ public class EmailService {
     private String confirmationEmailTemplate;
     @Value("${email.template.welcome}")
     private String welcomeEmailTemplate;
+    @Value("${email.template.reset_password}")
+    private String resetPasswordEmailTemplate;
 
     @Value("${email.template.confirmation.subject}")
     private String confirmationEmailSubject;
     @Value("${email.template.welcome.subject}")
     private String welcomeEmailSubject;
+    @Value("${email.template.reset_password.subject}")
+    private String resetPasswordEmailSubject;
 
 
     public EmailStatus sendConfirmation(String to, Context context){
@@ -38,6 +42,10 @@ public class EmailService {
 
     public EmailStatus sendWelcome(String to, Context context){
         return emailHtmlSender.send(to, this.welcomeEmailSubject, this.welcomeEmailTemplate, context);
+    }
+
+    public EmailStatus sendResetPassword(String to, Context context){
+        return emailHtmlSender.send(to, this.resetPasswordEmailSubject, this.resetPasswordEmailTemplate, context);
     }
 
 

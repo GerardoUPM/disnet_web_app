@@ -4,10 +4,10 @@
 <head>
     <title>DISNET - Home</title>
     <div th:replace="fragments/header :: header-css"/>
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/user.css}" media="screen,projection" />
 </head>
 <body>
     <div th:replace="fragments/header :: header"/>
-
     <main>
         <div class="container">
 <!--
@@ -28,86 +28,47 @@
             <br/>
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">person</i>Your Information</div>
+                    <div class="collapsible-header"><i class="material-icons">person</i>Personal Information</div>
                     <div class="collapsible-body">
 
-                        <div class="row">
-
-                        <div class="input-field col s12 m12 l6">
-                            <i class="medium material-icons prefix">person_outline</i>
-                            <input id="firstName" name="firstName" type="text" class="validate" th:value="${user.firstName}"  /><!--th:field="*{firstName}"-->
-                            <label for="firstName" class="center-align" data-error="wrong" data-success="right">Name</label><!--th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"-->
+                        <div class="row"><!--Dos columnas-->
+                            <div class="col s2">
+                                <button id="edit_personal_info-btn" type="submit" class="btn waves-effect waves-light col s12 m12 l8 offset-l2 blue darken-3" value="edit">Edit</button>
+                            </div>
+                            <div class="col s10">
+                                <div class="z-depth-0 card-panel">
+                                    <form id="updateForm" class="login-form right-alert" method="post" action="#" ><!--th:object="${userRegistrationForm}"-->
+                                        <div th:replace="fragments/registration :: form"/>
+                                        <button id="save_personal_info-btn" type="button" class="btn waves-effect waves-light col s12 m12 l8 offset-l2 blue darken-3" value="save">Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <div class="input-field col s12 m12 l6">
-                            <i class="medium material-icons prefix">person_outline</i>
-                            <input id="lastName" name="lastName" type="text" class="validate" th:value="${user.lastName}"  /><!--th:field="*{lastName}"-->
-                            <label for="lastName" class="center-align">Last Name</label>
-                        </div>
-                        <div class="input-field col s12 m12 l12">
-                            <i class="medium material-icons prefix">email</i>
-                            <input id="email" name="email" type="email" class="validate" th:value="${user.personId}" /><!--th:field="*{email}"-->
-                            <label for="email" class="center-align">Email</label>
-                        </div>
-                        <div class="input-field col s12 m12 l6">
-                            <i class="medium material-icons prefix">school</i>
-                            <input id="institution" name="institution" type="text" class="validate" th:value="${user.academicInfoByAcademicInfoId.institutionName}" /><!--th:field="*{institution}"-->
-                            <label for="institution" class="center-align">Institute</label>
-                        </div>
-                        <div class="input-field col s12 m12 l6">
-                            <i class="medium material-icons prefix">school</i>
-                            <select id="country" name="country" >
-                                <option value="" disabled="disabled" selected="selected">Choose your option</option>
-                                <option th:selected="${user.academicInfoByAcademicInfoId.countryId}" th:each="country : ${countries}" th:value="${{country.countryId}}" th:text="${{country.name}}" ></option>
-                            </select>
-                            <label for="country" class="center-align">Country</label>
-                        </div>
-                        <div class="input-field col s12 m12 l12">
-                            <i class="medium material-icons prefix">school</i>
-                            <input id="occupation" name="occupation" type="text" class="validate" th:value="${user.academicInfoByAcademicInfoId.occupation}"  /><!--th:field="*{occupation}"-->
-                            <label for="occupation" class="center-align">Position/Occupation</label>
-                        </div>
-                        <div class="input-field col s12 m12 l12">
-                            <i class="medium material-icons prefix">school</i>
-                            <textarea id="interest" name="interest" type="text" class="materialize-textarea validate" th:text="${user.academicInfoByAcademicInfoId.interest}" ></textarea><!--th:field="*{interest}"-->
-                            <label for="interest" class="center-align">Interest in use DISNET</label>
-                        </div>
-
-                        </div>
-
-
-
-
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">lock_open</i>Your Acces Token</div>
+                    <div class="collapsible-header"><i class="material-icons">lock_open</i>Access Token</div>
                     <div class="collapsible-body">
-                        <p class="text-align-justify">
+                        <p>
                             <div class="row">
-                                <div class="card-content" th:text="${token}" />
+                                <div class="card-content wrap-text"  th:text="${token}" />
                             </div>
                         </p>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">data_usage</i>Your Requests</div>
+                    <div class="collapsible-header"><i class="material-icons">data_usage</i>Requests</div>
                     <div class="collapsible-body"><span>Historial de peticiones.</span></div>
                 </li>
             </ul>
 
 
         </div>
-
-
-
-
-
-
     </main>
     <!-- /.container -->
-
     <div th:replace="fragments/footer :: footer"/>
     <div th:replace="fragments/footer :: footer-js"/>
-
+    <script type="text/javascript" th:src="@{/js/user/registration.js}"></script>
+    <script type="text/javascript" th:src="@{/js/user/home.js}"></script>
 </body>
 </html>

@@ -1,4 +1,19 @@
 
+body {
+    background-color: #f9f9f9;
+    display: table-cell;
+    vertical-align: middle;
+    display: table-cell;
+    vertical-align: middle;
+}
+html,
+body {
+    height: 100%;
+}
+html {
+    display: table;
+    margin: auto;
+}
 #main {
     padding-left: 240px
 }

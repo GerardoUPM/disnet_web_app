@@ -4,25 +4,39 @@
 <head>
     <title>DISNET - Account Validation</title>
     <div th:replace="fragments/header :: header-css"/>
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/user.css}" media="screen,projection" />
 </head>
-<body>
-    <!--<div th:replace="fragments/header :: header"/>-->
-    <main>
-        <div class="container white-text">
-            Account Validation
-            <div>
-                <span th:if="${successMessage != ''}" th:utext="${successMessage}"></span>
-                <span th:if="${errorMessage != ''}" th:utext="${errorMessage}"></span>
+<body class="login-content">
+    <div class="container"><br/><br/><br/><br/><br/><br/><br/>
+        <div id="login-request" class="row" >
+            <div class="col s12 m8 l8 offset-m2 offset-l2">
+                <div class="z-depth-5 card-panel">
+                    <div class="row">
+                        <div class="input-field col s12 m12 l12 center">
+                            <a href="http://disnet.ctb.upm.es">
+                                <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt=""
+                                     class="responsive-img valign profile-image-login tooltipped"
+                                     data-position="bottom" data-delay="50" data-tooltip="Go to the DISNET home" />
+                            </a>
+                            <br/>
+                            <br/>
+                            <p class="center login-form-text"><h5>Account Validation</h5></p>
+                            <br/>
+                        </div>
+                        <div class="input-field col s12 m12 l12">
+                            <span th:if="${successMessage != ''}" th:utext="${successMessage}"></span>
+                            <span th:if="${errorMessage != ''}" th:utext="${errorMessage}"></span>
+                            <!--<form th:object="${user}"></form>-->
+                            <br/><br/>
+                            <p class="margin center medium-small sign-up"><a th:href="@{/user/login}">Make login!</a></p>
+                            <br/><br/>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <br/>
-            <p class="margin center medium-small sign-up"><a th:href="@{/user/login}">Make login!</a></p>
-            <br/><br/>
         </div>
-    </main>
+    </div>
     <!-- /.container -->
-
-    <div th:replace="fragments/footer :: footer"/>
     <div th:replace="fragments/footer :: footer-js"/>
-
 </body>
 </html>

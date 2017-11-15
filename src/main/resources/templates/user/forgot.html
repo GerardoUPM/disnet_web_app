@@ -7,34 +7,39 @@
     <link type="text/css" rel="stylesheet"  th:href="@{/css/user.css}" media="screen,projection" />
 </head>
 <body class="login-content" >
-<div class="container">
+<div class="container"><br/><br/><br/><br/><br/><br/><br/>
     <div id="login-request" class="row" >
         <div class="col s12 m8 l8 offset-m2 offset-l2">
             <div class="z-depth-5 card-panel">
                 <div class="row">
-                    <form class="login-form">
+                    <form id="resetPasswordForm" name="resetPasswordForm" class="login-form right-alert" method="post" action="#">
                         <div class="input-field col s12 m12 l12 center">
-                            <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt="" class="responsive-img valign profile-image-login" />
+                            <a href="http://disnet.ctb.upm.es">
+                                <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt=""
+                                     class="responsive-img valign profile-image-login tooltipped"
+                                     data-position="bottom" data-delay="50" data-tooltip="Go to the DISNET home" />
+                            </a>
+                            <br/>
                             <br/>
                             <p class="center login-form-text">
                                 <h5>Forgot your password?</h5>
                                 <br/>
-                                <div>Enter your email address that you used to register. We'll send you an email with your username and a link to reset your password.</div>
+                                <div>Enter your email address that you used to register. We'll send you an email with the instructions to reset your password.</div>
                             </p>
                             <br/>
                         </div>
                         <div class="input-field col s12 m12 l12">
-                            <i class="mdi-communication-email prefix"></i>
-                            <input id="email" type="email" class="validate" />
+                            <i class="medium material-icons prefix">email</i>
+                            <input id="email" name="email" type="email" class="validate" />
                             <label for="email" class="center-align">Email</label>
                         </div>
-                        <div class="input-field col s12 m12 l12">
-                            <a href="/" class="btn waves-effect waves-light col s12 m12 l8 offset-l2 blue darken-3">Reset My Password</a>
+                        <div class="col s12 m12 l12">
+                            <button id="reset_my_password-btn" type="button" class="btn waves-effect waves-light submit col s12 m12 l8 offset-l2 blue darken-3">Reset My Password</button>
                         </div>
                         <div class="col s12 m12 l12"><br/></div>
-                        <div class="col col s12 m12 l12">
+                        <!--<div class="col col s12 m12 l12">
                             <a th:href="@{/user/login}">Sign In!</a>
-                        </div>
+                        </div>-->
                     </form>
                 </div>
             </div>
@@ -43,5 +48,6 @@
 </div>
 
 <div th:replace="fragments/footer :: footer-js"/>
+<script type="text/javascript" th:src="@{/js/user/forgot.js}"></script>
 </body>
 </html>

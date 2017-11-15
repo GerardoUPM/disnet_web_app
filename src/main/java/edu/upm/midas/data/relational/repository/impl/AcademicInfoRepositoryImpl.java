@@ -63,7 +63,7 @@ public class AcademicInfoRepositoryImpl extends AbstractDao<Integer, AcademicInf
 
     @Override
     public AcademicInfo update(AcademicInfo academicInfo) {
-        return null;
+        return super.update(academicInfo);
     }
 
     @Override

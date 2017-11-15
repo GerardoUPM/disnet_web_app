@@ -4,23 +4,27 @@
     <div th:fragment="header-css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta firstName="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <meta firstName="description" content="DISNET description in process..."/>
         <meta firstName="keywords" content="disnet, diseases, disease network, disease graphs, upm, ctb, medal, health" />
         <meta firstName="author" content="Dr. Alejandro Rodríguez González and PhD Student Gerardo Lagunes García"/>
+        <meta firstName="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
         <!--<link rel="icon" href="../../favicon.ico"/>-->
 
         <!-- CSS
         <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
         -->
 
-        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <!--<link href="https://fonts.googleapis.com/icon?family=Roboto" rel="stylesheet"/>-->
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.css}" media="screen,projection" />
         <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}" media="screen,projection" />
+        <link type="text/css" rel="stylesheet" th:href="@{/css/sweetalert/sweetalert.css}" media="screen,projection" />
+
     </div>
 </head>
 <body>
@@ -38,14 +42,14 @@
                 <li><a class="dropdown-button" href="#!" data-activates="dropdownAPIs">APIs<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a href="#">Members</a></li>
                 <li th:if="${email}" id="logoutClick">
-                    <form id="logoutForm" th:if="${email}" th:action="@{/user/logout}" method="get">
+                    <a><form id="logoutForm" th:if="${email}" th:action="@{/user/logout}" method="get">
                         Sign Out
-                    </form>
+                    </form></a>
                 </li>
                 <li th:if="${email==null}" id="signinClick">
-                    <form id="signInForm" th:if="${email==null}" th:action="@{/user/login}" method="get">
+                    <a><form id="signInForm" th:if="${email==null}" th:action="@{/user/login}" method="get">
                         Sign In
-                    </form>
+                    </form></a>
                 </li>
             </ul>
 

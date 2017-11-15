@@ -19,59 +19,12 @@
                                     <p class="center login-form-text"><h5>User Registration</h5></p>
                                     <br/>
                                 </div>
-                                <div class="input-field col s12 m12 l6">
-                                    <i class="medium material-icons prefix">person_outline</i>
-                                    <input id="firstName" name="firstName" type="text" class="validate"  /><!--th:field="*{firstName}"-->
-                                    <label for="firstName" class="center-align" data-error="wrong" data-success="right">Name</label><!--th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"-->
-                                </div>
-                                <div class="input-field col s12 m12 l6">
-                                    <i class="medium material-icons prefix">person_outline</i>
-                                    <input id="lastName" name="lastName" type="text" class="validate"  /><!--th:field="*{lastName}"-->
-                                    <label for="lastName" class="center-align">Last Name</label>
-                                </div>
-                                <div class="input-field col s12 m12 l12">
-                                    <i class="medium material-icons prefix">email</i>
-                                    <input id="email" name="email" type="email" class="validate"  /><!--th:field="*{email}"-->
-                                    <label for="email" class="center-align">Email</label>
-                                </div>
-                                <div class="input-field col s12 m12 l12">
-                                    <i class="medium material-icons prefix">lock_outline</i>
-                                    <input id="password" name="password" type="password" class="validate"  /><!--th:field="*{password}"-->
-                                    <label for="password">Password</label>
-                                </div>
-                                <div class="input-field col s12 m12 l12">
-                                    <i class="medium material-icons prefix">lock_outline</i>
-                                    <input id="password-again" name="password-again" type="password"  />
-                                    <label for="password-again">Re-type password</label>
-                                </div>
-                                <div class="input-field col s12 m12 l6">
-                                    <i class="medium material-icons prefix">school</i>
-                                    <input id="institution" name="institution" type="text" class="validate"  /><!--th:field="*{institution}"-->
-                                    <label for="institution" class="center-align">Institute</label>
-                                </div>
-                                <div class="input-field col s12 m12 l6">
-                                    <i class="medium material-icons prefix">school</i>
-                                    <select id="country" name="country">
-                                        <option value="" disabled="disabled" selected="selected">Choose your option</option>
-                                        <option th:each="country : ${countries}" th:value="${{country.countryId}}" th:text="${{country.name}}" ></option>
-                                    </select>
-                                    <label for="country" class="center-align">Country</label>
-                                </div>
-                                <div class="input-field col s12 m12 l12">
-                                    <i class="medium material-icons prefix">school</i>
-                                    <input id="occupation" name="occupation" type="text" class="validate"  /><!--th:field="*{occupation}"-->
-                                    <label for="occupation" class="center-align">Position/Occupation</label>
-                                </div>
-                                <div class="input-field col s12 m12 l12">
-                                    <i class="medium material-icons prefix">school</i>
-                                    <textarea id="interest" name="interest" type="text" class="materialize-textarea validate"  ></textarea><!--th:field="*{interest}"-->
-                                    <label for="interest" class="center-align">Interest in use DISNET</label>
-                                </div>
+                                <div th:replace="fragments/registration :: form"/>
                                 <div class="input-field col s12 m12 l12 center ">
                                     <p class="center login-form-text">By creating an account by clicking on "Register now" <br/> you are accepting the <a href="#">Terms and Conditions of DISNET</a>.</p>
                                 </div>
                                 <div class="input-field col s12 m12 l12">
-                                    <button id="register_now-btn" type="submit" class="btn waves-effect waves-light submit col s12 m12 l8 offset-l2 blue darken-3">Register Now</button>
+                                    <button id="register_now-btn" type="button" class="btn waves-effect waves-light submit col s12 m12 l8 offset-l2 blue darken-3">Register Now</button>
                                 </div>
                                 <div class="input-field col s12 m12 l12">
                                     <p class="margin center medium-small sign-up"><a th:href="@{/user/login}">Already have an account?</a></p>

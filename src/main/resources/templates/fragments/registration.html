@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+    <div th:fragment="form">
+        <div class="input-field col s12 m12 l6">
+            <i class="medium material-icons prefix">person_outline</i>
+            <input id="firstName" name="firstName" type="text" class="validate" th:value="${user?.firstName}" /><!--th:field="*{firstName}"-->
+            <label for="firstName" class="center-align active">Name</label><!--th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" data-error="wrong" data-success="right"-->
+        </div>
+        <div class="input-field col s12 m12 l6">
+            <i class="medium material-icons prefix">person_outline</i>
+            <input id="lastName" name="lastName" type="text" class="validate" th:value="${user?.lastName}" /><!--th:field="*{lastName}"-->
+            <label for="lastName" class="center-align active">Last Name</label>
+        </div>
+        <div class="input-field col s12 m12 l12">
+            <i class="medium material-icons prefix">email</i>
+            <input id="email" name="email" type="email" class="validate" th:value="${user?.personId}" /><!--th:field="*{email}"-->
+            <label for="email" class="center-align active">Email</label>
+        </div>
+        <div class="input-field col s12 m12 l12">
+            <i class="medium material-icons prefix">lock_outline</i>
+            <input id="password" name="password" type="password" class="validate"  /><!--th:field="*{password}"-->
+            <label for="password" class="active">Password</label>
+        </div>
+        <div class="input-field col s12 m12 l12">
+            <i class="medium material-icons prefix">lock_outline</i>
+            <input id="password_again" name="password_again" type="password"  />
+            <label for="password_again" class="active">Re-type password</label>
+        </div>
+        <div class="input-field col s12 m12 l6">
+            <i class="medium material-icons prefix">school</i>
+            <input id="institution" name="institution" type="text" class="validate"
+                   th:value="${user != null}? ${user.academicInfoByAcademicInfoId.institutionName} : ''" /><!--th:field="*{institution}"-->
+            <label for="institution" class="center-align active">Institute</label>
+        </div>
+        <div class="input-field col s12 m12 l6">
+            <i class="medium material-icons prefix">school</i>
+            <select id="country" name="country" class="validate">
+                <div th:if="${user != null }">
+                    <!--<option value="" disabled="disabled" selected="selected">Choose your option</option>-->
+                    <option th:each="country : ${countries}"
+                            th:value="${{country.countryId}}"
+                            th:selected="(${country.countryId} == ${user.academicInfoByAcademicInfoId.countryId})"
+                            th:text="${{country.name}}" ></option>
+                </div>
+                <div th:if="${user == null}">
+                    <option disabled="disabled" selected="selected">Choose your option</option>
+                    <option th:each="country : ${countries}" th:value="${{country.countryId}}" th:text="${{country.name}}" ></option>
+                </div>
+            </select>
+            <label>Country</label>
+        </div>
+        <div class="input-field col s12 m12 l12">
+            <i class="medium material-icons prefix">school</i>
+            <input id="occupation" name="occupation" type="text" class="validate" th:value="${user != null}? ${user.academicInfoByAcademicInfoId.occupation} : ''" /><!--th:field="*{occupation}"-->
+            <label for="occupation" class="center-align active">Position/Occupation</label>
+        </div>
+        <div class="input-field col s12 m12 l12">
+            <i class="medium material-icons prefix">school</i>
+            <textarea id="interest" name="interest" type="text" class="materialize-textarea validate" th:text="${user != null}? ${user.academicInfoByAcademicInfoId.interest} : ''" ></textarea><!--th:field="*{interest}"-->
+            <label for="interest" class="center-align active">Interest in use DISNET</label>
+        </div>
+    </div>
+</body>
+</html>
