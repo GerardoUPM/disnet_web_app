@@ -54,6 +54,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 authorizeRequests()
                 .antMatchers("/",
                         "/confirmation_email",
+                        "/apis/tvp",
+                        "/apis/disnet",
+                        "/apis/disease_album",
                         "/user/admin/home",
                         "/user/client/home").permitAll()
                 .antMatchers("/user/login").permitAll()

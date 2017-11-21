@@ -27,4 +27,25 @@ public class IndexController {
         return "index";
     }
 
+    @RequestMapping("/apis/tvp")
+    public String tvpApiPage(Model model){
+        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //System.out.println("PWD: " + passwordEncoder.encode("groot"));
+        return "apis/tvp";
+    }
+
+    @RequestMapping("/apis/disnet")
+    public String disnetApiPage(Model model){
+        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //System.out.println("PWD: " + passwordEncoder.encode("groot"));
+        return "apis/disnet";
+    }
+
+    @RequestMapping("/apis/disease_album")
+    public String diseaseAlbumApiPage(Model model){
+        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //System.out.println("PWD: " + passwordEncoder.encode("groot"));
+        return "apis/disease_album";
+    }
+
 }

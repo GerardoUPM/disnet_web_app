@@ -105,6 +105,7 @@ $(function () {
                 /*alert(data);*/
                 if(data.code === 200) {
                     swal("Updated!", "Your personal information was successfully updated!", "success", {icon: "success"});
+                    location.reload(true);
                 }else{
                     swal("Error", "Internal error occured: (" + data.code + ", " + data.status + ", " + data.action + ", " + data.message + ")", "error", {icon: "error"});
                 }
