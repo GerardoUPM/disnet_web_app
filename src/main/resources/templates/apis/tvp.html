@@ -8,38 +8,188 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header"/>
-<div class="section no-pad-bot" id="index-banner">
     <div class="container">
         <br/><br/>
-        <h1 class="header center orange-text"><img width="250" th:src="@{/images/logo_disnet/V_color.png}" /></h1>
-        <div class="row center">
-            <h5 class="header col s12 light">Drug repositioning and disease understanding through complex networks creation and analysis</h5>
-        </div>
-        <br/><br/>
+        <p><h3>Como consumir TVP API</h3></p>
+        <p>Para utilizar TVP (Term Validation Procedure) puedes usarlo haciendo una petición POST como se muestra más abajo. El enlace para consumir la api es: http://www.disnet.ctb.upm.es/api/tvp</p>
+        <br/>
+        <pre>
+            <code class="language-json">
+{
+	"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmFyZG9sYWdhckBob3RtYWlsLmNvbSIsImF1ZCI6IndlYiIsIm5hbWUiOiJHZXJhcmRvIExhZ3VuZXMiLCJ1c2VyIjp0cnVlLCJpYXQiOjE1MDk2MTQyNjh9.uVhDgfLrAgdnj02Hsbgfj9tkVlfni89i0hKVYW31eHApCHpheikK9ae1MhbzRhiyUcFGMKwtiyVgff5NCMY3PA",
+
+	"concepts":
+	[
+      	{
+	    	"cui": "C0015967",
+	    	"name": "Fever"
+		},
+        {
+          "cui": "C0262655",
+          "name": "Recurrent urinary tract infection"
+        },
+        {
+          "cui": "C0429826",
+          "name": "Dysfunctional voiding of urine"
+        },
+        {
+          "cui": "C0009450",
+          "name": "Communicable disease"
+        }
+    ]
+}
+            </code>
+        </pre>
+        <br/>
+        <p>Una respuesta exitosa se muestra a continuación.</p>
+        <br/>
+        <pre>
+            <code class="language-json">
+{
+    "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmFyZG9sYWdhckBob3RtYWlsLmNvbSIsImF1ZCI6IndlYiIsIm5hbWUiOiJHZXJhcmRvIExhZ3VuZXMiLCJ1c2VyIjp0cnVlLCJpYXQiOjE1MDk2MTQyNjh9.uVhDgfLrAgdnj02Hsbgfj9tkVlfni89i0hKVYW31eHApCHpheikK9ae1MhbzRhiyUcFGMKwtiyVgff5NCMY3PA",
+    "authorization": true,
+    "authorizationMessage": "Authorized!",
+    "validatedConcepts": [
+        {
+            "concept": {
+                "cui": "C0015967",
+                "name": "Fever"
+            },
+            "hasMatches": true,
+            "matches": [
+                {
+                    "validationFinding": {
+                        "name": "Fever",
+                        "code": "/en/fever",
+                        "uri": "http://www.freebase.com//en/fever",
+                        "source": "Freebase",
+                        "cuis": [
+                            "C0015967",
+                            "C0743973"
+                        ],
+                        "synonyms": [
+                            "Controlled hyperthermia",
+                            "Fever in children",
+                            "Fever temperature",
+                            "High Fever",
+                            "Infant fever",
+                            "Night fever",
+                            "Pyrexia"
+                        ],
+                        "codes": [
+                            "D005334"
+                        ]
+                    },
+                    "validationFindingString": "Fever",
+                    "validationMethod": "CUI"
+                },
+                {
+                    "validationFinding": {
+                        "name": "Fever, unspecified",
+                        "code": "R50.9",
+                        "uri": "http://purl.bioontology.org/ontology/ICD10CM/R50.9",
+                        "source": "ICD10CM",
+                        "cuis": [
+                            "C0015967"
+                        ],
+                        "synonyms": [
+                            "n/a"
+                        ],
+                        "codes": [
+                            "n/a"
+                        ]
+                    },
+                    "validationFindingString": "Fever, unspecified",
+                    "validationMethod": "CUI"
+                },
+                {
+                    "validationFinding": {
+                        "name": "Fever, unspecified",
+                        "code": "780.60",
+                        "uri": "http://purl.bioontology.org/ontology/ICD9CM/780.60",
+                        "source": "ICD9CM",
+                        "cuis": [
+                            "C0015967"
+                        ],
+                        "synonyms": [
+                            "n/a"
+                        ],
+                        "codes": [
+                            "n/a"
+                        ]
+                    },
+                    "validationFindingString": "Fever, unspecified",
+                    "validationMethod": "CUI"
+                },
+                {
+                    "validationFinding": {
+                        "name": "fever",
+                        "code": "SYMP:0000613",
+                        "uri": "http://purl.obolibrary.org/obo/SYMP_0000613",
+                        "source": "Symptoms Ontology",
+                        "cuis": [
+                            "n/a"
+                        ],
+                        "synonyms": [
+                            "n/a"
+                        ],
+                        "codes": [
+                            "n/a"
+                        ]
+                    },
+                    "validationFindingString": "fever {FEVER}",
+                    "validationMethod": "Equals"
+                },
+                {
+                    "validationFinding": {
+                        "name": "Fever",
+                        "code": "2.3.3 and 22.1",
+                        "uri": "http://who.int/ictm/signsAndSymptoms#TM529451",
+                        "source": "TM Signs and Symptoms Ontology",
+                        "cuis": [
+                            "n/a"
+                        ],
+                        "synonyms": [
+                            "n/a"
+                        ],
+                        "codes": [
+                            "n/a"
+                        ]
+                    },
+                    "validationFindingString": "Fever {FEVER}",
+                    "validationMethod": "Equals"
+                }
+            ]
+        },
+        {
+            "concept": {
+                "cui": "C0262655",
+                "name": "Recurrent urinary tract infection"
+            },
+            "hasMatches": false,
+            "matches": []
+        },
+        {
+            "concept": {
+                "cui": "C0429826",
+                "name": "Dysfunctional voiding of urine"
+            },
+            "hasMatches": false,
+            "matches": []
+        },
+        {
+            "concept": {
+                "cui": "C0009450",
+                "name": "Communicable disease"
+            },
+            "hasMatches": false,
+            "matches": []
+        }
+    ]
+}
+            </code>
+        </pre>
     </div>
-</div>
-
-
-<div class="container">
-
-    <pre>
-        <code class="language-json">
-            {
-                "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmFyZG9sYWdhckBob3RtYWlsLmNvbSIsImF1ZCI6IndlYiIsIm5hbWUiOiJHZXJhcmRvIExhZ3VuZXMiLCJ1c2VyIjp0cnVlLCJpYXQiOjE1MDk2MTQyNjh9.uVhDgfLrAgdnj02Hsbgfj9tkVlfni89i0hKVYW31eHApCHpheikK9ae1MhbzRhiyUcFGMKwtiyVgff5NCMY3PA",
-                "authorization": true,
-                "authorizationMessage": "Authorized!",
-                "versions": [
-                    "2017-09-28",
-                    "2017-10-08",
-                    "2017-10-15",
-                    "2017-11-02",
-                    "2017-11-15"
-                ]
-            }
-        </code>
-    </pre>
-
-</div>
 <!-- /.container -->
 
 <div th:replace="fragments/footer :: footer"/>
