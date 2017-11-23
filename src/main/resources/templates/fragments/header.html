@@ -41,6 +41,9 @@
                 <!-- Dropdown Trigger -->
                 <li><a class="dropdown-button" href="#!" data-activates="dropdownAPIs">APIs<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a href="#">Members</a></li>
+                <li th:if="${email}" id="controlPanel">
+                    <a th:href="@{/user/client/home}" >Control Panel</a>
+                </li>
                 <li th:if="${email}" id="logoutClick">
                     <a><form id="logoutForm" th:if="${email}" th:action="@{/user/logout}" method="get">
                         Sign Out
