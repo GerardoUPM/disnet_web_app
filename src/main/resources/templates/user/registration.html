@@ -14,20 +14,36 @@
                         <div class="row">
                             <form id="registrationForm" class="login-form right-alert" method="post" action="#" th:action="@{/user/registration}"  ><!--th:object="${userRegistrationForm}"-->
                                 <div class="input-field col s12 m12 l12 center">
-                                    <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt="" class="responsive-img valign profile-image-login" />
+                                    <a href="/">
+                                        <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt=""
+                                             class="responsive-img valign profile-image-login tooltipped"
+                                             data-position="bottom" data-delay="50" data-tooltip="Come back to the DISNET home" />
+                                    </a>
                                     <br/>
                                     <p class="center login-form-text"><h5>User Registration</h5></p>
                                     <br/>
                                 </div>
                                 <div th:replace="fragments/registration :: form"/>
                                 <div class="input-field col s12 m12 l12 center ">
-                                    <p class="center login-form-text">By creating an account by clicking on "Register now" <br/> you are accepting the <a href="#">Terms and Conditions of DISNET</a>.</p>
+                                    <p class="center login-form-text">By creating an account by clicking on "Register now" <br/> you are accepting the <a class="modal-trigger" href="#modal1">Terms and Conditions of DISNET</a>.</p>
                                 </div>
                                 <div class="input-field col s12 m12 l12">
                                     <button id="register_now-btn" type="button" class="btn waves-effect waves-light submit col s12 m12 l8 offset-l2 blue darken-3">Register Now</button>
                                 </div>
                                 <div class="input-field col s12 m12 l12">
                                     <p class="margin center medium-small sign-up"><a th:href="@{/user/login}">Already have an account?</a></p>
+                                </div>
+
+                                <!-- Modal Structure TERMS AND CONDITIONS -->
+                                <div id="modal1" class="modal modal-fixed-footer">
+                                    <div class="modal-content">
+                                        <h4>DISNET Terms And Conditions</h4>
+                                        <p>A bunch of text</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <!--<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Disagree</a>-->
+                                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">OK</a>
+                                    </div>
                                 </div>
                             </form>
                         </div>

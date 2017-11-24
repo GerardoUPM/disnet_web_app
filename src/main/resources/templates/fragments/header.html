@@ -31,43 +31,61 @@
 <div th:fragment="header" class="navbar-fixed">
     <!-- this is header -->
     <ul id="dropdownAPIs" class="dropdown-content">
-        <li><a th:href="@{/apis/tvp}" class="blue-text text-darken-4">TVP API</a></li>
+        <!--<li><a th:href="@{/apis/tvp}" class="blue-text text-darken-4">TVP API</a></li>-->
         <li><a th:href="@{/apis/disnet}" class="blue-text text-darken-4">DISNET API</a></li>
     </ul>
     <nav class="blue darken-4" role="navigation">
-        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo"><img width="200" th:src="@{/images/logo_disnet/H_White.png}" /></a>
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="/" class="brand-logo">
+                <img width="200" th:src="@{/images/logo_disnet/H_White.png}" alt=""
+                     class="responsive-img valign profile-image-login tooltipped"
+                     data-position="bottom" data-delay="50" data-tooltip="Go to the DISNET home" />
+            </a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="#">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <!-- Dropdown Trigger -->
                 <li><a class="dropdown-button" href="#!" data-activates="dropdownAPIs">APIs<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a href="#">Members</a></li>
-                <li sec:authorize="!isAnonymous()" id="controlPanel">
+                <li sec:authorize="isAuthenticated()" id="control_panel_li"><!--isAnonymous()-->
                     <a th:href="@{/user/client/home}" >Control Panel</a>
                 </li>
-                <li sec:authorize="!isAnonymous()" id="logoutClick">
-                    <a><form id="logoutForm" th:if="${email!=null}" th:action="@{/user/logout}" method="get">
+                <li sec:authorize="isAuthenticated()" id="logout_li"><!--!isAnonymous()-->
+                    <a><form id="logout_li_form" th:action="@{/user/logout}" method="get"><!--th:if="${email!=null}"-->
                         Sign Out
                     </form></a>
                 </li>
-                <li sec:authorize="isAnonymous()" id="signinClick">
-                    <a><form id="signInForm" th:if="${email==null}" th:action="@{/user/login}" method="get">
+                <li sec:authorize="!isAuthenticated()" id="signin_li"><!--isAnonymous()-->
+                    <a><form id="signin_li_form" th:if="${email==null}" th:action="@{/user/login}" method="get">
                         Sign In
                     </form></a>
                 </li>
             </ul>
 
             <ul id="nav-mobile" class="side-nav">
-                <li><a href="#">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li>
                     <a class="dropdown-button" data-activates="mobile_menu_escrow_accounts" data-beloworigin="true" href="#">
                         APIs<i class="material-icons right">arrow_drop_down</i>
                     </a>
                     <ul id="mobile_menu_escrow_accounts" class="dropdown-content">
-                        <li><a th:href="@{/apis/tvp}">TVP API</a></li>
+                        <!--<li><a th:href="@{/apis/tvp}">TVP API</a></li>-->
                         <li><a th:href="@{/apis/disnet}">DISNET API</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Members</a></li>
+                <li><a th:href="@{/members}">Members</a></li>
+                <li sec:authorize="isAnonymous()" id="control_panel_li_mobile">
+                    <a th:href="@{/user/client/home}" >Control Panel</a>
+                </li>
+                <li sec:authorize="isAnonymous()" id="logout_li_mobile">
+                    <a><form id="logout_li_form_mobile" th:action="@{/user/logout}" method="get"><!--th:if="${email!=null}"-->
+                        Sign Out
+                    </form></a>
+                </li>
+                <li sec:authorize="!isAnonymous()" id="signin_li_mobile">
+                    <a><form id="signin_li_form_mobile" th:action="@{/user/login}" method="get"><!--th:if="${email==null}"-->
+                        Sign In
+                    </form></a>
+                </li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         </div>

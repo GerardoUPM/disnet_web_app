@@ -39,7 +39,9 @@ import java.util.Objects;
                                 @FieldResult(name = "authorized", column = "authorized"),
                                 @FieldResult(name = "request", column = "request"),
                                 @FieldResult(name = "date", column = "date"),
-                                @FieldResult(name = "datetime", column = "datetime")
+                                @FieldResult(name = "datetime", column = "datetime"),
+                                @FieldResult(name = "startDatetime", column = "start_datetime"),
+                                @FieldResult(name = "endDatetime", column = "end_datetime")
                         }
                 )
         )
@@ -52,6 +54,8 @@ public class LogQuery {
     private String request;
     private Date date;
     private Timestamp datetime;
+    private Timestamp startDatetime;
+    private Timestamp endDatetime;
     private List<LogQueryService> logQueryServicesByQueryId;
     private List<LogQueryUrl> logQueryUrlsByQueryId;
     private List<TokenQuery> tokenQueriesByQueryId;
@@ -106,6 +110,26 @@ public class LogQuery {
         this.datetime = endDate;
     }
 
+    @Basic
+    @Column(name = "start_datetime", nullable = true)
+    public Timestamp getStartDatetime() {
+        return startDatetime;
+    }
+
+    public void setStartDatetime(Timestamp startDatetime) {
+        this.startDatetime = startDatetime;
+    }
+
+    @Basic
+    @Column(name = "end_datetime", nullable = true)
+    public Timestamp getEndDatetime() {
+        return endDatetime;
+    }
+
+    public void setEndDatetime(Timestamp endDatetime) {
+        this.endDatetime = endDatetime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,12 +139,14 @@ public class LogQuery {
                 Objects.equals(authorized, logQuery.authorized) &&
                 Objects.equals(request, logQuery.request) &&
                 Objects.equals(date, logQuery.date) &&
-                Objects.equals(datetime, logQuery.datetime);
+                Objects.equals(datetime, logQuery.datetime) &&
+                Objects.equals(startDatetime, logQuery.startDatetime) &&
+                Objects.equals(endDatetime, logQuery.endDatetime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(queryId, authorized, request, date, datetime);
+        return Objects.hash(queryId, authorized, request, date, datetime, startDatetime, endDatetime);
     }
 
     @OneToMany(mappedBy = "logQueryByQueryId")

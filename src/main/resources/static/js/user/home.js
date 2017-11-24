@@ -64,6 +64,7 @@ $(function () {
         $('input[name="lastName"]').prop('disabled', true);
         $('input[name="email"]').prop('disabled', true);
         $('input[name="password"]').prop('disabled', true);
+        $('input[name="password_again"]').prop('disabled', true);
         $('input[name="institution"]').prop('disabled', true);
         $('#country').prop('disabled', true);/*forma diferente*/
         $('select').material_select();
@@ -77,6 +78,7 @@ $(function () {
         $('input[name="lastName"]').prop('disabled', false);
         /*$('input[name="email"]').prop('disabled', false);*/
         $('input[name="password"]').prop('disabled', false);
+        $('input[name="password_again"]').prop('disabled', false);
         $('input[name="institution"]').prop('disabled', false);
         $('select[name="country"]').prop('disabled', false);
         $('select').material_select();

@@ -9,12 +9,20 @@
 
   }); // end of document ready
 
-    $( "#logoutClick" ).click(function() {
-        $( "#logoutForm" ).submit();
+    $( "#logout_li" ).click(function() {
+        $( "#logout_li_form" ).submit();
     });
 
-    $( "#signinClick" ).click(function() {
-        $( "#signInForm" ).submit();
+    $( "#signin_li" ).click(function() {
+        $( "#signin_li_form" ).submit();
+    });
+
+    $( "#logout_li_mobile" ).click(function() {
+        $( "#logout_li_form_mobile" ).submit();
+    });
+
+    $( "#signin_li_mobile" ).click(function() {
+        $( "#signin_li_form_mobile" ).submit();
     });
 
 
