@@ -1,5 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <div th:fragment="header-css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -41,15 +41,15 @@
                 <!-- Dropdown Trigger -->
                 <li><a class="dropdown-button" href="#!" data-activates="dropdownAPIs">APIs<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a href="#">Members</a></li>
-                <li th:if="${email}" id="controlPanel">
+                <li sec:authorize="!isAnonymous()" id="controlPanel">
                     <a th:href="@{/user/client/home}" >Control Panel</a>
                 </li>
-                <li th:if="${email}" id="logoutClick">
-                    <a><form id="logoutForm" th:if="${email}" th:action="@{/user/logout}" method="get">
+                <li sec:authorize="!isAnonymous()" id="logoutClick">
+                    <a><form id="logoutForm" th:if="${email!=null}" th:action="@{/user/logout}" method="get">
                         Sign Out
                     </form></a>
                 </li>
-                <li th:if="${email==null}" id="signinClick">
+                <li sec:authorize="isAnonymous()" id="signinClick">
                     <a><form id="signInForm" th:if="${email==null}" th:action="@{/user/login}" method="get">
                         Sign In
                     </form></a>
