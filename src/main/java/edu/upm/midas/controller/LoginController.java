@@ -3,16 +3,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
 import edu.upm.midas.data.relational.entities.disnetdb.PersonToken;
 import edu.upm.midas.data.relational.service.CountryService;
+import edu.upm.midas.data.relational.service.LogQuery_Service;
 import edu.upm.midas.data.relational.service.PersonService;
 import edu.upm.midas.data.relational.service.PersonTokenService;
 import edu.upm.midas.data.relational.service.helper.PersonHelper;
 import edu.upm.midas.email.component.EmailHtmlSender;
 import edu.upm.midas.email.model.EmailStatus;
 import edu.upm.midas.email.service.EmailService;
-import edu.upm.midas.model.user.RequestResetPassword;
-import edu.upm.midas.model.user.Response;
-import edu.upm.midas.model.user.UserRegistrationForm;
-import edu.upm.midas.model.user.UserUpdateForm;
+import edu.upm.midas.model.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -26,7 +24,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.context.Context;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by gerardo on 21/09/2017.
@@ -46,10 +46,11 @@ public class LoginController {
     @Autowired
     private PersonService personService;
     @Autowired
+    private LogQuery_Service logQuery_service;
+    @Autowired
     private PersonTokenService personTokenService;
     @Autowired
     private CountryService countryService;
-
 
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -72,18 +73,23 @@ public class LoginController {
 
 
     @RequestMapping(value="/client/home", method = RequestMethod.GET)
-    public ModelAndView home(){
+    public ModelAndView home(HttpSession sesion){
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(auth.getName());
         Person user = personService.findById( auth.getName() );
         PersonToken token = personTokenService.findByPersonId( auth.getName() );
-        System.out.println(user.toString());
+        //<editor-fold desc="VARIABLES DE SESION">
+        sesion.setAttribute("person", user);
+        sesion.setAttribute("token", token.getToken());
+        //</editor-fold>
+        //System.out.println(user.toString());
         modelAndView.addObject("userName", "Welcome " + user.getFirstName() + " " + user.getLastName() + " (" + user.getPersonId() + ")");
         modelAndView.addObject("email", user.getPersonId());
         modelAndView.addObject("user", user);
         modelAndView.addObject("token", token.getToken());
         modelAndView.addObject("countries", countryService.findAll());
+        //modelAndView.addObject("transactions", transactionHistories);
         modelAndView.addObject("clientMessage","Content Available Only for DISNET clients");
         modelAndView.setViewName("user/client/home");
         return modelAndView;

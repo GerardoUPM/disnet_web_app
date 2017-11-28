@@ -5,6 +5,24 @@ $(function () {
 
     $(document).ready(function(){
         disabledTrueForm();
+        $('#request_history_table').DataTable({
+            "sAjaxSource": "/user/request_history",
+            "sAjaxDataProp": "",
+            /*"responsive": true,
+            "sScrollX": "100%",*/
+            /*"scrollX": true,*/
+             /*"scrollY": 200,
+            "bScrollCollapse": true,*/
+            "bLengthChange": true,
+            "order": [[ 0, "asc" ]],
+            "aoColumns": [
+                { "mData": "transactionId"},
+                /*{ "mData": "request"},*/
+                { "mData": "runtime_milliseconds"},
+                { "mData": "datetimeFormat"}
+            ]
+        });
+        $('select').addClass("browser-default");
     });
 
     $('#edit_personal_info-btn').on('click', function() {
@@ -128,7 +146,6 @@ $(function () {
         });
     }
 
-
-
-
 });
+
+jQuery('.dataTable').wrap('<div class="dataTables_scroll" />');

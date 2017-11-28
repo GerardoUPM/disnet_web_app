@@ -37,4 +37,12 @@ public class TimeProvider {
 
     public Timestamp getTimestamp(){return new Timestamp(System.currentTimeMillis());}
 
+    public String getTimeFormat(){
+        return String.format(new java.util.Date().toString(), dtf);
+    }
+
+    public String dateFormatyyyMMdd(java.util.Date date){System.out.println(date+"hola");
+        return new SimpleDateFormat("yyyy-MM-dd").format(date);
+    }
+
 }

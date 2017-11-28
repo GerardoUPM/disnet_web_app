@@ -3,6 +3,7 @@ package edu.upm.midas.data.relational.repository.impl;
 import edu.upm.midas.data.relational.entities.disnetdb.LogQuery;
 import edu.upm.midas.data.relational.repository.AbstractDao;
 import edu.upm.midas.data.relational.repository.LogQueryRepository;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,6 +22,20 @@ public class LogQueryRepositoryImpl extends AbstractDao<String, LogQuery>
         return (List<LogQuery>) getEntityManager()
                 .createNamedQuery("LogQuery.findAll")
                 .getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Object[]> findByTokenNative(String token) {
+        List<Object[]> queries = null;
+        List<Object[]> queryList = (List<Object[]>) getEntityManager()
+                .createNamedQuery("LogQuery.findByTokenNative")
+                .setParameter("token", token)
+                //.setMaxResults(1)
+                .getResultList();
+        if (CollectionUtils.isNotEmpty(queryList))
+            queries = queryList;
+
+        return queries;
     }
 
     @Override

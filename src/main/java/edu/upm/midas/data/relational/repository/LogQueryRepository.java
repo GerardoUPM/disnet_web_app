@@ -10,6 +10,8 @@ public interface LogQueryRepository {
 
     List<LogQuery> findAllQuery();
 
+    List<Object[]> findByTokenNative(String token);
+
     void persist(LogQuery logQuery);
 
     boolean deleteById(String queryId);

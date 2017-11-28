@@ -29,6 +29,27 @@ import java.util.Objects;
         , @NamedQuery(name = "LogQuery.findByDatetime", query = "SELECT l FROM LogQuery l WHERE l.datetime = :datetime")
 })
 
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "LogQuery.updateRuntimeNative",
+                query = "UPDATE log_query lg " +
+                        "SET " +
+                        "lg.start_datetime = :startDatetime, " +
+                        "lg.end_datetime = :endDatetime " +
+                        "WHERE lg.query_id = :queryId "
+        ),
+
+        @NamedNativeQuery(
+                name = "LogQuery.findByTokenNative",
+                query = "SELECT tq.query_id 'transaction_id', CONCAT(u.url, lg.request) 'request', lg.date , lg.datetime, lg.start_datetime, lg.end_datetime, DATE_FORMAT(TIMEDIFF(lg.end_datetime, lg.start_datetime), '%T:%f') runtime, DATE_FORMAT(TIMEDIFF(lg.end_datetime, lg.start_datetime), '%f' ) runtime_milliseconds " +
+                        "FROM token_query tq " +
+                        "INNER JOIN log_query lg ON lg.query_id = tq.query_id " +
+                        "INNER JOIN log_query_url lqu ON lqu.query_id = lg.query_id " +
+                        "INNER JOIN url u ON u.url_id = lqu.url_id " +
+                        "WHERE tq.token = :token "
+        )
+})
+
 @SqlResultSetMappings({
         @SqlResultSetMapping(
                 name = "LogQueryMapping",
