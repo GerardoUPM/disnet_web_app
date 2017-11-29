@@ -20,7 +20,27 @@ $(function () {
                 /*{ "mData": "request"},*/
                 { "mData": "runtime_milliseconds"},
                 { "mData": "datetimeFormat"}
-            ]
+            ],
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.modal( {
+                        header: function ( row ) {
+                            var data = row.data();
+                            return 'Details for '+data[0]+' '+data[1];
+                        }
+                    } ),
+                    renderer: function ( api, rowIdx, columns ) {
+                        var data = $.map( columns, function ( col, i ) {
+                            return '<tr>'+
+                                '<td>'+col.title+':'+'</td> '+
+                                '<td>'+col.data+'</td>'+
+                                '</tr>';
+                        } ).join('');
+
+                        return $('<table/>').append( data );
+                    }
+                }
+            }
         });
         $('select').addClass("browser-default");
     });

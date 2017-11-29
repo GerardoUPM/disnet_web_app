@@ -7,6 +7,7 @@
     <link type="text/css" rel="stylesheet"  th:href="@{/css/user.css}" media="screen,projection" />
     <!--<link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css" />-->
     <link type="text/css" rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.0/css/responsive.dataTables.min.css" />
     <!--<link type="text/css" rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/dataTables.material.min.css" />-->
 </head>
 <body>
@@ -64,7 +65,7 @@
                     <div class="collapsible-body">
                         <p>Request History</p>
 
-                        <table id="request_history_table" class="display nowrap" cellspacing="0" width="100%">
+                        <table id="request_history_table" class="display responsive nowrap" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th>Transaction Id</th>
@@ -92,9 +93,10 @@
     <!-- /.container -->
     <div th:replace="fragments/footer :: footer"/>
     <div th:replace="fragments/footer :: footer-js"/>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.0/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" th:src="@{/js/user/registration.js}"></script>
     <script type="text/javascript" th:src="@{/js/user/home.js}"></script>
-    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <!--<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/dataTables.material.min.js"></script>-->
 </body>
 </html>
