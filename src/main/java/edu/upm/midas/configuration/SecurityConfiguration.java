@@ -60,6 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests()
                 .antMatchers("/",
+                        "/members",
                         "/confirmation_email",
                         "/user/request_history",
                         "/apis/tvp",

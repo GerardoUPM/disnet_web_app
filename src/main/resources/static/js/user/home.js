@@ -4,46 +4,74 @@
 $(function () {
 
     $(document).ready(function(){
+        $('.modal').modal();
         disabledTrueForm();
-        $('#request_history_table').DataTable({
+        //Carga los datos de las consultas hechas por el usuario
+        var requestHistoryTable = $('#request_history_table').DataTable({
             "sAjaxSource": "/user/request_history",
             "sAjaxDataProp": "",
-            /*"responsive": true,
-            "sScrollX": "100%",*/
+            "responsive": true,
+            "processing": true,
+             /*"sScrollX": "100%",*/
             /*"scrollX": true,*/
              /*"scrollY": 200,
             "bScrollCollapse": true,*/
             "bLengthChange": true,
-            "order": [[ 0, "asc" ]],
+            "order": [[ 3, "desc" ]],
             "aoColumns": [
+                {
+                    "class":          "details-control",
+                    "orderable":      false,
+                    "data":           null,
+                    "defaultContent": ""
+                },
                 { "mData": "transactionId"},
-                /*{ "mData": "request"},*/
                 { "mData": "runtime_milliseconds"},
-                { "mData": "datetimeFormat"}
-            ],
-            responsive: {
-                details: {
-                    display: $.fn.dataTable.Responsive.display.modal( {
-                        header: function ( row ) {
-                            var data = row.data();
-                            return 'Details for '+data[0]+' '+data[1];
-                        }
-                    } ),
-                    renderer: function ( api, rowIdx, columns ) {
-                        var data = $.map( columns, function ( col, i ) {
-                            return '<tr>'+
-                                '<td>'+col.title+':'+'</td> '+
-                                '<td>'+col.data+'</td>'+
-                                '</tr>';
-                        } ).join('');
-
-                        return $('<table/>').append( data );
-                    }
-                }
-            }
+                { "mData": "datetimeFormat"},
+                { "mData": "request"}
+            ]
         });
+        //Oculta la columna de request que es muy larga
+        requestHistoryTable.column(4).visible(false);
+        //Añade la clase "browser-default" para que se muestra el select del número de registros a mostrar
         $('select').addClass("browser-default");
+
+        //Cada que se hace clic en el boton + se muestra un modal con la info de la request
+        //Originalmente muestra una nueva fila con la información de toda la fila con la función format( row.data() )
+        // Array to track the ids of the details displayed rows
+        var detailRows = [];
+        $('#request_history_table tbody').on( 'click', 'tr td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = requestHistoryTable.row( tr );
+            //var idx = $.inArray( tr.attr('id'), detailRows );
+            //swal("Request", row.data().request, "info");
+            $('#requestBody').text(row.data().request);
+            $('#modalRequest').modal('open');
+            /*if ( row.child.isShown() ) {
+                tr.removeClass( 'details' );
+                row.child.hide();
+
+                // Remove from the 'open' array
+                detailRows.splice( idx, 1 );
+            }
+            else {
+                tr.addClass( 'details' );
+                row.child( format( row.data() ) ).show();
+
+                // Add to the 'open' array
+                if ( idx === -1 ) {
+                    detailRows.push( tr.attr('id') );
+                }
+            }*/
+        });
+
     });
+    //Ordena la información que se mostrará en la fila creada al presionar el boton + en cada fila
+    function format ( d ) {
+        return 'Full name: '+d.transactionId+' '+d.request+'<br>'+
+            'Salary: '+d.datetimeFormat+'<br>'+
+            'The child row can contain any data you wish, including links, images, inner tables etc.';
+    }
 
     $('#edit_personal_info-btn').on('click', function() {
         var option  = $(this).val();

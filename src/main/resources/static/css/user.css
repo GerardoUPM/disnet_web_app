@@ -94,6 +94,17 @@ body.login-content:before {
 
 
 
+td.details-control {
+    background: url('../images/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.details td.details-control {
+    background: url('../images/details_close.png') no-repeat center center;
+}
+
+.modal { width: 45% !important ; max-height: 30% !important ; overflow-y: hidden !important ;}
+
+
 
 
 

@@ -41,7 +41,7 @@ import java.util.Objects;
 
         @NamedNativeQuery(
                 name = "LogQuery.findByTokenNative",
-                query = "SELECT tq.query_id 'transaction_id', CONCAT(u.url, lg.request) 'request', lg.date , lg.datetime, lg.start_datetime, lg.end_datetime, DATE_FORMAT(TIMEDIFF(lg.end_datetime, lg.start_datetime), '%T:%f') runtime, DATE_FORMAT(TIMEDIFF(lg.end_datetime, lg.start_datetime), '%f' ) runtime_milliseconds " +
+                query = "SELECT tq.query_id 'transaction_id', CONCAT(u.url, '?', lg.request) 'request', lg.date , lg.datetime, lg.start_datetime, lg.end_datetime, DATE_FORMAT(TIMEDIFF(lg.end_datetime, lg.start_datetime), '%T:%f') runtime, DATE_FORMAT(TIMEDIFF(lg.end_datetime, lg.start_datetime), '%f' ) runtime_milliseconds " +
                         "FROM token_query tq " +
                         "INNER JOIN log_query lg ON lg.query_id = tq.query_id " +
                         "INNER JOIN log_query_url lqu ON lqu.query_id = lg.query_id " +
