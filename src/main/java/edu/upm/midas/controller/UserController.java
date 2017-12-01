@@ -29,6 +29,7 @@ import org.thymeleaf.context.Context;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -124,7 +125,12 @@ public class UserController {
 
     @RequestMapping(value = "/request_history", method = RequestMethod.GET)
     public List<TransactionHistory> requestHistoryByPersonAndToken(HttpSession sesion) throws Exception {
-         return logQuery_service.findByTokenNative(sesion.getAttribute("token").toString());
+        List<TransactionHistory> transactionHistories = new ArrayList<>();
+        List<TransactionHistory> transactionHistoryList = logQuery_service.findByTokenNative(sesion.getAttribute("token").toString());
+        if (transactionHistoryList != null)
+            return transactionHistoryList;
+        else
+            return transactionHistories;
         /*for (TransactionHistory transaction: transactionHistories) {
             System.out.println("TRAN=> " + transaction.getTransactionId() + " | " + transaction.getRequest() + " | " + transaction.getDate() + " | " +transaction.getDatetime()+ " | " +transaction.getStartDatetime()+ " | " +transaction.getEndDatetime()+ " | " +transaction.getRuntime()+ " | " +transaction.getRuntime_milliseconds());
         }*/

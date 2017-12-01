@@ -12,6 +12,9 @@ $(function () {
             "sAjaxDataProp": "",
             "responsive": true,
             "processing": true,
+            "sEcho": 0,
+            "iTotalRecords": "0",
+            "iTotalDisplayRecords": "0",
              /*"sScrollX": "100%",*/
             /*"scrollX": true,*/
              /*"scrollY": 200,
