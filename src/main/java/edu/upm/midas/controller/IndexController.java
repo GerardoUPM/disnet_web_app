@@ -35,13 +35,6 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping("/members")
-    public String membersPage(Model model){
-        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        //System.out.println("PWD: " + passwordEncoder.encode("groot"));
-        return "/members";
-    }
-
     @RequestMapping("/apis/tvp")
     public String tvpApiPage(Model model){
         //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

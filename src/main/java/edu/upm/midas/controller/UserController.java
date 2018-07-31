@@ -59,12 +59,14 @@ public class UserController {
     private EmailService emailService;
     @Autowired
     private TimeProvider timeProvider;
-    @Autowired
-    private PersonTokenService personTokenService;
-    @Autowired
-    private CountryService countryService;
 
 
+    /**
+     * @param userRegistrationForm
+     * @param device
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public Response updateUser(@RequestBody @Valid UserUpdateForm userRegistrationForm, Device device) throws Exception {
 
@@ -84,6 +86,14 @@ public class UserController {
         return response;
     }
 
+
+    /**
+     * @param request
+     * @param bindingResult
+     * @param device
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/reset_password", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response resetPersonPassword(@RequestBody @Valid RequestResetPassword request, BindingResult bindingResult, Device device) throws Exception {
@@ -93,7 +103,7 @@ public class UserController {
         if (person != null) {
             try {
                 String newPassword = uniqueId.generate(12);
-                System.out.println("new: " + newPassword);
+                //System.out.println("new: " + newPassword);
                 person.setPassword(bCryptPasswordEncoder.encode(newPassword));
                 person.setLastUpdate(timeProvider.getTimestamp());
                 personService.update(person);
@@ -113,7 +123,7 @@ public class UserController {
                 response.setMessage("Internal problems with password reset.");
             }
         } else {
-            System.out.println("NO SE ENCONTRO EL USUARIO");
+//            System.out.println("NO SE ENCONTRO EL USUARIO");
             response.setCode(HttpStatus.NOT_FOUND.value());
             response.setStatus(HttpStatus.NOT_FOUND);
             response.setAction(Constants.UPDATE_ACTION);
@@ -123,10 +133,15 @@ public class UserController {
     }
 
 
+    /**
+     * @param sesion
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/request_history", method = RequestMethod.GET)
     public List<TransactionHistory> requestHistoryByPersonAndToken(HttpSession sesion) throws Exception {
         List<TransactionHistory> transactionHistories = new ArrayList<>();
-        List<TransactionHistory> transactionHistoryList = logQuery_service.findByTokenNative(sesion.getAttribute("token").toString());
+        List<TransactionHistory> transactionHistoryList = logQuery_service.findByTokenNative(sesion.getAttribute(Constants.TOKEN).toString());
         if (transactionHistoryList != null)
             return transactionHistoryList;
         else

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - Members</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+    <div th:replace="fragments/header :: header"/>
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m8 offset-m1 xl7 offset-xl1 center-on-small-only">
+                <div class="row">
+                    <h3 class="header">The Team</h3>
+                    <p class="caption">We are a team of researchers at the Center for Biomedical Technology (CTB) within the Technical University of Madrid (UPM) in Spain.</p>
+                    <br/>
+                    <!--<div class="s12 center">
+                        <div class="image-container">
+                            <img th:src="@{/images/team/laboratory.jpeg}" style="width:80%;" alt=""
+                                 class="responsive-img valign profile-image-login tooltipped"
+                                 data-position="bottom" data-delay="50" data-tooltip="MiDAS Lab" />
+                        </div>
+                    </div>-->
+                </div>
+                <br/>
+                <div class="card grey lighten-5 z-depth-1">
+                    <div class="card-content">
+                        <div class="row valign-wrapper">
+                            <div class="col s3">
+                                <img th:src="@{/images/team/alejandro/alejandro.jpeg}" class="circle responsive-img" alt="Alejandro Rodríguez González"/>
+                            </div>
+                            <div class="col s9">
+                              <span class="card-title">Alejandro Rodríguez González</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-action col s12 right-align z-depth-1">
+                        <a href="#">About him</a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12 m3 center-on-small-only">
+                        <!--<div class="image-container">
+                            <img src="images/alvin.png">
+                        </div>-->
+                        <i class="large material-icons">account_circle</i>
+                    </div>
+                    <div class="col s12 m9">
+                        <h4>Alejandro Rodríguez González</h4>
+                        <p>Coming soon.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m3 center-on-small-only">
+                        <!--<div class="image-container">
+                            <img src="images/alvin.png">
+                        </div>-->
+                        <i class="large material-icons">account_circle</i>
+                    </div>
+                    <div class="col s12 m9">
+                        <h4>Gerardo Lagunes García</h4>
+                        <p>Coming soon.</p>
+                    </div>
+                </div>
+                <br/><br/>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+
+    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/footer :: footer-js"/>
+</body>
+</html>

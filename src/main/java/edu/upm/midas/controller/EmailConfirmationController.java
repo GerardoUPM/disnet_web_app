@@ -28,13 +28,13 @@ public class EmailConfirmationController {
     @RequestMapping(value = "/confirmation_email", method = RequestMethod.GET, params = {"token"})
     public ModelAndView confirmationEmail(@RequestParam(value = "token") String token, Device device) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
-        System.out.println("Se va a confirmar el mail");
+        //System.out.println("Se va a confirmar el mail");
 
         try {
             String personId = personHelper.emailConfirm(token);
 
             if (!personId.isEmpty()) {
-                System.out.println("Entra success");
+                //System.out.println("Entra success");
                 modelAndView.addObject("successMessage", "Congratulation!. Your disnet account has been successfully confirmed with the email address " + personId);
                 //modelAndView.addObject("personId", personId);
                 modelAndView.setViewName("user/confirmation_email_response");

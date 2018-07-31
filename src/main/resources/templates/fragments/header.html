@@ -6,11 +6,19 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta firstName="description" content="DISNET description in process..."/>
-        <meta firstName="keywords" content="disnet, diseases, disease network, disease graphs, upm, ctb, medal, health" />
-        <meta firstName="author" content="Dr. Alejandro Rodríguez González and PhD Student Gerardo Lagunes García"/>
-        <meta firstName="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+        <meta name="description" content="DISNET description in process..."/>
+        <meta name="keywords" content="disnet, diseases, disease network, disease graphs, upm, ctb, medal, health" />
+        <meta name="author" content="Dr. Alejandro Rodríguez González and PhD Student Gerardo Lagunes García"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+
+        <!-- Favicons-->
         <!--<link rel="icon" href="../../favicon.ico"/>-->
+        <!--<link rel="apple-touch-icon-precomposed" href="images/favicon/apple-touch-icon-152x152.png">-->
+        <meta name="msapplication-TileColor" content="#0d47a1"/>
+        <!--<meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">-->
+        <!--<link rel="icon" href="images/favicon/favicon-32x32.png" sizes="32x32">-->
+        <!--  Android 5 Chrome Color-->
+        <meta name="theme-color" content="#0d47a1"/>
 
         <!-- CSS
         <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css" />
@@ -24,6 +32,8 @@
         <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.css}" media="screen,projection" />
         <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}" media="screen,projection" />
         <link type="text/css" rel="stylesheet" th:href="@{/css/sweetalert/sweetalert.css}" media="screen,projection" />
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     </div>
 </head>
@@ -54,40 +64,39 @@
                         Sign Out
                     </form></a>
                 </li>
+                <li sec:authorize="!isAuthenticated()" id="registration_li"><!--isAnonymous()-->
+                    <a href="/user/registration">Sign up</a>
+                </li>
                 <li sec:authorize="!isAuthenticated()" id="signin_li"><!--isAnonymous()-->
                     <a><form id="signin_li_form" th:if="${email==null}" th:action="@{/user/login}" method="get">
-                        Sign In
+                        Log In
                     </form></a>
                 </li>
             </ul>
 
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="/">Home</a></li>
-                <li>
-                    <a class="dropdown-button" data-activates="mobile_menu_escrow_accounts" data-beloworigin="true" href="#">
-                        APIs<i class="material-icons right">arrow_drop_down</i>
-                    </a>
-                    <ul id="mobile_menu_escrow_accounts" class="dropdown-content">
-                        <!--<li><a th:href="@{/apis/tvp}">TVP API</a></li>-->
-                        <li><a th:href="@{/apis/disnet}">DISNET API</a></li>
-                    </ul>
-                </li>
+                <!-- Dropdown Trigger -->
+                <li><a class="dropdown-button" href="#!" data-activates="dropdownAPIs">APIs<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a th:href="@{/members}">Members</a></li>
-                <li sec:authorize="isAnonymous()" id="control_panel_li_mobile">
+                <li sec:authorize="isAuthenticated()" id="control_panel_li_mobile"><!--isAnonymous()-->
                     <a th:href="@{/user/client/home}" >Control Panel</a>
                 </li>
-                <li sec:authorize="isAnonymous()" id="logout_li_mobile">
+                <li sec:authorize="isAuthenticated()" id="logout_li_mobile"><!--!isAnonymous()-->
                     <a><form id="logout_li_form_mobile" th:action="@{/user/logout}" method="get"><!--th:if="${email!=null}"-->
                         Sign Out
                     </form></a>
                 </li>
-                <li sec:authorize="!isAnonymous()" id="signin_li_mobile">
-                    <a><form id="signin_li_form_mobile" th:action="@{/user/login}" method="get"><!--th:if="${email==null}"-->
-                        Sign In
+                <li sec:authorize="!isAuthenticated()" id="registration_li_mobile"><!--isAnonymous()-->
+                    <a href="/user/registration">Sign up</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()" id="signin_li_mobile"><!--isAnonymous()-->
+                    <a><form id="signin_li_form_mobile" th:if="${email==null}" th:action="@{/user/login}" method="get">
+                        Log In
                     </form></a>
                 </li>
             </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="large material-icons">menu</i></a>
         </div>
     </nav>
 </div>

@@ -33,7 +33,7 @@ public class LogQueryServiceImpl implements LogQuery_Service {
         return daoLogQuery.findAllQuery();
     }
 
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=true)
     public List<TransactionHistory> findByTokenNative(String token) {
         List<Object[]> transactions = daoLogQuery.findByTokenNative(token);
         List<TransactionHistory> transactionHistories = null;

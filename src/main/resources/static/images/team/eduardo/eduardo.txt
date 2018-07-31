@@ -1,0 +1,3 @@
+Eduardo P. García del Valle is a PhD student at the Center for Biomedical Technology (CTB) of the Technical University of Madrid (UPM). His research areas are Knowledge Recovery, Artificial Intelligence and Bioinformatics. He holds a Bachelor’s a degree in Telecommunication Engineering from Carlos III University of Madrid (UC3M), and a Master’s degree in Computer Systems and Languages from National Distance Education University (UNED) in the speciality of Language Technologies on the Web. Eduardo has been working in software development since 2004 and he currently works as a Senior Software Engineer at Liferay.
+
+mail: ep.garcia@alumnos.upm.es

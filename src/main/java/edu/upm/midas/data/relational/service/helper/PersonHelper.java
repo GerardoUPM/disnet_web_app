@@ -87,7 +87,7 @@ public class PersonHelper {
      * @return
      */
     public Person findByEmailAndStatusOK(String email){
-        Object[] person = personService.findByIdAndStatusNative(email, "OK");
+        Object[] person = personService.findByIdAndStatusNative(email, Constants.OK_STATUS);
         return createPerson(person);
     }
 
@@ -97,7 +97,7 @@ public class PersonHelper {
      * @return
      */
     public Person findByEmailAndStatusNW(String email){
-        Object[] person = personService.findByIdAndStatusNative(email, "NW");
+        Object[] person = personService.findByIdAndStatusNative(email, Constants.NEW_STATUS);
         return createPerson(person);
     }
 
@@ -170,6 +170,12 @@ public class PersonHelper {
         return authorityFound;
     }
 
+    /**
+     * @param user
+     * @param device
+     * @return
+     * @throws JsonProcessingException
+     */
     @Transactional
     public boolean saveNewUser(UserRegistrationForm user, Device device) throws JsonProcessingException {
         AcademicInfo academicInfo = new AcademicInfo();
@@ -178,9 +184,9 @@ public class PersonHelper {
         academicInfo.setOccupation( user.getOccupation() );
         academicInfo.setInterest( user.getInterest() );
 
-        logger.info( "Object Persist: {}",objectMapper.writeValueAsString(academicInfo) );
+//        logger.info( "Object Persist: {}",objectMapper.writeValueAsString(academicInfo) );
         academicInfoService.save(academicInfo);
-        logger.info( "Object Persist: {}",objectMapper.writeValueAsString(academicInfo) );
+//        logger.info( "Object Persist: {}",objectMapper.writeValueAsString(academicInfo) );
 
         Person person = new Person();
         person.setPersonId( user.getEmail() );
@@ -189,15 +195,15 @@ public class PersonHelper {
         person.setFirstName( user.getFirstName() );
         person.setLastName( user.getLastName() );
         person.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        person.setProfileId("USER");
+        person.setProfileId(Constants.USER_ROLE);
         person.setAcademicInfoId( academicInfo.getAcademicInfoId() );
         person.setDate(timeProvider.getNow());
         person.setDatetime(timeProvider.getTimestamp());
         person.setLastUpdate(timeProvider.getTimestamp());
 
-        logger.info( "Object Persist: {}",objectMapper.writeValueAsString(person) );
+//        logger.info( "Object Persist: {}",objectMapper.writeValueAsString(person) );
         personService.save(person);
-        logger.info( "Object Persist: {}",objectMapper.writeValueAsString(person) );
+//        logger.info( "Object Persist: {}",objectMapper.writeValueAsString(person) );
 
         boolean isSuccessful =  ( personService.findById(person.getPersonId()) != null );// true;//(findByEmailAndStatusNW( user.getEmail() ) != null );
 
@@ -217,18 +223,19 @@ public class PersonHelper {
             oToken.setDate(timeProvider.getNow());
             oToken.setDatetime(timeProvider.getTimestamp());
             oToken.setLastUpdate(timeProvider.getTimestamp());
-            logger.info( "Object Persist: {}",objectMapper.writeValueAsString(oToken) );
+//            logger.info( "Object Persist: {}",objectMapper.writeValueAsString(oToken) );
             tokenService.save(oToken);
-            logger.info( "Object Persist: {}",objectMapper.writeValueAsString(oToken) );
+//            logger.info( "Object Persist: {}",objectMapper.writeValueAsString(oToken) );
             //</editor-fold>
 
             String tokenConfirmationLink =  constants.HTTP_HEADER +
+                                            /*Constants.TWO_POINTS + Constants.TWO_SLASH +*/
                                             constants.URL_DISNET_WEB_APP +
                                             constants.USER_CONFIRMATION_PATH +
                                             Constants.PARAM_SEP_2 +
                                             constants.PARAMETER_CONFIRMATION_TOKEN_NAME +
                                             Constants.EQUAL + token;
-            System.out.println("GLG"+tokenConfirmationLink);
+//            System.out.println("GLG"+tokenConfirmationLink);
             Context context = new Context();
             context.setVariable("user", person.getFirstName() + " " + person.getLastName());
             context.setVariable("email", person.getPersonId());
@@ -242,9 +249,9 @@ public class PersonHelper {
             emailConfirmation.setSentDate(timeProvider.getNow());
             emailConfirmation.setSentDatetime(timeProvider.getTimestamp());
             emailConfirmation.setEnabled(false);
-            logger.info( "Object Persist: {}",objectMapper.writeValueAsString( emailConfirmation ) );
+//            logger.info( "Object Persist: {}",objectMapper.writeValueAsString( emailConfirmation ) );
             emailConfirmationService.save( emailConfirmation );
-            logger.info( "Object Persist: {}",objectMapper.writeValueAsString( emailConfirmation ) );
+//            logger.info( "Object Persist: {}",objectMapper.writeValueAsString( emailConfirmation ) );
 
         }
 
@@ -253,13 +260,18 @@ public class PersonHelper {
     }
 
 
+    /**
+     * @param token
+     * @return
+     * @throws JsonProcessingException
+     */
     @Transactional
     public String emailConfirm(String token) throws JsonProcessingException {
 
         Token oToken = tokenService.findById(token);
         String personId = jwtTokenUtil.getEmailWithJWTDecode(token);
 
-        System.out.println("email recuperado desde el token: " + personId);
+        //System.out.println("email recuperado desde el token: " + personId);
 
         if ( oToken != null && !personId.isEmpty() ) {
 
@@ -269,9 +281,9 @@ public class PersonHelper {
             personToken.setEnabled(true);
             personToken.setDate(timeProvider.getNow());
             personToken.setDatetime(timeProvider.getTimestamp());
-            logger.info("Object Persist: {}", objectMapper.writeValueAsString(personToken));
+//            logger.info("Object Persist: {}", objectMapper.writeValueAsString(personToken));
             personTokenService.save( personToken );
-            logger.info("Object Persist: {}", objectMapper.writeValueAsString(personToken));
+//            logger.info("Object Persist: {}", objectMapper.writeValueAsString(personToken));
 
             EmailConfirmationPK emailConfirmationPK = new EmailConfirmationPK();
             emailConfirmationPK.setPersonId( personId );
@@ -281,25 +293,33 @@ public class PersonHelper {
             emailConfirmation.setDate(timeProvider.getNow());
             emailConfirmation.setDatetime(timeProvider.getTimestamp());
             emailConfirmation.setEnabled(true);
-            logger.info("Object Persist: {}", objectMapper.writeValueAsString(emailConfirmation));
+//            logger.info("Object Persist: {}", objectMapper.writeValueAsString(emailConfirmation));
             emailConfirmationService.update(emailConfirmation);
-            logger.info("Object Persist: {}", objectMapper.writeValueAsString(emailConfirmation));
+//            logger.info("Object Persist: {}", objectMapper.writeValueAsString(emailConfirmation));
 
             Person person = personService.findById( personId );
             person.setStatus( Status.OK );
             person.setEnabled( true );
             person.setLastUpdate( timeProvider.getTimestamp() );
-            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
+//            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
             personService.update( person );
-            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
+//            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
 
         }
 
         return personId;
-
     }
 
 
+    /**
+     * @param person
+     * @param user
+     * @param response
+     * @param device
+     * @return
+     * @throws Exception
+     */
+    @Transactional
     public Response update(Person person, UserUpdateForm user, Response response, Device device) throws Exception {
         try {
             AcademicInfo academicInfo = person.getAcademicInfoByAcademicInfoId();
@@ -309,9 +329,9 @@ public class PersonHelper {
             academicInfo.setOccupation(user.getOccupation());
             academicInfo.setInterest(user.getInterest());
 
-            logger.info("Object Persist: {}", objectMapper.writeValueAsString(academicInfo));
+//            logger.info("Object Persist: {}", objectMapper.writeValueAsString(academicInfo));
             academicInfoService.update(academicInfo);
-            logger.info("Object Persist: {}", objectMapper.writeValueAsString(academicInfo));
+//            logger.info("Object Persist: {}", objectMapper.writeValueAsString(academicInfo));
 
             person.setPersonId(user.getEmail());
             person.setFirstName(user.getFirstName());
@@ -324,16 +344,16 @@ public class PersonHelper {
             person.setDatetime(timeProvider.getTimestamp());*/
             person.setLastUpdate(timeProvider.getTimestamp());
 
-            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
+//            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
             personService.update(person);
-            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
-            System.out.println("BIEN");
+//            logger.info("Object Persist: {}", objectMapper.writeValueAsString(person));
+//            System.out.println("BIEN");
             response.setCode(HttpStatus.OK.value());
             response.setStatus(HttpStatus.OK);
             response.setAction(Constants.UPDATE_ACTION);
             response.setMessage("User has been updated successfully.");
         }catch (Exception e){
-            System.out.println("MUY MAL");
+//            System.out.println("MUY MAL");
             response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
             response.setAction(Constants.UPDATE_ACTION);

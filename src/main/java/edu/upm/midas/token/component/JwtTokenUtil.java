@@ -36,11 +36,6 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.claims.name.user}")
-    private String claim_name_user;
-    @Value("${jwt.claims.name.name}")
-    private String claim_name_name;
-
     @Value("${jwt.expiration}")
     private Long expiration;
 

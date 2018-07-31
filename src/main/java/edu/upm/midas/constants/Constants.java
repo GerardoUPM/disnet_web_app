@@ -30,27 +30,29 @@ public class Constants {
     public String PARAMETER_CONFIRMATION_TOKEN_NAME;
     public static final String VERSION_PROJECT = "1.0";
 
+    public static final String AUTH_ANONYMOUS_USER = "anonymousUser";
+
 
     public final static String ERR_NO_PARAMETER = "No parameter was sent";
     public final static String ERR_EMPTY_PARAMETER = "Empty parameter";
     public final static String OK = "OK";
+
+    public final static String OK_STATUS = "OK";
+    public final static String NEW_STATUS = "NW";
 
     /*ACCIONES*/
     public final static String UPDATE_ACTION = "update";
     public final static String RESET_ACTION = "reset";
 
 
+    public final static String USER_ROLE = "USER";
+    public final static String ADMIN_ROLE = "ADMIN";
+
+    public final static String TOKEN = "token";
+
+
     public static final String IMAGE_PATTERN =
             "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";
-
-    /** Validaciones */
-    public static final String SEMANTIC_TYPES[] = { "sosy", "diap", "dsyn", "fndg", "lbpr", "lbtr" };
-
-
-    /**
-     * Fuentes de extracción
-     * */
-    public static final String SOURCE_WIKIPEDIA = "wikipedia";
 
 
     /**
@@ -88,6 +90,11 @@ public class Constants {
      * Slash
      */
     public static final String SLASH = "/";
+
+    /**
+     * Two Slash
+     */
+    public static final String TWO_SLASH = "//";
 
     /**
      * Linea del piso
