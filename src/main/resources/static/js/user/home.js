@@ -38,6 +38,7 @@ $(function () {
         requestHistoryTable.column(4).visible(false);
         //Añade la clase "browser-default" para que se muestra el select del número de registros a mostrar
         $('select').addClass("browser-default");
+        //$('#request_history_table_length').addClass("input-field");
 
         //Cada que se hace clic en el boton + se muestra un modal con la info de la request
         //Originalmente muestra una nueva fila con la información de toda la fila con la función format( row.data() )
