@@ -44,7 +44,7 @@ if (typeof jQuery === 'undefined') {
         sqrt = Math.sqrt,
         sin = Math.sin,
         cos = Math.cos,
-        PI = Math.PI,
+        PI = Math.PI,dropdown
         c1 = 1.70158,
         c2 = c1 * 1.525,
         c3 = c1 + 1,

@@ -5,7 +5,12 @@
           $('select').material_select();
       });
 
+      $(".dropdown-button").dropdown();
+      $(".dropdown-trigger").dropdown();
+
     $('.button-collapse').sideNav();
+
+      $(".sidenav").sidenav();
 
   }); // end of document ready
 

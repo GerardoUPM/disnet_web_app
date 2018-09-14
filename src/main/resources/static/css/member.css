@@ -42,13 +42,22 @@ Primary use:	CV/Resume, Portfolio, Perosnal Website
 .fix {
     overflow: hidden;
 }
-p {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    font-size: 10pt;
-    line-height: 17pt;
+/*p {*/
+    /*font-family: 'Roboto', sans-serif;*/
+    /*font-weight: 300;*/
+    /*font-size: 10pt;*/
+    /*line-height: 17pt;*/
+/*}*/
+.member-paragraph {
+font-family: 'Roboto', sans-serif;
+font-weight: 300;
+font-size: 10pt;
+line-height: 17pt;
 }
-a {
+/*a {*/
+    /*color: #ffffff;*/
+/*}*/
+.member-color-link{
     color: #ffffff;
 }
 .clear {
@@ -106,12 +115,12 @@ h4 {
     line-height: 20pt;
     opacity: 1;
 }
-h5 {
-    font-size: 10pt;
-    margin: 0px;
-    padding: 0px;
-    line-height: 15pt;
-}
+/*h5 {*/
+    /*font-size: 10pt;*/
+    /*margin: 0px;*/
+    /*padding: 0px;*/
+    /*line-height: 15pt;*/
+/*}*/
 .fa {
     font-size: 22px;
 }
