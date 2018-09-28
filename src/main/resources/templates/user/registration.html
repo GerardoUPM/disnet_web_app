@@ -23,13 +23,15 @@
                                     <p class="center login-form-text"><h5>User Registration</h5></p>
                                     <br/>
                                 </div>
+
                                 <div th:replace="fragments/registration :: form"/>
+
                                 <div class="input-field col s12 m12 l12 center ">
-                                    <p class="center login-form-text">By creating an account by clicking on "Register now" <br/> you are accepting the <a class="modal-trigger" href="#terms_and_conditions">Terms and Conditions of DISNET</a>.</p>
+                                    <p class="center login-form-text">By clicking "Create an account" below, <br/> you agree to our <a class="modal-trigger" href="#terms_and_conditions">terms and conditions of service</a> and <a class="modal-trigger" href="#terms_and_conditions">privacy statements</a>. We’ll occasionally send you account related emails.</p>
                                 </div>
-                                <!--<div class="input-field col s12 m12 l12">-->
-                                    <!--<button id="register_now-btn" type="button" class="btn waves-effect waves-light submit col s12 m12 l8 offset-l2 blue darken-3">Register Now</button>-->
-                                <!--</div>-->
+                                <div class="input-field col s12 m12 l12">
+                                    <button id="register_now-btn" type="button" class="btn waves-effect waves-light submit col s12 m12 l8 offset-l2 blue darken-3" style="text-transform: none;">Create an account</button>
+                                </div>
                                 <div class="input-field col s12 m12 l12">
                                     <p class="margin center medium-small sign-up"><a th:href="@{/user/login}">Already have an account?</a></p>
                                 </div>
@@ -43,7 +45,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <!--<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Disagree</a>-->
-                                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">OK</a>
+                                    <a href="#!" class="light-blue darken-3 white-text modal-action modal-close waves-effect waves-green lighten-4 btn-flat" style="text-transform: none;">Yes, I have read the terms and conditions</a>
                                 </div>
                             </div>
                         </div>

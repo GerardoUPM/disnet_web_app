@@ -5,7 +5,11 @@ $(function () {
 
     $(document).ready(function(){
         // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-        $('.modal').modal();
+        $('.modal').modal({
+            //opción para que el modal se cierra haciendo click en el botón, no en cualquier parte
+            dismissible: false
+        });
+
     });
 
     $('#register_now-btn').on('click', function() {

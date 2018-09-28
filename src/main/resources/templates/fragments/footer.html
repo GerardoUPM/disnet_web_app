@@ -1,55 +1,68 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="footer">
+<footer class="page-footer docs-footer blue darken-4" th:fragment="footer">
     <!--<div class="container"> DESACTIVO PARA TENGA WEIGHT al 100%-->
-        <footer class="page-footer blue darken-4"><!--orange-->
+        <!--<footer class="page-footer blue darken-4">&lt;!&ndash;orange&ndash;&gt;-->
             <div class="container">
                 <div class="row">
                     <div class="col s12 m12">
                         <h5 class="white-text">DISNET</h5>
-                        <p class="grey-text text-lighten-4">DISNET project is being developed in the Medical Data Analytics Laboratory (MEDAL) at the <a class="orange-text text-lighten-3" target="_blank" href="http://www.ctb.upm.es">Center of Biomedical Technology (CTB)</a>. CTB is part of <a class="orange-text text-lighten-3" target="_blank" href="http://www.upm.es">Universidad Politécnica de Madrid (UPM)</a>. If you have any inquiry please contact with the project leader: <a class="orange-text text-lighten-3" target="_blank" href="http://www.alejandrorg.com">Prof. Alejandro Rodríguez González</a>.</p>
+                        <p class="grey-text text-lighten-4 text-align-justify">DISNET project is being developed in the Medical Data Analytics Laboratory (MEDAL) at the <a class="orange-text text-lighten-3" target="_blank" href="http://www.ctb.upm.es">Center of Biomedical Technology (CTB)</a>. CTB is part of <a class="orange-text text-lighten-3" target="_blank" href="http://www.upm.es">Universidad Politécnica de Madrid (UPM)</a>. If you have any inquiry please contact with the project leader: <a class="orange-text text-lighten-3" target="_blank" href="http://www.alejandrorg.com">Prof. Alejandro Rodríguez González</a>.</p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col l4 s12">
+                    <div class="col l4 m4 s12">
                         <h6 class="white-text">Where we are</h6>
-                        <p class="grey-text text-lighten-4">
+                        <p class="light grey-text text-lighten-4">
                         Centro de Tecnología Biomédica (CTB)<br/>
                         Campus de Montegancedo s/n<br/>
                         28223 Pozuelo de Alarcón<br/>
                         Madrid, Spain <a id="map_link" class="orange-text text-lighten-3" target="_blank" href="https://www.google.es/maps/place/CTB+(CTB-UPM)+Centro+de+Tecnolog%C3%ADa+Biom%C3%A9dica/@40.4068433,-3.8331393,18z/data=!4m2!3m1!1s0x0:0xc3dc1973a15c0dd">(view on map)</a>
                         </p>
                     </div>
-                    <div class="col l4 s12">
+                    <div class="col l3 m3 s12">
                         <h6 class="white-text">Settings</h6>
                         <ul>
-                            <li><a class="white-text" href="#!">Link 1</a></li>
-                            <li><a class="white-text" href="#!">Link 2</a></li>
-                            <li><a class="white-text" href="#!">Link 3</a></li>
-                            <li><a class="white-text" href="#!">Link 4</a></li>
+                            <li><a class="light white-text" href="#!">Link 1</a></li>
+                            <li><a class="light white-text" href="#!">Link 2</a></li>
+                            <li><a class="light white-text" href="#!">Link 3</a></li>
+                            <li><a class="light white-text" href="#!">Link 4</a></li>
                         </ul>
                     </div>
-                    <div class="col l4 s12">
-                        <h6 class="white-text">Connect</h6>
+                    <div class="col l3 m3 s12">
+                        <h6 class="white-text">Support</h6>
                         <ul>
-                            <li><a class="white-text" href="#!">Link 1</a></li>
-                            <li><a class="white-text" href="#!">Link 2</a></li>
-                            <li><a class="white-text" href="#!">Link 3</a></li>
-                            <li><a class="white-text" href="#!">Link 4</a></li>
+                            <li><a class="light white-text" href="#!">Status</a></li>
+                            <li><a class="light white-text" href="#!">Contact DISNET</a></li>
+                        </ul>
+                    </div>
+                    <div class="col l2 m2 s12">
+                        <h6 class="white-text">Team</h6>
+                        <ul>
+                            <li><a class="light white-text" href="#!">About</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="footer-copyright">
                 <div class="container grey-text text-lighten-4">
-                    Made by <a class="orange-text text-lighten-3" href="/">DISNET</a>
-                    <div class="grey-text text-lighten-4 right">Data protection</div>
+                    <div class="row">
+                        <div class="col s10 m10 l10 left-align">
+                            Made by <a class="orange-text text-lighten-3" href="/">DISNET</a>
+                        </div>
+                        <div class="col s1 m1 l1 right-align">
+                            <a href="#">Terms</a>
+                        </div>
+                        <div class="col s1 m1 l1 right-align">
+                            <a href="#">Privacy</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </footer>
+        <!--</footer>-->
     <!--</div> DESACTIVO PARA TENGA WEIGHT al 100%-->
-</div>
+</footer>
 <div th:fragment="footer-js">
     <!--  Scripts-->
     <!--Import jQuery before materialize.js

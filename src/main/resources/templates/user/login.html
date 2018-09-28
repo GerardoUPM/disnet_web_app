@@ -10,7 +10,7 @@
     <div class="container"><br/><br/><br/><br/><br/><br/><br/>
         <div id="login-request" class="row" >
             <div class="col s12 m8 l8 offset-m2 offset-l2">
-                <div class="z-depth-5 card-panel">
+                <div class="z-depth-5 card" style="padding: 24px;">
                     <div class="row">
                         <form class="login-form" method="post" th:action="@{/user/login}" ><!---->
                             <div class="input-field col s12 m12 l12 center">
@@ -24,28 +24,30 @@
                                 <p class="center login-form-text"><h5>User Login</h5></p>
                                 <br/>
                             </div>
-                            <div class="input-field col s12 m12 l12">
+                            <div class="input-field col s10 m10 l10 offset-l1 offset-m1 offset-s1 center">
                                 <i class="medium material-icons prefix">email</i>
                                 <input id="email" name="email" type="email" class="validate" />
                                 <label for="email" class="center-align">Email</label>
                             </div>
-                            <div class="input-field col s12 m12 l12">
+                            <div class="input-field col s10 m10 l10 offset-l1 offset-m1 offset-s1 center">
                                 <i class="medium material-icons prefix">lock</i>
                                 <input id="password" name="password" type="password" class="validate" />
                                 <label for="password">Password</label>
                             </div>
-                            <div class="input-field col s12 m12 l12 center ">
-                                <p class="center login-form-text">By creating an account by clicking on "Register now" <br/> you are accepting the <a class="modal-trigger" href="#terms_and_conditions"><!--onclick="showTermsAndConditions()"-->Terms and Conditions of DISNET</a>.</p>
-                            </div>
+                            <!--<div class="input-field col s12 m12 l12 center ">-->
+                                <!--<p class="center login-form-text">By creating an account by clicking on "Register now" <br/> you are accepting the <a class="modal-trigger" href="#terms_and_conditions">&lt;!&ndash;onclick="showTermsAndConditions()"&ndash;&gt;Terms and Conditions of DISNET</a>.</p>-->
+                            <!--</div>-->
                             <div class="input-field col s12 m12 l12">
-                                <button type="submit" class="btn waves-effect waves-light col s12 m12 l8 offset-l2 blue darken-3">Login</button>
+                                <button type="submit" class="btn waves-effect waves-light col s8 m8 l8 offset-l2 offset-m2 offset-s2 blue darken-3">Login</button>
                             </div>
                             <div class="col s12 m12 l12"><br/></div>
-                            <div class="col s6 m6 l6">
-                                <!--<a th:href="@{/user/registration}">Register Now!</a>-->
-                            </div>
-                            <div class="col s6 m6 l6 right-align">
-                                <a th:href="@{/user/forgot}">Forgot password?</a>
+                            <div class="col s12 m12 l12 center">
+                                <div class="col s6 m6 l6 left-align">
+                                    <!--<a th:href="@{/user/registration}">New to DISNET? Create an account.</a>-->
+                                </div>
+                                <div class="col s6 m6 l6 right-align">
+                                    <!--<a th:href="@{/user/forgot}">Forgot password?</a>-->
+                                </div>
                             </div>
                         </form>
                         <!-- Modal Trigger -->
@@ -62,6 +64,12 @@
                                 <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">OK</a>
                             </div>
                         </div>
+                    </div>
+                    <div class="card-action center">
+                        <a href="#">Terms</a>
+                        <a href="#">Privacy</a>
+                        <a href="#">Security</a>
+                        <a href="#">Contact DISNET</a>
                     </div>
                 </div>
             </div>

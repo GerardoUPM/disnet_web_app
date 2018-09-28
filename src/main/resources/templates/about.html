@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - Members</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+    <div th:replace="fragments/header :: header"/>
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m8 offset-m1 xl7 offset-xl1 center-on-small-only">
+                <div class="row">
+                    <h3 class="header">The Team</h3>
+                    <p class="caption">We are a team of researchers at the Center for Biomedical Technology (CTB) within the Technical University of Madrid (UPM) in Spain.</p>
+                    <br/>
+                </div>
+                <br/>
+                <!--<editor-fold desc="alejandro member">-->
+                <div class="card grey lighten-5 z-depth-1">
+                    <div class="card-content">
+                        <div class="row valign-wrapper">
+                            <div class="col s3">
+                                <img th:src="@{/images/team/alejandro/alejandro.jpeg}" class="circle responsive-img" alt="Alejandro Rodríguez González"/>
+                            </div>
+                            <div class="col s9">
+                              <span class="card-title">Alejandro Rodríguez González</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-action col s12 right-align z-depth-1">
+                        <a href="/members/alejandro">About him</a>
+                    </div>
+                </div><br/><br/>
+                <!--</editor-fold>-->
+
+                <!--<editor-fold desc="eduardo member">-->
+                <div class="card grey lighten-5 z-depth-1">
+                    <div class="card-content">
+                        <div class="row valign-wrapper">
+                            <div class="col s3">
+                                <img th:src="@{/images/team/eduardo/eduardo.png}" class="circle responsive-img" alt="Eduardo P. García del Valle"/>
+                            </div>
+                            <div class="col s9">
+                                <span class="card-title">Eduardo P. García del Valle</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-action col s12 right-align z-depth-1">
+                        <a href="/members/eduardo">About him</a>
+                    </div>
+                </div><br/><br/>
+                <!--</editor-fold>-->
+
+                <!--<editor-fold desc="gerardo member">-->
+                <div class="card grey lighten-5 z-depth-1">
+                    <div class="card-content">
+                        <div class="row valign-wrapper">
+                            <div class="col s3">
+                                <img th:src="@{/images/team/gerardo/gerardo.png}" class="circle responsive-img" alt="Gerardo Lagunes García"/>
+                            </div>
+                            <div class="col s9">
+                                <span class="card-title">Gerardo Lagunes García</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-action col s12 right-align z-depth-1">
+                        <a href="/members/gerardo">About him</a>
+                    </div>
+                </div><br/><br/>
+                <!--</editor-fold>-->
+
+                <!--<editor-fold desc="lucia member">-->
+                <div class="card grey lighten-5 z-depth-1">
+                    <div class="card-content">
+                        <div class="row valign-wrapper">
+                            <div class="col s3">
+                                <img th:src="@{/images/team/lucia/lucia.jpg}" class="circle responsive-img" alt="Lucía Prieto Santamaría"/>
+                            </div>
+                            <div class="col s9">
+                                <span class="card-title">Lucía Prieto Santamaría</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-action col s12 right-align z-depth-1">
+                        <a href="/members/lucia">About her</a>
+                    </div>
+                </div><br/><br/>
+                <!--</editor-fold>-->
+
+                <!--<editor-fold desc="massi member">-->
+                <div class="card grey lighten-5 z-depth-1">
+                    <div class="card-content">
+                        <div class="row valign-wrapper">
+                            <div class="col s3">
+                                <img th:src="@{/images/team/massi/massi.jpg}" class="circle responsive-img" alt="Dr. Massimiliano Zanin"/>
+                            </div>
+                            <div class="col s9">
+                                <span class="card-title">Massimiliano Zanin</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-action col s12 right-align z-depth-1">
+                        <a href="/members/massimiliano">About him</a>
+                    </div>
+                </div>
+                <!--</editor-fold>-->
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+
+    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/footer :: footer-js"/>
+</body>
+</html>

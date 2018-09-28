@@ -30,6 +30,7 @@
         <!--<link href="https://fonts.googleapis.com/icon?family=Roboto" rel="stylesheet"/>-->
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.css}" media="screen,projection" />
+        <!--<link type="text/css" rel="stylesheet" th:href="@{/css/ghpages-materialize.css}" media="screen,projection" />-->
         <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}" media="screen,projection" />
         <link type="text/css" rel="stylesheet" th:href="@{/css/sweetalert/sweetalert.css}" media="screen,projection" />
         <!--Let browser know website is optimized for mobile-->
@@ -38,18 +39,29 @@
     </div>
 </head>
 <body>
-<div th:fragment="header" ><!--class="navbar-fixed"-->
+<header th:fragment="header" ><!--class="navbar-fixed"-->
     <!-- this is header -->
     <ul id="dropdownAPIs_principal" class="dropdown-content">
         <!--<li><a th:href="@{/apis/tvp}" class="blue-text text-darken-4">TVP API</a></li>-->
         <li><a th:href="@{/apis/disnet}" class="blue-text text-darken-4">DISNET API</a></li>
-        <li><a th:href="@{/apis/disnet}" class="blue-text text-darken-4">DISNET API test</a></li>
+        <!--<li><a th:href="@{/apis/disnet}" class="blue-text text-darken-4">DISNET API test</a></li>-->
     </ul>
     <ul id="dropdownAPIs_mobile" class="dropdown-content">
         <!--<li><a th:href="@{/apis/tvp}" class="blue-text text-darken-4">TVP API</a></li>-->
         <li><a th:href="@{/apis/disnet}" class="blue-text text-darken-4">DISNET API</a></li>
-        <li><a th:href="@{/apis/disnet}" class="blue-text text-darken-4">DISNET API test</a></li>
+        <!--<li><a th:href="@{/apis/disnet}" class="blue-text text-darken-4">DISNET API test</a></li>-->
     </ul>
+    <ul id="about_principal" class="dropdown-content">
+        <!--<li><a th:href="@{/apis/tvp}" class="blue-text text-darken-4">TVP API</a></li>-->
+        <li><a th:href="@{/about}" class="blue-text text-darken-4">DISNET</a></li>
+        <li><a th:href="@{/members}" class="blue-text text-darken-4">Team</a></li>
+    </ul>
+    <ul id="about_mobile" class="dropdown-content">
+        <!--<li><a th:href="@{/apis/tvp}" class="blue-text text-darken-4">TVP API</a></li>-->
+        <li><a th:href="@{/about}" class="blue-text text-darken-4">DISNET</a></li>
+        <li><a th:href="@{/members}" class="blue-text text-darken-4">Team</a></li>
+    </ul>
+
     <nav class="blue darken-4" role="navigation">
         <div class="nav-wrapper container">
             <a id="logo-container" href="/" class="brand-logo">
@@ -61,7 +73,9 @@
                 <li><a href="/">Home</a></li>
                 <!-- Dropdown Trigger -->
                 <li><a class="dropdown-button" href="#!" data-activates="dropdownAPIs_principal">APIs<i class="material-icons right">arrow_drop_down</i></a></li>
-                <li><a th:href="@{/members}">Members</a></li>
+                <!-- Dropdown Trigger -->
+                <!--<li><a class="dropdown-button" href="#!" data-activates="about_principal">About<i class="material-icons right">arrow_drop_down</i></a></li>-->
+                <li><a th:href="@{/members}">About</a></li>
                 <li sec:authorize="isAuthenticated()" id="control_panel_li"><!--isAnonymous()-->
                     <a th:href="@{/user/client/home}" >Control Panel</a>
                 </li>
@@ -70,21 +84,22 @@
                         Sign Out
                     </form></a>
                 </li>
-
+                <!--<li sec:authorize="!isAuthenticated()" id="registration_li">&lt;!&ndash;isAnonymous()&ndash;&gt;-->
+                <!--<a href="/user/registration">Sign up</a>-->
+                <!--</li>-->
                 <li sec:authorize="!isAuthenticated()" id="signin_li"><!--isAnonymous()-->
                     <a><form id="signin_li_form" th:if="${email==null}" th:action="@{/user/login}" method="get">
                         Log In
                     </form></a>
                 </li>
             </ul>
-            <!--<li sec:authorize="!isAuthenticated()" id="registration_li">&lt;!&ndash;isAnonymous()&ndash;&gt;-->
-            <!--<a href="/user/registration">Sign up</a>-->
-            <!--</li>-->
+
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="/">Home</a></li>
                 <!-- Dropdown Trigger -->
                 <li><a class="dropdown-button" href="#!" data-activates="dropdownAPIs_mobile">APIs<i class="material-icons right">arrow_drop_down</i></a></li>
-                <li><a th:href="@{/members}">Members</a></li>
+                <!--<li><a class="dropdown-button" href="#!" data-activates="about_mobile">About<i class="material-icons right">arrow_drop_down</i></a></li>-->
+                <li><a th:href="@{/members}">About</a></li>
                 <li sec:authorize="isAuthenticated()" id="control_panel_li_mobile"><!--isAnonymous()-->
                     <a th:href="@{/user/client/home}" >Control Panel</a>
                 </li>
@@ -93,19 +108,19 @@
                         Sign Out
                     </form></a>
                 </li>
-
+                <!--<li sec:authorize="!isAuthenticated()" id="registration_li_mobile">&lt;!&ndash;isAnonymous()&ndash;&gt;-->
+                <!--<a href="/user/registration">Sign up</a>-->
+                <!--</li>-->
                 <li sec:authorize="!isAuthenticated()" id="signin_li_mobile"><!--isAnonymous()-->
                     <a><form id="signin_li_form_mobile" th:if="${email==null}" th:action="@{/user/login}" method="get">
                         Log In
                     </form></a>
                 </li>
             </ul>
-            <!--<li sec:authorize="!isAuthenticated()" id="registration_li_mobile">&lt;!&ndash;isAnonymous()&ndash;&gt;-->
-            <!--<a href="/user/registration">Sign up</a>-->
-            <!--</li>-->
+
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="large material-icons">menu</i></a>
         </div>
     </nav>
-</div>
+</header>
 </body>
 </html>

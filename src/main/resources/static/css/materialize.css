@@ -2811,9 +2811,15 @@ ul.staggered-list li {
 /*********************
   Media Query Classes
 **********************/
-@media only screen and (max-width: 600px) {
-  .hide-on-small-only, .hide-on-small-and-down {
-    display: none !important;
+/*@media only screen and (max-width: 600px) {*/
+  /*.hide-on-small-only, .hide-on-small-and-down {*/
+    /*display: none !important;*/
+  /*}*/
+/*}*/
+
+@media only screen and (max-width: 600px){
+  .hide-on-small-only, .tabs-wrapper, .hide-on-small-and-down{
+    display:none !important
   }
 }
 
@@ -7331,17 +7337,19 @@ input[type=range]:focus::-ms-fill-upper {
   letter-spacing: .4;
   display: inline-block;
 }
-
+/*EDIT BY GLG*/
 .table-of-contents a:hover {
   color: #a8a8a8;
   padding-left: 19px;
-  border-left: 1px solid #ee6e73;
+  /*border-left: 1px solid #ee6e73;*/
+  border-left: 1px solid #0d47a1;
 }
-
+/*EDIT BY GLG*/
 .table-of-contents a.active {
   font-weight: 500;
   padding-left: 18px;
-  border-left: 2px solid #ee6e73;
+  /*border-left: 2px solid #ee6e73;*/
+  border-left: 2px solid #0d47a1;
 }
 
 .side-nav {
@@ -9429,3 +9437,48 @@ main {
 .show-button-display {
   display: block !important;
 }
+
+
+/* ==========================================================================
+   TABLE OF CONTENT ADD by hand GLG 2018-09-19
+   ========================================================================== */
+
+.toc-wrapper{
+  position:relative;
+  margin-top:42px
+}
+
+.toc-wrapper.pin-bottom{
+  margin-top:84px
+}
+
+.tabs-wrapper{
+  position:relative;height:48px
+}
+
+.tabs-wrapper .row.pinned{
+  position:fixed;
+  width:100%;
+  top:0;
+  z-index:10
+}
+
+ul.table-of-contents {
+  margin-top: 0;
+  padding-top: 48px
+}
+
+ul.table-of-contents a {
+  color: rgba(0, 0, 0, 0.55);
+  font-weight: 400
+}
+
+ul.table-of-contents a.active {
+  color: rgba(0, 0, 0, 0.8)
+}
+
+/* ==========================================================================
+   TABLE OF CONTENT ADD by hand GLG 2018-09-19
+   ========================================================================== */
+
+

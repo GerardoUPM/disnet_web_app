@@ -4,47 +4,138 @@
 <head>
     <title>DISNET - DISNET API</title>
     <div th:replace="fragments/header :: header-css"/>
-    <link type="text/css" rel="stylesheet"  th:href="@{/css/prism/okaidia/prism.css}" media="screen,projection" />
+    <!--<link type="text/css" rel="stylesheet"  th:href="@{/css/prism/okaidia/prism.css}" media="screen,projection" />-->
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/prism/prism_default.css}" media="screen,projection" />
 </head>
 <body>
-<div th:replace="fragments/header :: header"/>
-<div class="section no-pad-bot" id="index-banner">
-    <div class="container">
-        <br/><br/>
-        <h1 class="header center orange-text"><img width="250" th:src="@{/images/logo_disnet/V_color.png}" /></h1>
-        <div class="row center">
-            <h5 class="header col s12 light">Drug repositioning and disease understanding through complex networks creation and analysis</h5>
+    <div th:replace="fragments/header :: header"/>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m8 offset-m1 xl7 offset-xl1">
+                    <h1 class="header blue-text text-darken-4">DISNET REST API</h1>
+                    <div id="Getting_Started" class="section scrollspy">
+                        <h3 class="header blue-text text-darken-3">Getting Started</h3>
+                        <h4>Base URL</h4>
+                        <p>disnet.ctb.upm.es/api/disnet</p>
+                        <h4>Schemes</h4>
+                        <p><strong>HTTP</strong> | HTTPS</p>
+                        <h4>Requirements</h4>
+                        <p>El requisito que se necesita para hacer uso de esta API es tener una cuenta DISNET. Cuando se genera una cuenta se proporciona un <strong>token</strong> de acceso (identificador único). El <strong>token</strong> siempre debe incluirse en cada petición que se realice a un servicio, si se encuentra activo el servicio responderá a la petición realizada, sino no se visualizarán los resultados.</p>
+                        <p>El <strong>token</strong> se obtiene registrándose en la aplicación Web de DISNET, que se encuentra <a href="#">aquí</a>.</p>
+                        <h4>Quick Start</h4>
+                        <p>Resumen del uso de la API.</p>
+                        <p>
+                            <ul class="collection">
+                                <li class="collection-item">
+                                    1.	Seleccionar herramienta. Para visualizar los resultados de la peticiones existen dos formar de hacerlo: 1) con un visualizador Web, utilice el de su preferencia (Opera, Chrome, Firefox, Safari, IE, entre otros) y 2) alguna herramienta amigable al usuario para trabajar con APIs, se recomienda el uso de la herramienta Postman (se encuentra disponible para usuarios: Windows, Mac OS X, Linux y Chrome que se descarga en el siguiente enlace: https://www.getpostman.com).
+                                </li>
+                                <li class="collection-item">
+                                    2.	Seleccionar servicio de interés dentro de la lista de servicios oficiales de DISNET.
+                                </li>
+                                <li class="collection-item">
+                                    3.	Formar petición definiendo los parámetros de búsqueda solicitados según cada servicio.
+                                </li>
+                                <li class="collection-item">
+                                    4.	Realizar petición.
+                                </li>
+                                <li class="collection-item">
+                                    5.	Ver resultados.
+                                </li>
+                            </ul>
+                        </p>
+                        <p>Content </p>
+                        <h4>Requirements</h4>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                    </div>
+
+                    <div id="NLP_Tools_and_Configuration" class="section scrollspy">
+                        <h3 class="header  blue-text text-darken-3">NLP Tools and Configuration</h3>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                    </div>
+
+                    <div id="REST_API_Description" class="section scrollspy">
+                        <h3 class="header  blue-text text-darken-3">REST API Description</h3>
+                        <p>Content
+                        <pre>
+                            <code class="language-json">
+                                {
+                                    "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmFyZG9sYWdhckBob3RtYWlsLmNvbSIsImF1ZCI6IndlYiIsIm5hbWUiOiJHZXJhcmRvIExhZ3VuZXMiLCJ1c2VyIjp0cnVlLCJpYXQiOjE1MDk2MTQyNjh9.uVhDgfLrAgdnj02Hsbgfj9tkVlfni89i0hKVYW31eHApCHpheikK9ae1MhbzRhiyUcFGMKwtiyVgff5NCMY3PA",
+                                    "authorization": true,
+                                    "authorizationMessage": "Authorized!",
+                                    "versions": [
+                                        "2017-09-28",
+                                        "2017-10-08",
+                                        "2017-10-15",
+                                        "2017-11-02",
+                                        "2017-11-15"
+                                    ]
+                                }
+                            </code>
+                        </pre>
+                        </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                    </div>
+
+                    <div id="Service_List" class="section scrollspy">
+                        <h3 class="header blue-text text-darken-3">Service List</h3>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                    </div>
+
+                    <div id="Description_of_Services" class="section scrollspy">
+                        <h3 class="header blue-text text-darken-3">Description of Services</h3>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <h4>Show all sources</h4>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <p>Content </p>
+                        <h4>Show all versions</h4>
+                    </div>
+                </div>
+                <div class="col hide-on-small-only m3 xl3 offset-xl1" >
+                    <div class="toc-wrapper pinned" style="top: 0px;">
+                        <!--<div class="buysellads hide-on-small-only"></div>-->
+                        <div><strong>DISNET REST API</strong></div>
+                        <div style="height: 1px;">
+                            <ul class="section table-of-contents">
+                                <li><a href="#Getting_Started">Getting Started</a></li>
+                                <li><a href="#NLP_Tools_and_Configuration">NLP Tools and Configuration</a></li>
+                                <li><a href="#REST_API_Description">REST API Description</a></li>
+                                <li><a href="#Service_List">Service List</a></li>
+                                <li><a href="#Description_of_Services">Description of Services</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <br/><br/>
-    </div>
-</div>
+    </main>
+    <!-- /.container -->
 
-
-<div class="container">
-
-    <pre>
-        <code class="language-json">
-            {
-                "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmFyZG9sYWdhckBob3RtYWlsLmNvbSIsImF1ZCI6IndlYiIsIm5hbWUiOiJHZXJhcmRvIExhZ3VuZXMiLCJ1c2VyIjp0cnVlLCJpYXQiOjE1MDk2MTQyNjh9.uVhDgfLrAgdnj02Hsbgfj9tkVlfni89i0hKVYW31eHApCHpheikK9ae1MhbzRhiyUcFGMKwtiyVgff5NCMY3PA",
-                "authorization": true,
-                "authorizationMessage": "Authorized!",
-                "versions": [
-                    "2017-09-28",
-                    "2017-10-08",
-                    "2017-10-15",
-                    "2017-11-02",
-                    "2017-11-15"
-                ]
-            }
-        </code>
-    </pre>
-
-</div>
-<!-- /.container -->
-
-<div th:replace="fragments/footer :: footer"/>
-<div th:replace="fragments/footer :: footer-js"/>
-<script type="text/javascript" th:src="@{/js/prism/okaidia/prism.js}"></script>
-
+    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/footer :: footer-js"/>
+    <script type="text/javascript" th:src="@{/js/prism/prism_default.js}"></script>
+    <!--<script type="text/javascript" th:src="@{/js/prism/okaidia/prism.js}"></script>-->
 </body>
 </html>
