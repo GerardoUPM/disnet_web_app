@@ -12,3 +12,12 @@
 .icon-block .material-icons {
 	font-size: inherit;
 }
+
+/*sup {
+    vertical-align: super;
+    font-size: smaller;
+}*/
+
+.text-indent {
+    text-indent: 1.05em;
+}

@@ -84,9 +84,9 @@
                         Sign Out
                     </form></a>
                 </li>
-                <!--<li sec:authorize="!isAuthenticated()" id="registration_li">&lt;!&ndash;isAnonymous()&ndash;&gt;-->
-                <!--<a href="/user/registration">Sign up</a>-->
-                <!--</li>-->
+                <li sec:authorize="!isAuthenticated()" id="registration_li"><!--isAnonymous()-->
+                <a href="/user/registration">Sign up</a>
+                </li>
                 <li sec:authorize="!isAuthenticated()" id="signin_li"><!--isAnonymous()-->
                     <a><form id="signin_li_form" th:if="${email==null}" th:action="@{/user/login}" method="get">
                         Log In
@@ -108,9 +108,9 @@
                         Sign Out
                     </form></a>
                 </li>
-                <!--<li sec:authorize="!isAuthenticated()" id="registration_li_mobile">&lt;!&ndash;isAnonymous()&ndash;&gt;-->
-                <!--<a href="/user/registration">Sign up</a>-->
-                <!--</li>-->
+                <li sec:authorize="!isAuthenticated()" id="registration_li_mobile"><!--isAnonymous()-->
+                <a href="/user/registration">Sign up</a>
+                </li>
                 <li sec:authorize="!isAuthenticated()" id="signin_li_mobile"><!--isAnonymous()-->
                     <a><form id="signin_li_form_mobile" th:if="${email==null}" th:action="@{/user/login}" method="get">
                         Log In
