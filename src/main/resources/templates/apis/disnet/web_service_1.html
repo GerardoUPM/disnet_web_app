@@ -1,0 +1,946 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - DISNET API</title>
+    <div th:replace="fragments/header :: header-css"/>
+    <!--<link type="text/css" rel="stylesheet"  th:href="@{/css/prism/okaidia/prism.css}" media="screen,projection" />-->
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/prism/prism_default.css}" media="screen,projection" />
+</head>
+<body>
+    <div th:replace="fragments/header :: header"/>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m8 offset-m1 xl7 offset-xl1">
+                    <h1 id="DISNET_REST_API_DOCUMENTATION" class="header blue-text text-darken-4 section scrollspy">DISNET API DOCUMENTATION</h1>
+                    <div id="Getting_Started" class="section scrollspy">
+                        <h3 class="header blue-text text-darken-3">Getting Started</h3>
+                        <h4>Base URL</h4>
+                        <p>disnet.ctb.upm.es/api/disnet</p>
+                        <h4>Schemes</h4>
+                        <p><strong>HTTP</strong> | HTTPS</p>
+                        <h4>Requirements</h4>
+                        <p class="text-align-justify">The requirement to use this API is to have a DISNET account. When an account is generated, an access <strong>token</strong> (unique identifier) is provided. The <strong>token</strong> must always be included in every request made to a service, if it is active the service will respond to the request made, otherwise the results will not be displayed.</p>
+                        <p class="text-align-justify text-indent">The <strong>token</strong> is obtained by signing up in the DISNET Web application, which can be found <a href="#" class="tooltipped" data-position="top" data-tooltip="DISNET sign up">here</a>.</p>
+                        <h4>Quick Start</h4>
+                        <p>Overview of API usage.</p>
+                        <p>
+                            <ol class="collection">
+                                <li class="collection-item text-align-justify">
+                                    <b>Select tool</b>. To visualize the results of the requests there are two ways to do it: <b>1)</b> with a Web viewer, use the one of your preference (Opera, Chrome, Firefox, Safari, IE, among others) and <b>2)</b> some program that allows to consume Web services, we recommend the use of Postman available for users Windows, Mac OS X, Linux and Chrome in its official Web page <a href="https://www.getpostman.com">https://www.getpostman.com</a>.
+                                </li>
+                                <li class="collection-item text-align-justify">
+                                    <b>Select service</b> of your interest from DISNET's list of <a href="#Service_List" >official services</a>.
+                                </li>
+                                <li class="collection-item text-align-justify">
+                                    <b>Make a query</b> by setting the requested search parameters according to each service.
+                                </li>
+                                <li class="collection-item text-align-justify">
+                                    <b>Send</b> the formed query.
+                                </li>
+                                <li class="collection-item text-align-justify">
+                                    <b>Visualize</b> the query response.
+                                </li>
+                            </ol>
+                        </p>
+                    </div>
+
+                    <div id="REST_API_Introduction" class="section scrollspy">
+                        <h3 class="header  blue-text text-darken-3">REST API Introduction</h3>
+                        <p class="text-align-justify">Currently the DISNET API has eleven queries, in <a href="#Service_List">Service List</a> section we can see the detailed list of services offered by DISNET with a short description of its function.</p>
+                        <p class="text-align-justify text-indent">In our system, we call "DISNET Concept" to all those terms we store that are validated positively (symptoms) as the medical concepts that were validated negatively and that therefore are not symptoms or signs. All our queries that respond with a list of DISNET Concepts by default return the validated ones positively, but also allow to return the validated ones negatively.</p>
+                        <p class="text-align-justify text-indent">These queries are made with a view to providing as much relevant data as possible to users, so they can be consulted from the sources of knowledge that have been mined, the snapshots that have been made, the list of all diseases from a source and a snapshot, to the configurations by which a particular snapshot has been created.</p>
+                        <p class="text-align-justify text-indent">You can also look at some predefined queries <a href="http://bit.ly/DISNET_example_queries_collection_json">here</a> in a Postman collection file.</p>
+                    </div>
+
+                    <div id="NLP_Tools_and_Configuration" class="section scrollspy">
+                        <h3 class="header  blue-text text-darken-3">NLP Tools and Configuration</h3>
+                        <p class="text-align-justify">Metamap<sup><a href="https://metamap.nlm.nih.gov/" class="tooltipped" data-position="top" data-tooltip="https://metamap.nlm.nih.gov/">1</a></sup>  was developed by the National Library of Medicine (NLM) and is one of the most widely accepted applications of NLP in biomedicine. When Metamap analyzes texts and identifies words or phrases, it relates and assigns them to concepts of NLM's Unified Medical Language System (UMLS), so we have terms that can be used by other biomedical applications that use the unique identifier concept (CUI) of UMLS (<a href="https://www.ncbi.nlm.nih.gov/pubmed/11825149" class="tooltipped" data-position="top" data-tooltip="Effective mapping of biomedical text to the UMLS Metathesaurus: the MetaMap program">Aronson, 2001</a>; <a class="tooltipped" data-position="top" data-tooltip="Automatically Detecting Failures in Natural Language Processing Tools for Online Community Text" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4642409/">Park et al., 2015</a>).</p>
+                        <p class="text-align-justify text-indent">In our research work we processed the texts of our database with Metamap version 2016v2.</p>
+                        <p class="text-align-justify text-indent">To add Metamap to the DISNET system we have developed a Web service that consumes Metamap by means of a request that contains the indications of its configuration. Next, we will describe the part of the request that is related to the Metamap configuration.</p>
+                        <p class="text-align-justify text-indent">The standard configuration we use with Metamap first includes a list of semantic types of concepts to be detected from a much larger list provided by this tool<sup><a href="https://metamap.nlm.nih.gov/Docs/SemanticTypes_2013AA.txt" class="tooltipped" data-position="top" data-tooltip="https://metamap.nlm.nih.gov/Docs/SemanticTypes_2013AA.txt">2</a></sup>. Our own configuration is shown in <a href="#metamap_settings_img"><b>Fig. 1.</b></a> The semantic types we use are 6: Diagnostic Procedure (diap), Disease or Syndrome (dsyn), Finding (fndg), Laboratory Procedure (lbpr), Laboratory or Test Result (lbtr) and Sign or Symptom (sosy). If we only focus on detecting <strong>sosy</strong> concepts, the scope of discovering phenotypic manifestations for a disease would be very limited. Extending the filter over the texts, telling Metamap to look for other types of concepts allows you to retrieve more diagnostic concepts.</p>
+                        <p class="text-align-justify text-indent">Let's look at an example of the filtering Metamap does with our configuration, taking a piece of text obtained from the Signs and symptoms section of the Wikipedia article about the Brain Salt-wasting Syndrome<sup><a href="https://en.wikipedia.org/w/index.php?title=Cerebral_salt-wasting_syndrome&oldid;=768604979" class="tooltipped" data-position="top" data-tooltip="https://en.wikipedia.org/w/index.php?title=Cerebral_salt-wasting_syndrome&oldid;=768604979">3</a></sup> extracted on February 1st, 2018: “<i>Advanced <b>symptoms[sosy]</b> include <b>muscle cramps[sosy]</b>, <b>lightheadedness[sosy]</b>, <b>dizziness[sosy]</b> or <b>vertigo[sosy]</b>, feelings of anxiety or <b>panic[fndg]</b> (not mentally induced), increased heart rate or slowed heart rate, <b>low blood pressure[fndg]</b> and <b>orthostatic hypotension[fndg]</b> sometimes resulting in <b>fainting[sosy]</b>”. The words or phrases that Metamap has detected, along with their semantic types, are indicated in bold letters. We clearly observe that there are four words that were detected with the semantic type <i>fndg</i>, which are phenotypical manifestations of the syndrome and if we had not indicated that semantic type we would lose consciousness</i>.</p>
+                        <p class="text-align-justify text-indent">The next configuration element is source, which lists the subset of source vocabularies in which we want Metamap to search, first of all we use SNOMEDCT_US and DSM-5<sup><a href="https://www.nlm.nih.gov/research/umls/sourcereleasedocs/index.html" class="tooltipped" data-position="top" data-tooltip="https://www.nlm.nih.gov/research/umls/sourcereleasedocs/index.html">4</a></sup>.</p>
+                        <p class="text-align-justify text-indent">Another essential configuration element is, <i>options</i>, which determine which options to activate for filtering, for example, when we indicate "<b>-y</b>" we are telling Metamap to activate word disambiguation. And when we write "<b>-R</b>" we saying Metamap to use the vocabulary list that we have previously indicated. To see all Metamap options you can visit the following link<sub><a href="https://metamap.nlm.nih.gov/Docs/MM_2016_Usage.pdf" class="tooltipped" data-position="top" data-tooltip="https://metamap.nlm.nih.gov/Docs/MM_2016_Usage.pdf">5</a></sub>.</p>
+                        <p class="center-align">
+                            <div class="center">
+                                <img id="metamap_settings_img" width="600" th:src="@{/images/metamap_configuration_json.png}" alt=""
+                             class="responsive-img valign profile-image-login tooltipped"
+                             data-position="bottom" data-delay="50" data-tooltip="Fig. 1. Standard options and settings for Metamap" />
+                                <br/><strong>Fig. 1. Standard options and settings for Metamap</strong>
+                            </div>
+                        </p>
+                        <p class="text-align-justify text-indent">Finally, we find the <i>concept_location</i> option that allows us to indicate Metamap to return extra information about the location of each concept found. This information includes the word or words by which the NLP tool found some concept and its position within the text. In this link, in the "Performing" section to query using the API we find information about everything we can get from Metamap through its Java development API.</p>
+                        <p class="text-align-justify text-indent">We do not rule out using any other NLP tool, in the analysis of the related work we mention some of them that can help us to obtain better results. </p>
+                    </div>
+
+                    <div id="Service_List" class="section scrollspy">
+                        <h3 class="header blue-text text-darken-3">Service List</h3>
+                        <table class="striped highlight responsive-table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th class="grey-text text-darken-2">Query path</th>
+                                <th class="grey-text text-darken-2">Short description</th>
+                            </tr>
+                            </thead>
+                            <!-- TABLE BODY -->
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="#Retrieve_sources_list">/query/sourceList</a></td>
+                                <td>Retrieve sources list</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><a href="#Retrieve_all_available_snapshots">/query/versionList</a></td>
+                                <td>Retrieve all available snapshots for a given source</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><a href="#Retrieve_diseases_list">/query/diseaseList</a></td>
+                                <td>Retrieve diseases list for a given source and snapshot</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease">/query/disnetConceptList</a></td>
+                                <td>Retrieve DISNET Concept list for a given source and snapshot. Search by disease: exact name or not, other vocabulary code, excluding or forcing semantic types.</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><a href="#Retrieve_number_of_diseases">/query/diseaseCount</a></td>
+                                <td>Retrieve number of diseases for a given source and snapshot</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td><a href="#Retrieve_diseases_with_more_DISNET_Concepts">/query/diseaseWithMoreDisnetConcepts</a></td>
+                                <td>Retrieve disease(s) with more DISNET Concepts for a given source and snapshot</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts">/query/diseaseWithFewerDisnetConcepts</a></td>
+                                <td>Retrieve disease(s) with fewer DISNET Concepts for a given source and snapshot</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td><a href="#Retrieve_most_common_DISNET_Concepts">/query/mostCommonDisnetConcepts</a></td>
+                                <td>Retrieve most common DISNET Concepts for a given source and snapshot</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td><a href="#Retrieve_less_common_DISNET_Concepts">/query/mostCommonDisnetConcepts</a></td>
+                                <td>Retrieve less common DISNET Concepts for a given source and snapshot</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td><a href="#Retrieve_diseases_by_name">/query/searchByDiseaseName</a></td>
+                                <td>Retrieve disease(s) for a given source and snapshot by exact name or not</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td><a href="#Retrieve_metadata_for_a_given_snapshot">/query/metadata</a></td>
+                                <td>Retrieve metadata for a given source and snapshot</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="Description_of_Services" class="section scrollspy">
+                        <h3 class="header blue-text text-darken-3">Description of Services</h3>
+                        <p>The following is a detailed description of each of the Web services that make up the DISNET API.</p>
+
+                        <h4 id="Retrieve_sources_list" class="section scrollspy">Retrieve sources list</h4>
+                        <p>Information will added soon</p>
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_sources_list-Description" class="section scrollspy">Description</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_sources_list-URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_sources_list-Method" class="section scrollspy">Method</h5>
+                                <p class="text-align-justify text-indent">GET</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_sources_list-Auth_required" class="section scrollspy">Auth required</h5>
+                                <p class="text-align-justify text-indent">Yes (token)</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_sources_list-Request_parameters_description" class="section scrollspy">Request parameters description</h5>
+                                <table class="striped highlight responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="grey-text text-darken-2">Parameter</th>
+                                        <th class="grey-text text-darken-2">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <b>token *required</b>
+                                                <br/>[alphanumeric]
+                                                <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                            </td>
+                                            <td>Access key that allows the query to be executed.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_sources_list-Example_request" class="section scrollspy">Example request</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_sources_list-Success_response" class="section scrollspy">Success response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_sources_list-Error_response" class="section scrollspy">Error response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                        </ul>
+
+
+                        <h4 id="Retrieve_all_available_snapshots" class="section scrollspy">Retrieve all available snapshots</h4>
+                        <p>Information will added soon</p>
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_all_available_snapshots-Description" class="section scrollspy">Description</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_all_available_snapshots-URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_all_available_snapshots-Method" class="section scrollspy">Method</h5>
+                                <p class="text-align-justify text-indent">GET</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_all_available_snapshots-Auth_required" class="section scrollspy">Auth required</h5>
+                                <p class="text-align-justify text-indent">Yes (token)</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_all_available_snapshots-Request_parameters_description" class="section scrollspy">Request parameters description</h5>
+                                <table class="striped highlight responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="grey-text text-darken-2">Parameter</th>
+                                        <th class="grey-text text-darken-2">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>token *required</b>
+                                            <br/>[alphanumeric]
+                                            <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                        </td>
+                                        <td>Access key that allows the query to be executed.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_all_available_snapshots-Example_request" class="section scrollspy">Example request</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_all_available_snapshots-Success_response" class="section scrollspy">Success response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_all_available_snapshots-Error_response" class="section scrollspy">Error response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                        </ul>
+
+                        <h4 id="Retrieve_diseases_list" class="section scrollspy">Retrieve diseases list</h4>
+                        <p>Information will added soon</p>
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_list-Description" class="section scrollspy">Description</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_list-URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_list-Method" class="section scrollspy">Method</h5>
+                                <p class="text-align-justify text-indent">GET</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_list-Auth_required" class="section scrollspy">Auth required</h5>
+                                <p class="text-align-justify text-indent">Yes (token)</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_list-Request_parameters_description" class="section scrollspy">Request parameters description</h5>
+                                <table class="striped highlight responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="grey-text text-darken-2">Parameter</th>
+                                        <th class="grey-text text-darken-2">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>token *required</b>
+                                            <br/>[alphanumeric]
+                                            <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                        </td>
+                                        <td>Access key that allows the query to be executed.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_list-Example_request" class="section scrollspy">Example request</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_list-Success_response" class="section scrollspy">Success response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_list-Error_response" class="section scrollspy">Error response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                        </ul>
+
+                        <h4 id="Retrieve_DISNET_Concept_list_for_a_given_disease" class="section scrollspy">Retrieve DISNET Concept list for a given disease</h4>
+                        <p>Information will added soon</p>
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_DISNET_Concept_list_for_a_given_disease-Description" class="section scrollspy">Description</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_DISNET_Concept_list_for_a_given_disease-URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_DISNET_Concept_list_for_a_given_disease-Method" class="section scrollspy">Method</h5>
+                                <p class="text-align-justify text-indent">GET</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_DISNET_Concept_list_for_a_given_disease-Auth_required" class="section scrollspy">Auth required</h5>
+                                <p class="text-align-justify text-indent">Yes (token)</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_DISNET_Concept_list_for_a_given_disease-Request_parameters_description" class="section scrollspy">Request parameters description</h5>
+                                <table class="striped highlight responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="grey-text text-darken-2">Parameter</th>
+                                        <th class="grey-text text-darken-2">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>token *required</b>
+                                            <br/>[alphanumeric]
+                                            <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                        </td>
+                                        <td>Access key that allows the query to be executed.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_DISNET_Concept_list_for_a_given_disease-Example_request" class="section scrollspy">Example request</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_DISNET_Concept_list_for_a_given_disease-Success_response" class="section scrollspy">Success response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_DISNET_Concept_list_for_a_given_disease-Error_response" class="section scrollspy">Error response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                        </ul>
+
+
+                        <h4 id="Retrieve_number_of_diseases" class="section scrollspy">Retrieve number of diseases</h4>
+                        <p>Information will added soon</p>
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_number_of_diseases-Description" class="section scrollspy">Description</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_number_of_diseases-URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_number_of_diseases-Method" class="section scrollspy">Method</h5>
+                                <p class="text-align-justify text-indent">GET</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_number_of_diseases-Auth_required" class="section scrollspy">Auth required</h5>
+                                <p class="text-align-justify text-indent">Yes (token)</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_number_of_diseases-Request_parameters_description" class="section scrollspy">Request parameters description</h5>
+                                <table class="striped highlight responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="grey-text text-darken-2">Parameter</th>
+                                        <th class="grey-text text-darken-2">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>token *required</b>
+                                            <br/>[alphanumeric]
+                                            <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                        </td>
+                                        <td>Access key that allows the query to be executed.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_number_of_diseases-Example_request" class="section scrollspy">Example request</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_number_of_diseases-Success_response" class="section scrollspy">Success response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_number_of_diseases-Error_response" class="section scrollspy">Error response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                        </ul>
+
+                        <h4 id="Retrieve_diseases_with_more_DISNET_Concepts" class="section scrollspy">Retrieve disease(s) with more DISNET Concepts</h4>
+                        <p>Information will added soon</p>
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_more_DISNET_Concepts-Description" class="section scrollspy">Description</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_more_DISNET_Concepts-URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_more_DISNET_Concepts-Method" class="section scrollspy">Method</h5>
+                                <p class="text-align-justify text-indent">GET</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_more_DISNET_Concepts-Auth_required" class="section scrollspy">Auth required</h5>
+                                <p class="text-align-justify text-indent">Yes (token)</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_more_DISNET_Concepts-Request_parameters_description" class="section scrollspy">Request parameters description</h5>
+                                <table class="striped highlight responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="grey-text text-darken-2">Parameter</th>
+                                        <th class="grey-text text-darken-2">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>token *required</b>
+                                            <br/>[alphanumeric]
+                                            <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                        </td>
+                                        <td>Access key that allows the query to be executed.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_more_DISNET_Concepts-Example_request" class="section scrollspy">Example request</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_more_DISNET_Concepts-Success_response" class="section scrollspy">Success response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_more_DISNET_Concepts-Error_response" class="section scrollspy">Error response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                        </ul>
+
+                        <h4 id="Retrieve_diseases_with_fewer_DISNET_Concepts" class="section scrollspy">Retrieve disease(s) with fewer DISNET Concepts</h4>
+                        <p>Information will added soon</p>
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_fewer_DISNET_Concepts-Description" class="section scrollspy">Description</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_fewer_DISNET_Concepts-URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_fewer_DISNET_Concepts-Method" class="section scrollspy">Method</h5>
+                                <p class="text-align-justify text-indent">GET</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_fewer_DISNET_Concepts-Auth_required" class="section scrollspy">Auth required</h5>
+                                <p class="text-align-justify text-indent">Yes (token)</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_fewer_DISNET_Concepts-Request_parameters_description" class="section scrollspy">Request parameters description</h5>
+                                <table class="striped highlight responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="grey-text text-darken-2">Parameter</th>
+                                        <th class="grey-text text-darken-2">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>token *required</b>
+                                            <br/>[alphanumeric]
+                                            <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                        </td>
+                                        <td>Access key that allows the query to be executed.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_fewer_DISNET_Concepts-Example_request" class="section scrollspy">Example request</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_fewer_DISNET_Concepts-Success_response" class="section scrollspy">Success response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_with_fewer_DISNET_Concepts-Error_response" class="section scrollspy">Error response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                        </ul>
+
+                        <h4 id="Retrieve_most_common_DISNET_Concepts" class="section scrollspy">Retrieve most common DISNET Concepts</h4>
+                        <p>Information will added soon</p>
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_most_common_DISNET_Concepts-Description" class="section scrollspy">Description</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_most_common_DISNET_Concepts-URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_most_common_DISNET_Concepts-Method" class="section scrollspy">Method</h5>
+                                <p class="text-align-justify text-indent">GET</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_most_common_DISNET_Concepts-Auth_required" class="section scrollspy">Auth required</h5>
+                                <p class="text-align-justify text-indent">Yes (token)</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_most_common_DISNET_Concepts-Request_parameters_description" class="section scrollspy">Request parameters description</h5>
+                                <table class="striped highlight responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="grey-text text-darken-2">Parameter</th>
+                                        <th class="grey-text text-darken-2">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>token *required</b>
+                                            <br/>[alphanumeric]
+                                            <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                        </td>
+                                        <td>Access key that allows the query to be executed.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_most_common_DISNET_Concepts-Example_request" class="section scrollspy">Example request</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_most_common_DISNET_Concepts-Success_response" class="section scrollspy">Success response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_most_common_DISNET_Concepts-Error_response" class="section scrollspy">Error response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                        </ul>
+
+                        <h4 id="Retrieve_less_common_DISNET_Concepts" class="section scrollspy">Retrieve less common DISNET Concepts</h4>
+                        <p>Information will added soon</p>
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_less_common_DISNET_Concepts-Description" class="section scrollspy">Description</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_less_common_DISNET_Concepts-URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_less_common_DISNET_Concepts-Method" class="section scrollspy">Method</h5>
+                                <p class="text-align-justify text-indent">GET</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_less_common_DISNET_Concepts-Auth_required" class="section scrollspy">Auth required</h5>
+                                <p class="text-align-justify text-indent">Yes (token)</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_less_common_DISNET_Concepts-Request_parameters_description" class="section scrollspy">Request parameters description</h5>
+                                <table class="striped highlight responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="grey-text text-darken-2">Parameter</th>
+                                        <th class="grey-text text-darken-2">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>token *required</b>
+                                            <br/>[alphanumeric]
+                                            <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                        </td>
+                                        <td>Access key that allows the query to be executed.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_less_common_DISNET_Concepts-Example_request" class="section scrollspy">Example request</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_less_common_DISNET_Concepts-Success_response" class="section scrollspy">Success response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_less_common_DISNET_Concepts-Error_response" class="section scrollspy">Error response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                        </ul>
+
+                        <h4 id="Retrieve_diseases_by_name" class="section scrollspy">Retrieve disease(s) by name</h4>
+                        <p>Information will added soon</p>
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_by_name-Description" class="section scrollspy">Description</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_by_name-URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_by_name-Method" class="section scrollspy">Method</h5>
+                                <p class="text-align-justify text-indent">GET</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_by_name-Auth_required" class="section scrollspy">Auth required</h5>
+                                <p class="text-align-justify text-indent">Yes (token)</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_by_name-Request_parameters_description" class="section scrollspy">Request parameters description</h5>
+                                <table class="striped highlight responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="grey-text text-darken-2">Parameter</th>
+                                        <th class="grey-text text-darken-2">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>token *required</b>
+                                            <br/>[alphanumeric]
+                                            <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                        </td>
+                                        <td>Access key that allows the query to be executed.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_by_name-Example_request" class="section scrollspy">Example request</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_by_name-Success_response" class="section scrollspy">Success response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_diseases_by_name-Error_response" class="section scrollspy">Error response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                        </ul>
+
+                        <h4 id="Retrieve_metadata_for_a_given_snapshot" class="section scrollspy">Retrieve metadata for a given snapshot</h4>
+                        <p>Information will added soon</p>
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_metadata_for_a_given_snapshot-Description" class="section scrollspy">Description</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_metadata_for_a_given_snapshot-URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_metadata_for_a_given_snapshot-Method" class="section scrollspy">Method</h5>
+                                <p class="text-align-justify text-indent">GET</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_metadata_for_a_given_snapshot-Auth_required" class="section scrollspy">Auth required</h5>
+                                <p class="text-align-justify text-indent">Yes (token)</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_metadata_for_a_given_snapshot-Request_parameters_description" class="section scrollspy">Request parameters description</h5>
+                                <table class="striped highlight responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="grey-text text-darken-2">Parameter</th>
+                                        <th class="grey-text text-darken-2">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>token *required</b>
+                                            <br/>[alphanumeric]
+                                            <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                        </td>
+                                        <td>Access key that allows the query to be executed.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_metadata_for_a_given_snapshot-Example_request" class="section scrollspy">Example request</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_metadata_for_a_given_snapshot-Success_response" class="section scrollspy">Success response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Retrieve_metadata_for_a_given_snapshot-Error_response" class="section scrollspy">Error response (application/json)</h5>
+                                <p class="text-align-justify text-indent">...</p>
+                                <p>Example:</p>
+                                <p class="text-align-justify text-indent">...</p>
+                            </li>
+                        </ul>
+
+                        <h4 id="Common_errors" class="section scrollspy">Common errors</h4>
+                        <p>Information will added soon</p>
+                    </div>
+                </div>
+                <div id="float_table_of_content" class="col hide-on-small-only m3 xl3 offset-xl1" >
+                    <div class="toc-wrapper pinned" style="top: 0px;">
+                        <!--<div class="buysellads hide-on-small-only"></div>-->
+                        <div style="height: 1px;">
+                            <ul class="section table-of-contents">
+                                <li><a href="#DISNET_REST_API_DOCUMENTATION">DISNET API DOCUMENTATION</a></li>
+                                <li><a href="#Getting_Started">1. Getting Started</a></li>
+                                <li><a href="#REST_API_Introduction">2. REST API Introduction</a></li>
+                                <li><a href="#NLP_Tools_and_Configuration">3. NLP Tools and Configuration</a></li>
+                                <li><a href="#Service_List">4. Service List</a></li>
+                                <li><a href="#Description_of_Services">5. Description of Services</a></li>
+
+
+                                <li><a href="#Retrieve_sources_list" class="text-indent">Retrieve sources list</a></li>
+
+                                <li><a href="#Retrieve_sources_list-Description" class="text-indent-sub">Description</a></li>
+                                <li><a href="#Retrieve_sources_list-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                                <li><a href="#Retrieve_sources_list-Method" class="text-indent-sub">Method</a></li>
+                                <li><a href="#Retrieve_sources_list-Auth_required" class="text-indent-sub">Auth required</a></li>
+                                <li><a href="#Retrieve_sources_list-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Retrieve_sources_list-Example_request" class="text-indent-sub">Example request</a></li>
+                                <li><a href="#Retrieve_sources_list-Success_response" class="text-indent-sub">Success response</a></li>
+                                <li><a href="#Retrieve_sources_list-Error_response" class="text-indent-sub">Error response</a></li>
+
+                                <li><a href="#Retrieve_all_available_snapshots" class="text-indent">Retrieve all available snapshots</a></li>
+
+                                <li><a href="#Retrieve_all_available_snapshots-Description" class="text-indent-sub">Description</a></li>
+                                <li><a href="#Retrieve_all_available_snapshots-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                                <li><a href="#Retrieve_all_available_snapshots-Method" class="text-indent-sub">Method</a></li>
+                                <li><a href="#Retrieve_all_available_snapshots-Auth_required" class="text-indent-sub">Auth required</a></li>
+                                <li><a href="#Retrieve_all_available_snapshots-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Retrieve_all_available_snapshots-Example_request" class="text-indent-sub">Example request</a></li>
+                                <li><a href="#Retrieve_all_available_snapshots-Success_response" class="text-indent-sub">Success response</a></li>
+                                <li><a href="#Retrieve_all_available_snapshots-Error_response" class="text-indent-sub">Error response</a></li>
+
+                                <li><a href="#Retrieve_diseases_list" class="text-indent">Retrieve diseases list</a></li>
+
+                                <li><a href="#Retrieve_diseases_list-Description" class="text-indent-sub">Description</a></li>
+                                <li><a href="#Retrieve_diseases_list-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                                <li><a href="#Retrieve_diseases_list-Method" class="text-indent-sub">Method</a></li>
+                                <li><a href="#Retrieve_diseases_list-Auth_required" class="text-indent-sub">Auth required</a></li>
+                                <li><a href="#Retrieve_diseases_list-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Retrieve_diseases_list-Example_request" class="text-indent-sub">Example request</a></li>
+                                <li><a href="#Retrieve_diseases_list-Success_response" class="text-indent-sub">Success response</a></li>
+                                <li><a href="#Retrieve_diseases_list-Error_response" class="text-indent-sub">Error response</a></li>
+
+                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease" class="text-indent">Retrieve DISNET Concept list for a given disease</a></li>
+
+                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Description" class="text-indent-sub">Description</a></li>
+                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Method" class="text-indent-sub">Method</a></li>
+                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Auth_required" class="text-indent-sub">Auth required</a></li>
+                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Example_request" class="text-indent-sub">Example request</a></li>
+                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Success_response" class="text-indent-sub">Success response</a></li>
+                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Error_response" class="text-indent-sub">Error response</a></li>
+
+                                <li><a href="#Retrieve_number_of_diseases" class="text-indent">Retrieve number of diseases</a></li>
+
+                                <li><a href="#Retrieve_number_of_diseases-Description" class="text-indent-sub">Description</a></li>
+                                <li><a href="#Retrieve_number_of_diseases-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                                <li><a href="#Retrieve_number_of_diseases-Method" class="text-indent-sub">Method</a></li>
+                                <li><a href="#Retrieve_number_of_diseases-Auth_required" class="text-indent-sub">Auth required</a></li>
+                                <li><a href="#Retrieve_number_of_diseases-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Retrieve_number_of_diseases-Example_request" class="text-indent-sub">Example request</a></li>
+                                <li><a href="#Retrieve_number_of_diseases-Success_response" class="text-indent-sub">Success response</a></li>
+                                <li><a href="#Retrieve_number_of_diseases-Error_response" class="text-indent-sub">Error response</a></li>
+
+                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts" class="text-indent">Retrieve disease(s) with more DISNET Concepts</a></li>
+
+                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Description" class="text-indent-sub">Description</a></li>
+                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Method" class="text-indent-sub">Method</a></li>
+                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Auth_required" class="text-indent-sub">Auth required</a></li>
+                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Example_request" class="text-indent-sub">Example request</a></li>
+                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Success_response" class="text-indent-sub">Success response</a></li>
+                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Error_response" class="text-indent-sub">Error response</a></li>
+
+                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts" class="text-indent">Retrieve disease(s) with fewer DISNET Concepts</a></li>
+
+                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Description" class="text-indent-sub">Description</a></li>
+                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Method" class="text-indent-sub">Method</a></li>
+                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Auth_required" class="text-indent-sub">Auth required</a></li>
+                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Example_request" class="text-indent-sub">Example request</a></li>
+                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Success_response" class="text-indent-sub">Success response</a></li>
+                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Error_response" class="text-indent-sub">Error response</a></li>
+
+                                <li><a href="#Retrieve_most_common_DISNET_Concepts" class="text-indent">Retrieve most common DISNET Concepts</a></li>
+
+                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Description" class="text-indent-sub">Description</a></li>
+                                <li><a href="#Retrieve_most_common_DISNET_Concepts-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Method" class="text-indent-sub">Method</a></li>
+                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Auth_required" class="text-indent-sub">Auth required</a></li>
+                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Example_request" class="text-indent-sub">Example request</a></li>
+                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Success_response" class="text-indent-sub">Success response</a></li>
+                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Error_response" class="text-indent-sub">Error response</a></li>
+
+                                <li><a href="#Retrieve_less_common_DISNET_Concepts" class="text-indent">Retrieve less common DISNET Concepts</a></li>
+
+                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Description" class="text-indent-sub">Description</a></li>
+                                <li><a href="#Retrieve_less_common_DISNET_Concepts-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Method" class="text-indent-sub">Method</a></li>
+                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Auth_required" class="text-indent-sub">Auth required</a></li>
+                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Example_request" class="text-indent-sub">Example request</a></li>
+                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Success_response" class="text-indent-sub">Success response</a></li>
+                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Error_response" class="text-indent-sub">Error response</a></li>
+
+                                <li><a href="#Retrieve_diseases_by_name" class="text-indent">Retrieve disease(s) by name</a></li>
+
+                                <li><a href="#Retrieve_diseases_by_name-Description" class="text-indent-sub">Description</a></li>
+                                <li><a href="#Retrieve_diseases_by_name-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                                <li><a href="#Retrieve_diseases_by_name-Method" class="text-indent-sub">Method</a></li>
+                                <li><a href="#Retrieve_diseases_by_name-Auth_required" class="text-indent-sub">Auth required</a></li>
+                                <li><a href="#Retrieve_diseases_by_name-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Retrieve_diseases_by_name-Example_request" class="text-indent-sub">Example request</a></li>
+                                <li><a href="#Retrieve_diseases_by_name-Success_response" class="text-indent-sub">Success response</a></li>
+                                <li><a href="#Retrieve_diseases_by_name-Error_response" class="text-indent-sub">Error response</a></li>
+
+                                <li><a href="#Retrieve_metadata_for_a_given_snapshot" class="text-indent">Retrieve metadata for a given snapshot</a></li>
+
+                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Description" class="text-indent-sub">Description</a></li>
+                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Method" class="text-indent-sub">Method</a></li>
+                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Auth_required" class="text-indent-sub">Auth required</a></li>
+                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Example_request" class="text-indent-sub">Example request</a></li>
+                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Success_response" class="text-indent-sub">Success response</a></li>
+                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Error_response" class="text-indent-sub">Error response</a></li>
+
+                                <li><a href="#Common_errors">6. Common errors</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- /.container -->
+
+    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/footer :: footer-js"/>
+    <script type="text/javascript" th:src="@{/js/prism/prism_default.js}"></script>
+    <!--<script type="text/javascript" th:src="@{/js/prism/okaidia/prism.js}"></script>-->
+</body>
+</html>
