@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - DISNET API Common errors</title>
+    <div th:replace="fragments/header :: header-css"/>
+    <!--<link type="text/css" rel="stylesheet"  th:href="@{/css/prism/okaidia/prism.css}" media="screen,projection" />-->
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/prism/prism_default.css}" media="screen,projection" />
+</head>
+<body>
+    <div th:replace="fragments/header :: header"/>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m8 offset-m1 xl7 offset-xl1">
+                    <div id="Common_errors" class="section scrollspy">
+                        <h3 class="header blue-text text-darken-3">Common errors</h3>
+                        <p>Information will added soon</p>
+
+                    </div>
+                </div>
+                <div id="float_table_of_content" class="col hide-on-small-only m3 xl3 offset-xl1" >
+                    <div class="toc-wrapper pinned" style="top: 0px;">
+                        <!--<div class="buysellads hide-on-small-only"></div>-->
+                        <div style="height: 1px;">
+                            <ul class="section table-of-contents">
+                                <li><a href="/apis/disnet#DISNET_REST_API_DOCUMENTATION">DISNET API DOCUMENTATION</a></li>
+                                <li><a href="/apis/disnet#Version_information">1. Version_information</a></li>
+                                <li><a href="/apis/disnet#Getting_Started">2. Getting Started</a></li>
+                                <li><a href="/apis/disnet#REST_API_Introduction">3. REST API Introduction</a></li>
+                                <li><a href="/apis/disnet#NLP_Tools_and_Configuration">4. NLP Tools and Configuration</a></li>
+                                <li><a href="/apis/disnet#Service_List">5. Service List</a></li>
+
+                                <li><a href="/apis/disnet/common_errors#Common_errors">6. Common errors</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- /.container -->
+
+    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/footer :: footer-js"/>
+    <script type="text/javascript" th:src="@{/js/prism/prism_default.js}"></script>
+    <!--<script type="text/javascript" th:src="@{/js/prism/okaidia/prism.js}"></script>-->
+</body>
+</html>

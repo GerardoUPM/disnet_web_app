@@ -14,6 +14,39 @@
             <div class="row">
                 <div class="col s12 m8 offset-m1 xl7 offset-xl1">
                     <h1 id="DISNET_REST_API_DOCUMENTATION" class="header blue-text text-darken-4 section scrollspy">DISNET API DOCUMENTATION</h1>
+                    <div id="Version_information" class="section scrollspy">
+                        <h3 class="header blue-text text-darken-3">Version Information</h3>
+                        <table class="striped highlight responsive-table">
+                            <thead>
+                            <tr>
+                                <th class="grey-text text-darken-2">Version</th>
+                                <th class="grey-text text-darken-2">Date</th>
+                                <th class="grey-text text-darken-2">Author</th>
+                                <th class="grey-text text-darken-2">Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-align-justify">1.0.0</td>
+                                    <td class="text-align-justify">13-12-2017</td>
+                                    <td class="text-align-justify">Gerardo Lagunes García (<a href="mailto: gerardo.lagunes@ctb.upm.es">gerardo.lagunes@ctb.upm.es</a>)</td>
+                                    <td class="text-align-justify">Initial draft</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-align-justify">1.1.0</td>
+                                    <td class="text-align-justify">09-05-2018</td>
+                                    <td class="text-align-justify">Gerardo Lagunes García (<a href="mailto: gerardo.lagunes@ctb.upm.es">gerardo.lagunes@ctb.upm.es</a>)</td>
+                                    <td class="text-align-justify">Updating the services: diseaseWithMoreDisnetConcepts and diseaseWithFewerDisnetConcepts</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-align-justify">1.1.1</td>
+                                    <td class="text-align-justify">17-05-2018</td>
+                                    <td class="text-align-justify">Gerardo Lagunes García (<a href="mailto: gerardo.lagunes@ctb.upm.es">gerardo.lagunes@ctb.upm.es</a>)</td>
+                                    <td class="text-align-justify">Add includeCode parameter</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div id="Getting_Started" class="section scrollspy">
                         <h3 class="header blue-text text-darken-3">Getting Started</h3>
                         <h4>Base URL</h4>
@@ -89,63 +122,62 @@
                             <tbody>
                             <tr>
                                 <td>1</td>
-                                <td><a href="#Retrieve_sources_list">/query/sourceList</a></td>
+                                <td><a href="/apis/disnet/web_service_1">/query/sourceList</a></td>
                                 <td>Retrieve sources list</td>
                             </tr>
                             <tr>
                                 <td>2</td>
-                                <td><a href="#Retrieve_all_available_snapshots">/query/versionList</a></td>
+                                <td><a href="/apis/disnet/web_service_2">/query/versionList</a></td>
                                 <td>Retrieve all available snapshots for a given source</td>
                             </tr>
                             <tr>
                                 <td>3</td>
-                                <td><a href="#Retrieve_diseases_list">/query/diseaseList</a></td>
+                                <td><a href="/apis/disnet/web_service_3">/query/diseaseList</a></td>
                                 <td>Retrieve diseases list for a given source and snapshot</td>
                             </tr>
                             <tr>
                                 <td>4</td>
-                                <td><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease">/query/disnetConceptList</a></td>
+                                <td><a href="/apis/disnet/web_service_4">/query/disnetConceptList</a></td>
                                 <td>Retrieve DISNET Concept list for a given source and snapshot. Search by disease: exact name or not, other vocabulary code, excluding or forcing semantic types.</td>
                             </tr>
                             <tr>
                                 <td>5</td>
-                                <td><a href="#Retrieve_number_of_diseases">/query/diseaseCount</a></td>
+                                <td><a href="/apis/disnet/web_service_5">/query/diseaseCount</a></td>
                                 <td>Retrieve number of diseases for a given source and snapshot</td>
                             </tr>
                             <tr>
                                 <td>6</td>
-                                <td><a href="#Retrieve_diseases_with_more_DISNET_Concepts">/query/diseaseWithMoreDisnetConcepts</a></td>
+                                <td><a href="/apis/disnet/web_service_6">/query/diseaseWithMoreDisnetConcepts</a></td>
                                 <td>Retrieve disease(s) with more DISNET Concepts for a given source and snapshot</td>
                             </tr>
                             <tr>
                                 <td>7</td>
-                                <td><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts">/query/diseaseWithFewerDisnetConcepts</a></td>
+                                <td><a href="/apis/disnet/web_service_7">/query/diseaseWithFewerDisnetConcepts</a></td>
                                 <td>Retrieve disease(s) with fewer DISNET Concepts for a given source and snapshot</td>
                             </tr>
                             <tr>
                                 <td>8</td>
-                                <td><a href="#Retrieve_most_common_DISNET_Concepts">/query/mostCommonDisnetConcepts</a></td>
+                                <td><a href="/apis/disnet/web_service_8">/query/mostCommonDisnetConcepts</a></td>
                                 <td>Retrieve most common DISNET Concepts for a given source and snapshot</td>
                             </tr>
                             <tr>
                                 <td>9</td>
-                                <td><a href="#Retrieve_less_common_DISNET_Concepts">/query/mostCommonDisnetConcepts</a></td>
+                                <td><a href="/apis/disnet/web_service_9">/query/lessCommonDisnetConcepts</a></td>
                                 <td>Retrieve less common DISNET Concepts for a given source and snapshot</td>
                             </tr>
                             <tr>
                                 <td>10</td>
-                                <td><a href="#Retrieve_diseases_by_name">/query/searchByDiseaseName</a></td>
+                                <td><a href="/apis/disnet/web_service_10">/query/searchByDiseaseName</a></td>
                                 <td>Retrieve disease(s) for a given source and snapshot by exact name or not</td>
                             </tr>
                             <tr>
                                 <td>11</td>
-                                <td><a href="#Retrieve_metadata_for_a_given_snapshot">/query/metadata</a></td>
+                                <td><a href="/apis/disnet/web_service_11">/query/metadata</a></td>
                                 <td>Retrieve metadata for a given source and snapshot</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-
                 </div>
                 <div id="float_table_of_content" class="col hide-on-small-only m3 xl3 offset-xl1" >
                     <div class="toc-wrapper pinned" style="top: 0px;">
@@ -153,135 +185,11 @@
                         <div style="height: 1px;">
                             <ul class="section table-of-contents">
                                 <li><a href="#DISNET_REST_API_DOCUMENTATION">DISNET API DOCUMENTATION</a></li>
-                                <li><a href="#Getting_Started">1. Getting Started</a></li>
-                                <li><a href="#REST_API_Introduction">2. REST API Introduction</a></li>
-                                <li><a href="#NLP_Tools_and_Configuration">3. NLP Tools and Configuration</a></li>
-                                <li><a href="#Service_List">4. Service List</a></li>
-                                <li><a href="#Description_of_Services">5. Description of Services</a></li>
-
-
-                                <li><a href="#Retrieve_sources_list" class="text-indent">Retrieve sources list</a></li>
-
-                                <li><a href="#Retrieve_sources_list-Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#Retrieve_sources_list-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Retrieve_sources_list-Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Retrieve_sources_list-Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Retrieve_sources_list-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Retrieve_sources_list-Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Retrieve_sources_list-Success_response" class="text-indent-sub">Success response</a></li>
-                                <li><a href="#Retrieve_sources_list-Error_response" class="text-indent-sub">Error response</a></li>
-
-                                <li><a href="#Retrieve_all_available_snapshots" class="text-indent">Retrieve all available snapshots</a></li>
-
-                                <li><a href="#Retrieve_all_available_snapshots-Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#Retrieve_all_available_snapshots-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Retrieve_all_available_snapshots-Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Retrieve_all_available_snapshots-Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Retrieve_all_available_snapshots-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Retrieve_all_available_snapshots-Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Retrieve_all_available_snapshots-Success_response" class="text-indent-sub">Success response</a></li>
-                                <li><a href="#Retrieve_all_available_snapshots-Error_response" class="text-indent-sub">Error response</a></li>
-
-                                <li><a href="#Retrieve_diseases_list" class="text-indent">Retrieve diseases list</a></li>
-
-                                <li><a href="#Retrieve_diseases_list-Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#Retrieve_diseases_list-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Retrieve_diseases_list-Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Retrieve_diseases_list-Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Retrieve_diseases_list-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Retrieve_diseases_list-Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Retrieve_diseases_list-Success_response" class="text-indent-sub">Success response</a></li>
-                                <li><a href="#Retrieve_diseases_list-Error_response" class="text-indent-sub">Error response</a></li>
-
-                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease" class="text-indent">Retrieve DISNET Concept list for a given disease</a></li>
-
-                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Success_response" class="text-indent-sub">Success response</a></li>
-                                <li><a href="#Retrieve_DISNET_Concept_list_for_a_given_disease-Error_response" class="text-indent-sub">Error response</a></li>
-
-                                <li><a href="#Retrieve_number_of_diseases" class="text-indent">Retrieve number of diseases</a></li>
-
-                                <li><a href="#Retrieve_number_of_diseases-Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#Retrieve_number_of_diseases-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Retrieve_number_of_diseases-Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Retrieve_number_of_diseases-Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Retrieve_number_of_diseases-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Retrieve_number_of_diseases-Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Retrieve_number_of_diseases-Success_response" class="text-indent-sub">Success response</a></li>
-                                <li><a href="#Retrieve_number_of_diseases-Error_response" class="text-indent-sub">Error response</a></li>
-
-                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts" class="text-indent">Retrieve disease(s) with more DISNET Concepts</a></li>
-
-                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Success_response" class="text-indent-sub">Success response</a></li>
-                                <li><a href="#Retrieve_diseases_with_more_DISNET_Concepts-Error_response" class="text-indent-sub">Error response</a></li>
-
-                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts" class="text-indent">Retrieve disease(s) with fewer DISNET Concepts</a></li>
-
-                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Success_response" class="text-indent-sub">Success response</a></li>
-                                <li><a href="#Retrieve_diseases_with_fewer_DISNET_Concepts-Error_response" class="text-indent-sub">Error response</a></li>
-
-                                <li><a href="#Retrieve_most_common_DISNET_Concepts" class="text-indent">Retrieve most common DISNET Concepts</a></li>
-
-                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#Retrieve_most_common_DISNET_Concepts-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Success_response" class="text-indent-sub">Success response</a></li>
-                                <li><a href="#Retrieve_most_common_DISNET_Concepts-Error_response" class="text-indent-sub">Error response</a></li>
-
-                                <li><a href="#Retrieve_less_common_DISNET_Concepts" class="text-indent">Retrieve less common DISNET Concepts</a></li>
-
-                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#Retrieve_less_common_DISNET_Concepts-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Success_response" class="text-indent-sub">Success response</a></li>
-                                <li><a href="#Retrieve_less_common_DISNET_Concepts-Error_response" class="text-indent-sub">Error response</a></li>
-
-                                <li><a href="#Retrieve_diseases_by_name" class="text-indent">Retrieve disease(s) by name</a></li>
-
-                                <li><a href="#Retrieve_diseases_by_name-Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#Retrieve_diseases_by_name-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Retrieve_diseases_by_name-Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Retrieve_diseases_by_name-Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Retrieve_diseases_by_name-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Retrieve_diseases_by_name-Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Retrieve_diseases_by_name-Success_response" class="text-indent-sub">Success response</a></li>
-                                <li><a href="#Retrieve_diseases_by_name-Error_response" class="text-indent-sub">Error response</a></li>
-
-                                <li><a href="#Retrieve_metadata_for_a_given_snapshot" class="text-indent">Retrieve metadata for a given snapshot</a></li>
-
-                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Success_response" class="text-indent-sub">Success response</a></li>
-                                <li><a href="#Retrieve_metadata_for_a_given_snapshot-Error_response" class="text-indent-sub">Error response</a></li>
-
-                                <li><a href="#Common_errors">6. Common errors</a></li>
+                                <li><a href="#Version_information">1. Version_information</a></li>
+                                <li><a href="#Getting_Started">2. Getting Started</a></li>
+                                <li><a href="#REST_API_Introduction">3. REST API Introduction</a></li>
+                                <li><a href="#NLP_Tools_and_Configuration">4. NLP Tools and Configuration</a></li>
+                                <li><a href="#Service_List">5. Service List</a></li>
                             </ul>
                         </div>
                     </div>

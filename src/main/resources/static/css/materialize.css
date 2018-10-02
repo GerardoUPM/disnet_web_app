@@ -2787,6 +2787,7 @@ video.responsive-video {
   transform: translateX(-50%);
 }
 
+
 .pin-top, .pin-bottom {
   position: relative;
 }
@@ -9442,18 +9443,20 @@ main {
 /* ==========================================================================
    TABLE OF CONTENT ADD by hand GLG 2018-09-19
    ========================================================================== */
-
+/* EDIT BY GLG */
 .toc-wrapper{
-  position:relative;
-  margin-top:42px
+  /*position:relative;*/
+  position: fixed;
+  margin-top:42px;
 }
 
 .toc-wrapper.pin-bottom{
-  margin-top:84px
+  margin-top:84px;
 }
 
 .tabs-wrapper{
-  position:relative;height:48px
+  position:relative;
+  height:48px
 }
 
 .tabs-wrapper .row.pinned{

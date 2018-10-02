@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>DISNET - DISNET API endpoint /query/sourceList</title>
+    <title>DISNET - DISNET API endpoint /query/metadata</title>
     <div th:replace="fragments/header :: header-css"/>
     <!--<link type="text/css" rel="stylesheet"  th:href="@{/css/prism/okaidia/prism.css}" media="screen,projection" />-->
     <link type="text/css" rel="stylesheet"  th:href="@{/css/prism/prism_default.css}" media="screen,projection" />
@@ -13,18 +13,18 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-                    <div id="Retrieve_sources_list" class="section scrollspy">
-                        <h3 class="header blue-text text-darken-3">/query/sourceList</h3>
+                    <div id="Retrieve_metadata" class="section scrollspy">
+                        <h3 class="header blue-text text-darken-3">/query/metadata</h3>
                         <p>Information will added soon</p>
                     </div>
                     <ul class="collection">
                             <li class="collection-item text-align-justify">
                                 <h5 id="Description" class="section scrollspy">Description</h5>
-                                <p class="text-align-justify text-indent">Retrieve sources list</p>
+                                <p class="text-align-justify text-indent">Retrieve metadata for a given source and snapshot</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="URL_PATH" class="section scrollspy">URL (PATH)</h5>
-                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                                <p class="text-align-justify text-indent">/query/metadata?</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Method" class="section scrollspy">Method</h5>
@@ -85,7 +85,7 @@
                                 <li><a href="/apis/disnet#NLP_Tools_and_Configuration">4. NLP Tools and Configuration</a></li>
                                 <li><a href="/apis/disnet#Service_List">5. Service List</a></li>
 
-                                <li><a href="#Retrieve_sources_list" class="text-indent">Retrieve sources list</a></li>
+                                <li><a href="#Retrieve_metadata" class="text-indent">Retrieve metadata</a></li>
 
                                 <li><a href="#Description" class="text-indent-sub">Description</a></li>
                                 <li><a href="#URL_PATH" class="text-indent-sub">URL (PATH)</a></li>

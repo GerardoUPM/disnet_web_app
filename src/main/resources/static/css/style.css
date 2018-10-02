@@ -25,3 +25,14 @@
 .text-indent-sub {
     text-indent: 1.55em;
 }
+
+/* EDIT BY GLG Sticky Footer */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
