@@ -15,8 +15,97 @@
                 <div class="col s12 m8 offset-m1 xl7 offset-xl1">
                     <div id="Common_errors" class="section scrollspy">
                         <h3 class="header blue-text text-darken-3">Common errors</h3>
-                        <p>Information will added soon</p>
+                        <!--<p>Information will added soon</p>-->
+                        <ul class="collection">
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Authorization_error" class="section scrollspy">Authorization error</h5>
+                                <pre>
+                                    <code class="language-json">
+                                        {
+                                            "token": "eyJhbGciOiJI...",
+                                            "authorized": false,
+                                            "authorizationMessage": "DNERR_06003: Cannot read the token's email property. Please verify!",
+                                            "responseCode": "511",
+                                            "responseMessage": "Network Authentication Required",
+                                            "errorsFound": [
+                                                {
+                                                    "errorCode": "401",
+                                                    "errorStatus": "UNAUTHORIZED",
+                                                    "message": "The access token credential are missing or invalid for the given request. Wrong token.",
+                                                    "parameter": {
+                                                        "name": "token",
+                                                        "required": true,
+                                                        "defaultValue": false,
+                                                        "value": "",
+                                                        "message": ""
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    </code>
+                                </pre>
+                            </li>
 
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Source_error" class="section scrollspy">Source error</h5>
+                                <pre>
+                                    <code class="language-json">
+                                        {
+                                            "token": "eyJhbGciOiJI...",
+                                            "authorized": true,
+                                            "authorizationMessage": "Authorized!",
+                                            "responseCode": "200",
+                                            "responseMessage": "OK",
+                                            "errorsFound": [
+                                                {
+                                                    "errorCode": "404",
+                                                    "errorStatus": "RESOURCES_NOT_FOUND",
+                                                    "message": "Could not find resources. No versions were found for the source. Verify the DISNET source list.",
+                                                    "parameter": {
+                                                        "name": "source",
+                                                        "required": true,
+                                                        "defaultValue": false,
+                                                        "value": "wikiedia",
+                                                        "message": ""
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    </code>
+                                </pre>
+                            </li>
+
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Version_error" class="section scrollspy">Version error</h5>
+                                <pre>
+                                    <code class="language-json">
+                                        {
+                                            "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmFyZG9sYWdhckBob3RtYWlsLmNvbSIsImF1ZCI6IndlYiIsIm5hbWUiOiJHZXJhcmRvIExhZ3VuZXMiLCJ1c2VyIjp0cnVlLCJpYXQiOjE1MDk2MTQyNjh9.uVhDgfLrAgdnj02Hsbgfj9tkVlfni89i0hKVYW31eHApCHpheikK9ae1MhbzRhiyUcFGMKwtiyVgff5NCMY3PA",
+                                            "authorized": true,
+                                            "authorizationMessage": "Authorized!",
+                                            "responseCode": "400",
+                                            "responseMessage": "A required parameter for this API operation is invalid or has not been provided",
+                                            "errorsFound": [
+                                                {
+                                                    "errorCode": "404",
+                                                    "errorStatus": "RESOURCE_NOT_FOUND",
+                                                    "message": "Could not find resource. The version was not found. Check the DISNET version list by source.",
+                                                    "parameter": {
+                                                        "name": "version",
+                                                        "required": true,
+                                                        "defaultValue": false,
+                                                        "value": "2018-10-15"
+                                                    }
+                                                }
+                                            ],
+                                            "diseaseCount": 0,
+                                            "diseaseList": []
+                                        }
+                                    </code>
+                                </pre>
+                            </li>
+
+                        </ul>
                     </div>
                 </div>
                 <div id="float_table_of_content" class="col hide-on-small-only m3 xl3 offset-xl1" >
@@ -32,6 +121,10 @@
                                 <li><a href="/apis/disnet#Service_List">5. Service List</a></li>
 
                                 <li><a href="/apis/disnet/common_errors#Common_errors">6. Common errors</a></li>
+
+                                <li><a href="#Authorization_error" class="text-indent-sub">Authorization error</a></li>
+                                <li><a href="#Source_error" class="text-indent-sub">Source error</a></li>
+                                <li><a href="#Version_error" class="text-indent-sub">Version error</a></li>
                             </ul>
                         </div>
                     </div>

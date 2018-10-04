@@ -13,26 +13,26 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-                    <div id="Retrieve_diseases_with_more_DISNET_Concepts" class="section scrollspy">
+                    <div id="Retrieve_diseases_with_more_DISNET_Concepts" class="section scrollspy wrap-text">
                         <h3 class="header blue-text text-darken-3">/query/diseaseWithMoreDisnetConcepts</h3>
-                        <p>Information will added soon</p>
+                        <!--<p>Information will added soon</p>-->
                     </div>
                     <ul class="collection">
                             <li class="collection-item text-align-justify">
                                 <h5 id="Description" class="section scrollspy">Description</h5>
-                                <p class="text-align-justify text-indent">Retrieve disease(s) with more DISNET Concepts for a given source and snapshot</p>
+                                <p class="text-align-justify">Retrieve disease(s) with more DISNET Concepts for a given source and snapshot. Excludes or forcing semantic types, it adds an option to show or not the codes associated with the disease and to show the number of times the DISNET Concept has been found in the disease texts and finally allowed retrieve that DISNET Concepts that were filtered by our TVP procedure.</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="URL_PATH" class="section scrollspy">URL (PATH)</h5>
-                                <p class="text-align-justify text-indent">/query/diseaseWithMoreDisnetConcepts?</p>
+                                <p class="text-align-justify wrap-text">/query/diseaseWithMoreDisnetConcepts?<b>source</b>=:source&amp;<b>version</b>=:version&amp;<b>validated</b>=:validated&amp;<b>limit</b>=:limit&amp;<b>excludeSemanticTypes</b>=:excludeSemanticTypes&amp;<b>forceSemanticTypes</b>=:forceSemanticTypes&amp;<b>detectionInformation</b>=:detectionInformation&amp;<b>includeCode</b>=:includeCode&amp;<b>token</b>=:token</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Method" class="section scrollspy">Method</h5>
-                                <p class="text-align-justify text-indent">GET</p>
+                                <p class="text-align-justify">GET</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Auth_required" class="section scrollspy">Auth required</h5>
-                                <p class="text-align-justify text-indent">Yes (token)</p>
+                                <p class="text-align-justify">Yes (token)</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Request_parameters_description" class="section scrollspy">Request parameters</h5>
@@ -46,9 +46,73 @@
                                     <tbody>
                                         <tr>
                                             <td>
+                                                <b>source *required</b>
+                                                <br/>[alphanumeric]
+                                                <br/>example: source=wikipedia
+                                            </td>
+                                            <td>Name of the information source.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>version *required</b>
+                                                <br/>[alphanumeric with format “aaaa-mm-dd”]
+                                                <br/>example: token=eyJhbGciOiJI...
+                                            </td>
+                                            <td>Date of information source extraction, in "yyyy-mm-dd" format.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>validated</b>
+                                                <br/>[boolean] by default always is <b>true</b>
+                                                <br/>example: validated=false
+                                            </td>
+                                            <td>Show DISNET Concepts filtered by our TVP process.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>limit</b>
+                                                <br/>[integer] by default always is <b>10</b>
+                                                <br/>example: limit=2
+                                            </td>
+                                            <td>Show DISNET Concepts filtered by our TVP process.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>excludeSemanticTypes</b>
+                                                <br/>[alphanumeric]
+                                                <br/>example: excludeSemanticTypes=dsyn,sosy
+                                            </td>
+                                            <td>Excludes the semantic type or types defined. If there are more than one, they are separated by commas (,).</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>forceSemanticTypes</b>
+                                                <br/>[alphanumeric]
+                                                <br/>example: forceSemanticTypes=dsyn,sosy
+                                            </td>
+                                            <td>It forces the semantic type or types defined. If there are more than one, they are separated by commas (,).</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>detectionInformation</b>
+                                                <br/>[boolean] by default always is <b>false</b>
+                                                <br/>example: detectionInformation=true
+                                            </td>
+                                            <td>Shows the number of times the DISNET Concept has been found in the disease texts.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>includeCode</b>
+                                                <br/>[boolean] by default always is <b>false</b>
+                                                <br/>example: includeCode=true
+                                            </td>
+                                            <td>Shows the disease codes in sources external to DISNET.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
                                                 <b>token *required</b>
                                                 <br/>[alphanumeric]
-                                                <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                                <br/>example: token=eyJhbGciOiJI...
                                             </td>
                                             <td>Access key that allows the query to be executed.</td>
                                         </tr>
@@ -56,20 +120,638 @@
                                 </table>
                             </li>
                             <li class="collection-item text-align-justify">
+                                <h5 id="Important" class="section scrollspy">Important</h5>
+                                <p class="text-align-justify">
+                                    A correct request can only be made if the <b>excludeSemanticTypes</b>=true parameter and the <b>forceSemanticTypes</b>=false parameter are used, both cannot have the true value.
+                                </p>
+                            </li>
+                            <li class="collection-item text-align-justify">
                                 <h5 id="Example_request" class="section scrollspy">Example request</h5>
-                                <p class="text-align-justify text-indent">...</p>
+                                <pre>
+                                     <code class="token style language-http">
+                                         GET http://disnet.ctb.upm.es/api/disnet/query/diseaseWithMoreDisnetConcepts?source=wikipedia&amp;version=2018-09-01&amp;limit=2&amp;validated=true&amp;excludeSemanticTypes=&amp;forceSemanticTypes=sosy,diap&amp;token=eyJhbGciOiJI...
+                                     </code>
+                                </pre>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Success_response" class="section scrollspy">Success response (application/json)</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                                <p>Example:</p>
-                                <p class="text-align-justify text-indent">...</p>
+                                <pre>
+                                    <code class="language-json">
+                                        {
+                                            "token": "eyJhbGciOiJI...",
+                                            "authorized": true,
+                                            "authorizationMessage": "Authorized!",
+                                            "responseCode": "200",
+                                            "responseMessage": "OK",
+                                            "errorsFound": [],
+                                            "diseaseCount": 2,
+                                            "diseaseList": [
+                                                {
+                                                    "diseaseId": "DIS007840",
+                                                    "name": "Kawasaki disease",
+                                                    "url": "http://en.wikipedia.org/wiki/Kawasaki_disease",
+                                                    "disnetConceptsCount": 25,
+                                                    "disnetConceptList": [
+                                                        {
+                                                            "cui": "C0221423",
+                                                            "name": "Illness (finding)",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0013516",
+                                                            "name": "Echocardiography",
+                                                            "semanticTypes": [
+                                                                "diap"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0015230",
+                                                            "name": "Exanthema",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0085532",
+                                                            "name": "Coronary angiography",
+                                                            "semanticTypes": [
+                                                                "diap"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0235267",
+                                                            "name": "Redness of eye",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0002978",
+                                                            "name": "Angiogram",
+                                                            "semanticTypes": [
+                                                                "diap"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0041618",
+                                                            "name": "Ultrasonography",
+                                                            "semanticTypes": [
+                                                                "diap"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C1623258",
+                                                            "name": "Electrocardiography",
+                                                            "semanticTypes": [
+                                                                "diap"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0030193",
+                                                            "name": "Pain",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0000737",
+                                                            "name": "Abdominal pain",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0003862",
+                                                            "name": "Arthralgia",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0008031",
+                                                            "name": "Chest pain NOS",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0011991",
+                                                            "name": "Diarrhea",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0023380",
+                                                            "name": "Lethargy",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0042963",
+                                                            "name": "Vomiting",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0263534",
+                                                            "name": "Beau's lines",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0392171",
+                                                            "name": "Influenza-like symptoms",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0033774",
+                                                            "name": "Pruritus",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0010200",
+                                                            "name": "Coughing",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0018681",
+                                                            "name": "Headache",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0036572",
+                                                            "name": "Convulsions",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C1260880",
+                                                            "name": "Rhinorrhea",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0000727",
+                                                            "name": "Acute abdomen",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0007758",
+                                                            "name": "Cerebellar ataxia NOS",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0018991",
+                                                            "name": "Hemiplegia",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "diseaseId": "DIS004124",
+                                                    "name": "Hypoglycemia",
+                                                    "url": "http://en.wikipedia.org/wiki/Hypoglycemia",
+                                                    "disnetConceptsCount": 28,
+                                                    "disnetConceptList": [
+                                                        {
+                                                            "cui": "C0221423",
+                                                            "name": "Illness (finding)",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0018681",
+                                                            "name": "Headache",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0020175",
+                                                            "name": "Hunger",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0026961",
+                                                            "name": "Mydriasis",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0027497",
+                                                            "name": "Nausea",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0040822",
+                                                            "name": "Tremor",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0042963",
+                                                            "name": "Vomiting",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0232487",
+                                                            "name": "Abdominal discomfort",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0004134",
+                                                            "name": "Ataxia",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0012833",
+                                                            "name": "Dizziness",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0015672",
+                                                            "name": "Fatigue",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0018989",
+                                                            "name": "Hemiparesis",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0023380",
+                                                            "name": "Lethargy",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0028643",
+                                                            "name": "Numbness",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0085632",
+                                                            "name": "Apathy",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0085635",
+                                                            "name": "Photopsia",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0240735",
+                                                            "name": "Personality change",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0344232",
+                                                            "name": "Blurred vision",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0520966",
+                                                            "name": "Abnormal coordination",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0751295",
+                                                            "name": "Loss of memory",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0751495",
+                                                            "name": "Focal seizure",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C3714552",
+                                                            "name": "Weakness",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0231218",
+                                                            "name": "Malaise",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0010520",
+                                                            "name": "Cyanosis",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0027066",
+                                                            "name": "Myoclonus",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0036572",
+                                                            "name": "Convulsions",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0476273",
+                                                            "name": "Respiratory distress",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "cui": "C0028084",
+                                                            "name": "Nightmares",
+                                                            "semanticTypes": [
+                                                                "sosy"
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    </code>
+                                </pre>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Error_response" class="section scrollspy">Error response (application/json)</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                                <p>Example:</p>
-                                <p class="text-align-justify text-indent">...</p>
+                                <p class="text-align-justify"><b>Common errors</b></p>
+                                <p>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Authorization_error">Authorization error</a></div>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Source_error">Source error</a></div>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Version_error">Version error</a></div>
+                                </p>
+                                <p id="Error_defining_semantic_types" class="text-align-justify section scrollspy"><b>Error when defining semantic types</b></p>
+                                <p class="text-align-justify">
+                                    <pre>
+                                        <code class="language-json">
+                                            {
+                                                "token": "eyJhbGciOiJI...",
+                                                "authorized": true,
+                                                "authorizationMessage": "Authorized!",
+                                                "responseCode": "200",
+                                                "responseMessage": "OK",
+                                                "errorsFound": [
+                                                    {
+                                                        "errorCode": "404",
+                                                        "errorStatus": "RESOURCE_NOT_FOUND",
+                                                        "message": "Could not find resource. Semantic type not found.",
+                                                        "parameter": {
+                                                            "name": "forceSemanticTypes",
+                                                            "required": false,
+                                                            "defaultValue": false,
+                                                            "value": "InvalidValue"
+                                                        }
+                                                    }
+                                                ],
+                                                "diseaseCount": 1,
+                                                "diseaseList": [
+                                                    {
+                                                        "diseaseId": "DIS004014",
+                                                        "name": "Cancer",
+                                                        "url": "http://en.wikipedia.org/wiki/Cancer",
+                                                        "disnetConceptsCount": 24,
+                                                        "disnetConceptList": [
+                                                            {
+                                                                "cui": "C0028754",
+                                                                "name": "Obesity",
+                                                                "semanticTypes": [
+                                                                    "dsyn"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C3714514",
+                                                                "name": "Infection",
+                                                                "semanticTypes": [
+                                                                    "patf"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0016059",
+                                                                "name": "Fibrosis",
+                                                                "semanticTypes": [
+                                                                    "patf"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0021368",
+                                                                "name": "Inflammation",
+                                                                "semanticTypes": [
+                                                                    "patf"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0004364",
+                                                                "name": "Autoimmune disease NOS",
+                                                                "semanticTypes": [
+                                                                    "dsyn"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0018941",
+                                                                "name": "Blood test",
+                                                                "semanticTypes": [
+                                                                    "lbpr"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0005558",
+                                                                "name": "Biopsy",
+                                                                "semanticTypes": [
+                                                                    "diap"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0041582",
+                                                                "name": "Ulcer",
+                                                                "semanticTypes": [
+                                                                    "dsyn"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0003467",
+                                                                "name": "Anxiety",
+                                                                "semanticTypes": [
+                                                                    "mobd"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0344315",
+                                                                "name": "Depressed mood",
+                                                                "semanticTypes": [
+                                                                    "fndg"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0002871",
+                                                                "name": "Anemia",
+                                                                "semanticTypes": [
+                                                                    "dsyn"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0010200",
+                                                                "name": "Coughing",
+                                                                "semanticTypes": [
+                                                                    "sosy"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0013604",
+                                                                "name": "Edema",
+                                                                "semanticTypes": [
+                                                                    "fndg"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0019080",
+                                                                "name": "Hemorrhage",
+                                                                "semanticTypes": [
+                                                                    "patf"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0030193",
+                                                                "name": "Pain",
+                                                                "semanticTypes": [
+                                                                    "sosy"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0032285",
+                                                                "name": "Pneumonia",
+                                                                "semanticTypes": [
+                                                                    "dsyn"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0267596",
+                                                                "name": "Rectal hemorrhage",
+                                                                "semanticTypes": [
+                                                                    "patf"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C2979982",
+                                                                "name": "Vaginal hemorrhage",
+                                                                "semanticTypes": [
+                                                                    "dsyn"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0015672",
+                                                                "name": "Fatigue",
+                                                                "semanticTypes": [
+                                                                    "sosy"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0159028",
+                                                                "name": "General symptom",
+                                                                "semanticTypes": [
+                                                                    "sosy"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C2363736",
+                                                                "name": "Unintentional weight loss",
+                                                                "semanticTypes": [
+                                                                    "fndg"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0019209",
+                                                                "name": "Hepatomegaly",
+                                                                "semanticTypes": [
+                                                                    "sosy"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0038002",
+                                                                "name": "Splenomegaly",
+                                                                "semanticTypes": [
+                                                                    "fndg"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "cui": "C0497156",
+                                                                "name": "Lymphadenopathy",
+                                                                "semanticTypes": [
+                                                                    "fndg"
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        </code>
+                                    </pre>
+                                </p>
                             </li>
                         </ul>
                 </div>
@@ -92,9 +774,12 @@
                                 <li><a href="#Method" class="text-indent-sub">Method</a></li>
                                 <li><a href="#Auth_required" class="text-indent-sub">Auth required</a></li>
                                 <li><a href="#Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                                <li><a href="#Important" class="text-indent-sub">Important</a></li>
                                 <li><a href="#Example_request" class="text-indent-sub">Example request</a></li>
                                 <li><a href="#Success_response" class="text-indent-sub">Success response</a></li>
+
                                 <li><a href="#Error_response" class="text-indent-sub">Error response</a></li>
+                                <li><a href="#Error_defining_semantic_types" class="text-indent-sub-2">Error when defining semantic types</a></li>
 
                                 <li><a href="/apis/disnet/common_errors#Common_errors">6. Common errors</a></li>
                             </ul>

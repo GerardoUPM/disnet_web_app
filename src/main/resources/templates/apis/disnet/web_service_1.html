@@ -13,26 +13,26 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-                    <div id="Retrieve_sources_list" class="section scrollspy">
+                    <div id="Retrieve_sources_list" class="section scrollspy wrap-text">
                         <h3 class="header blue-text text-darken-3">/query/sourceList</h3>
-                        <p>Information will added soon</p>
+                        <!--<p>Information will added soon</p>-->
                     </div>
                     <ul class="collection">
                             <li class="collection-item text-align-justify">
                                 <h5 id="Description" class="section scrollspy">Description</h5>
-                                <p class="text-align-justify text-indent">Retrieve sources list</p>
+                                <p class="text-align-justify">Retrieve sources list.</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="URL_PATH" class="section scrollspy">URL (PATH)</h5>
-                                <p class="text-align-justify text-indent">/query/sourceList?</p>
+                                <p class="text-align-justify wrap-text">/query/sourceList?<b>token</b>=:token</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Method" class="section scrollspy">Method</h5>
-                                <p class="text-align-justify text-indent">GET</p>
+                                <p class="text-align-justify">GET</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Auth_required" class="section scrollspy">Auth required</h5>
-                                <p class="text-align-justify text-indent">Yes (token)</p>
+                                <p class="text-align-justify">Yes (token)</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Request_parameters_description" class="section scrollspy">Request parameters</h5>
@@ -48,7 +48,7 @@
                                             <td>
                                                 <b>token *required</b>
                                                 <br/>[alphanumeric]
-                                                <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                                <br/>example: token=eyJhbGciOiJI...
                                             </td>
                                             <td>Access key that allows the query to be executed.</td>
                                         </tr>
@@ -57,19 +57,37 @@
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Example_request" class="section scrollspy">Example request</h5>
-                                <p class="text-align-justify text-indent">...</p>
+                                <pre>
+                                     <code class="token style language-http">
+                                         GET http://disnet.ctb.upm.es/api/disnet/query/sourceList?token=eyJhbGciOiJI...
+                                     </code>
+                                </pre>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Success_response" class="section scrollspy">Success response (application/json)</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                                <p>Example:</p>
-                                <p class="text-align-justify text-indent">...</p>
+                                <pre>
+                                    <code class="language-json">
+                                        {
+                                            "token": "eyJhbGciOiJI...",
+                                            "authorized": true,
+                                            "authorizationMessage": "Authorized!",
+                                            "responseCode": "200",
+                                            "responseMessage": "OK",
+                                            "errorsFound": [],
+                                            "sourceCount": 3,
+                                            "sources": [
+                                                "wikipedia",
+                                                "pubmed",
+                                                "mayoclinic"
+                                            ]
+                                        }
+                                    </code>
+                                </pre>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Error_response" class="section scrollspy">Error response (application/json)</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                                <p>Example:</p>
-                                <p class="text-align-justify text-indent">...</p>
+                                <p class="text-align-justify"><b>Common errors</b></p>
+                                <p class="text-indent"><a href="/apis/disnet/common_errors#Authorization_error">Authorization error</a></p>
                             </li>
                         </ul>
                 </div>

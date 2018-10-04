@@ -13,26 +13,26 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-                    <div id="Retrieve_diseases_list" class="section scrollspy">
+                    <div id="Retrieve_diseases_list" class="section scrollspy  wrap-text">
                         <h3 class="header blue-text text-darken-3">/query/diseaseList</h3>
-                        <p>Information will added soon</p>
+                        <!--<p>Information will added soon</p>-->
                     </div>
                     <ul class="collection">
                             <li class="collection-item text-align-justify">
                                 <h5 id="Description" class="section scrollspy">Description</h5>
-                                <p class="text-align-justify text-indent">Retrieve diseases list for a given source and snapshot</p>
+                                <p class="text-align-justify">Retrieve diseases list for a given source and snapshot. For each retrieved disease you get: the DISNET ID of the disease, the name, the Web link, and the list of disease codes in sources external to DISNET.</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="URL_PATH" class="section scrollspy">URL (PATH)</h5>
-                                <p class="text-align-justify text-indent">/query/diseaseList?</p>
+                                <p class="text-align-justify wrap-text">/query/diseaseList?<b>source</b>=:source&amp;<b>version</b>=:version&amp;<b>token</b>=:token</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Method" class="section scrollspy">Method</h5>
-                                <p class="text-align-justify text-indent">GET</p>
+                                <p class="text-align-justify">GET</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Auth_required" class="section scrollspy">Auth required</h5>
-                                <p class="text-align-justify text-indent">Yes (token)</p>
+                                <p class="text-align-justify">Yes (token)</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Request_parameters_description" class="section scrollspy">Request parameters</h5>
@@ -46,9 +46,25 @@
                                     <tbody>
                                         <tr>
                                             <td>
+                                                <b>source *required</b>
+                                                <br/>[alphanumeric]
+                                                <br/>example: source=wikipedia
+                                            </td>
+                                            <td>Name of the information source.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>version *required</b>
+                                                <br/>[alphanumeric with format “aaaa-mm-dd”]
+                                                <br/>example: token=eyJhbGciOiJI...
+                                            </td>
+                                            <td>Date of information source extraction, in "yyyy-mm-dd" format.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
                                                 <b>token *required</b>
                                                 <br/>[alphanumeric]
-                                                <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                                <br/>example: token=eyJhbGciOiJI...
                                             </td>
                                             <td>Access key that allows the query to be executed.</td>
                                         </tr>
@@ -57,19 +73,150 @@
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Example_request" class="section scrollspy">Example request</h5>
-                                <p class="text-align-justify text-indent">...</p>
+                                <pre>
+                                     <code class="token style language-http">
+                                         GET http://disnet.ctb.upm.es/api/disnet/query/diseaseList?source=wikipedia&amp;version=2018-09-15&amp;token=eyJhbGciOiJI...
+                                     </code>
+                                </pre>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Success_response" class="section scrollspy">Success response (application/json)</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                                <p>Example:</p>
-                                <p class="text-align-justify text-indent">...</p>
+                                <pre>
+                                    <code class="language-json">
+                                        {
+                                            "token": "eyJhbGciOiJI...",
+                                            "authorized": true,
+                                            "authorizationMessage": "Authorized!",
+                                            "responseCode": "200",
+                                            "responseMessage": "OK",
+                                            "errorsFound": [],
+                                            "diseaseCount": 5862,
+                                            "diseaseList": [
+                                                {
+                                                    "diseaseId": "DIS004692",
+                                                    "name": "17q21.31 microdeletion syndrome",
+                                                    "url": "http://en.wikipedia.org/wiki/17q21.31_microdeletion_syndrome",
+                                                    "codesCount": 2,
+                                                    "codes": [
+                                                        {
+                                                            "code": "17q21.31 microdeletion syndrome",
+                                                            "typeCode": "GeneReviews"
+                                                        },
+                                                        {
+                                                            "code": "610443",
+                                                            "typeCode": "OMIM"
+                                                        }
+                                                    ],
+                                                    "disnetConceptsCount": 0
+                                                },
+                                                {
+                                                    "diseaseId": "DIS007340",
+                                                    "name": "17β-Hydroxysteroid dehydrogenase III deficiency",
+                                                    "url": "http://en.wikipedia.org/wiki/17-beta-hydroxysteroid_dehydrogenase_deficiency",
+                                                    "codesCount": 3,
+                                                    "codes": [
+                                                        {
+                                                            "code": "264300",
+                                                            "typeCode": "OMIM"
+                                                        },
+                                                        {
+                                                            "code": "32638",
+                                                            "typeCode": "DiseasesDB"
+                                                        },
+                                                        {
+                                                            "code": "752",
+                                                            "typeCode": "Orphanet"
+                                                        }
+                                                    ],
+                                                    "disnetConceptsCount": 3
+                                                },
+                                                {
+                                                    "diseaseId": "DIS005265",
+                                                    "name": "18p-",
+                                                    "url": "http://en.wikipedia.org/wiki/18p-",
+                                                    "codesCount": 1,
+                                                    "codes": [
+                                                        {
+                                                            "code": "146390",
+                                                            "typeCode": "OMIM"
+                                                        }
+                                                    ],
+                                                    "disnetConceptsCount": 2
+                                                },
+                                                {
+                                                    "diseaseId": "DIS003113",
+                                                    "name": "1p36 deletion syndrome",
+                                                    "url": "http://en.wikipedia.org/wiki/1p36_deletion_syndrome",
+                                                    "codesCount": 2,
+                                                    "codes": [
+                                                        {
+                                                            "code": "34535",
+                                                            "typeCode": "DiseasesDB"
+                                                        },
+                                                        {
+                                                            "code": "607872",
+                                                            "typeCode": "OMIM"
+                                                        }
+                                                    ],
+                                                    "disnetConceptsCount": 42
+                                                },
+                                                {
+                                                    "diseaseId": "DIS007075",
+                                                    "name": "1q21.1 deletion syndrome",
+                                                    "url": "http://en.wikipedia.org/wiki/1q21.1_deletion_syndrome",
+                                                    "codesCount": 2,
+                                                    "codes": [
+                                                        {
+                                                            "code": "1q211-microdeletion",
+                                                            "typeCode": "MedlinePlus"
+                                                        },
+                                                        {
+                                                            "code": "612474",
+                                                            "typeCode": "OMIM"
+                                                        }
+                                                    ],
+                                                    "disnetConceptsCount": 10
+                                                },
+                                                {
+                                                    "diseaseId": "DIS006629",
+                                                    "name": "1q21.1 duplication syndrome",
+                                                    "url": "http://en.wikipedia.org/wiki/1q21.1_duplication_syndrome",
+                                                    "codesCount": 1,
+                                                    "codes": [
+                                                        {
+                                                            "code": "612475",
+                                                            "typeCode": "OMIM"
+                                                        }
+                                                    ],
+                                                    "disnetConceptsCount": 9
+                                                },
+                                                {
+                                                    "diseaseId": "DIS006819",
+                                                    "name": "2,4 Dienoyl-CoA reductase deficiency",
+                                                    "url": "http://en.wikipedia.org/wiki/2,4_Dienoyl-CoA_reductase_deficiency",
+                                                    "codesCount": 1,
+                                                    "codes": [
+                                                        {
+                                                            "code": "222745",
+                                                            "typeCode": "OMIM"
+                                                        }
+                                                    ],
+                                                    "disnetConceptsCount": 0
+                                                },
+                                                ...
+                                            ]
+                                        }
+                                    </code>
+                                </pre>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Error_response" class="section scrollspy">Error response (application/json)</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                                <p>Example:</p>
-                                <p class="text-align-justify text-indent">...</p>
+                                <p class="text-align-justify"><b>Common errors</b></p>
+                                <p>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Authorization_error">Authorization error</a></div>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Source_error">Source error</a></div>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Version_error">Version error</a></div>
+                                </p>
                             </li>
                         </ul>
                 </div>

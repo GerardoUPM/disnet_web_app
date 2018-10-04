@@ -26,6 +26,10 @@
     text-indent: 1.55em;
 }
 
+.text-indent-sub-2 {
+    text-indent: 1.95em;
+}
+
 /* EDIT BY GLG Sticky Footer */
 body {
     display: flex;
