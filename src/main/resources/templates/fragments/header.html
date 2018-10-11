@@ -1,56 +1,53 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-    <div th:fragment="header-css">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<head th:fragment="header-css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta name="description" content="DISNET description in process..."/>
-        <meta name="keywords" content="disnet, diseases, disease network, disease graphs, upm, ctb, medal, health" />
-        <meta name="author" content="Dr. Alejandro Rodríguez González and PhD Student Gerardo Lagunes García"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="DISNET description in process..."/>
+    <meta name="keywords" content="disnet, diseases, disease network, disease graphs, upm, ctb, medal, health" />
+    <meta name="author" content="Dr. Alejandro Rodríguez González and PhD Student Gerardo Lagunes García"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
 
-        <!-- Favicons-->
-        <!--<link rel="icon" href="../../favicon.ico"/>-->
-        <!--<link rel="apple-touch-icon-precomposed" href="images/favicon/apple-touch-icon-152x152.png">-->
-        <meta name="msapplication-TileColor" content="#0d47a1"/>
-        <!--<meta name="msapplication-TileImage" th:content="@{/images/logo_disnet/V_color.png}"/>-->
-        <!--<link rel="icon" href="images/favicon/favicon-32x32.png" sizes="32x32">-->
-        <!--  Android 5 Chrome Color-->
-        <meta name="theme-color" content="#0d47a1"/>
+    <!-- Favicons-->
+    <link rel="icon" th:href="@{/images/icon/favicon.ico}" type="image/x-icon"/>
+    <link rel="shortcut icon" th:href="@{/images/icon/favicon.ico}" type="image/x-icon"/>
+    <link rel="apple-touch-icon-precomposed" th:href="@{/images/icon/apple-icon-152x152.png}"/>
+    <meta name="msapplication-TileColor" content="#0d47a1"/>
+    <meta name="msapplication-TileImage" th:content="@{/images/logo_disnet/V_color.png}"/>
+    <link rel="apple-touch-icon" sizes="57x57" th:href="@{/images/icon/apple-icon-57x57.png}"/>
+    <link rel="apple-touch-icon" sizes="60x60" th:href="@{/images/icon/apple-icon-60x60.png}"/>
+    <link rel="apple-touch-icon" sizes="72x72" th:href="@{/images/icon/apple-icon-72x72.png}"/>
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/images/icon/apple-icon-76x76.png}"/>
+    <link rel="apple-touch-icon" sizes="114x114" th:href="@{/images/icon/apple-icon-114x114.png}"/>
+    <link rel="apple-touch-icon" sizes="120x120" th:href="@{/images/icon/apple-icon-120x120.png}"/>
+    <link rel="apple-touch-icon" sizes="144x144" th:href="@{/images/icon/apple-icon-144x144.png}"/>
+    <link rel="apple-touch-icon" sizes="152x152" th:href="@{/images/icon/apple-icon-152x152.png}"/>
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/images/icon/apple-icon-180x180.png}"/>
+    <link rel="icon" type="image/png" sizes="192x192"  th:href="@{/images/icon/android-icon-192x192.png}"/>
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/images/icon/favicon-32x32.png}"/>
+    <link rel="icon" type="image/png" sizes="96x96" th:href="@{/images/icon/favicon-96x96.png}"/>
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/images/icon/favicon-16x16.png}"/>
 
-        <link rel="apple-touch-icon" sizes="57x57" th:href="@{/images/icon/apple-icon-57x57.png}"/>
-        <link rel="apple-touch-icon" sizes="60x60" th:href="@{/images/icon/apple-icon-60x60.png}"/>
-        <link rel="apple-touch-icon" sizes="72x72" th:href="@{/images/icon/apple-icon-72x72.png}"/>
-        <link rel="apple-touch-icon" sizes="76x76" th:href="@{/images/icon/apple-icon-76x76.png}"/>
-        <link rel="apple-touch-icon" sizes="114x114" th:href="@{/images/icon/apple-icon-114x114.png}"/>
-        <link rel="apple-touch-icon" sizes="120x120" th:href="@{/images/icon/apple-icon-120x120.png}"/>
-        <link rel="apple-touch-icon" sizes="144x144" th:href="@{/images/icon/apple-icon-144x144.png}"/>
-        <link rel="apple-touch-icon" sizes="152x152" th:href="@{/images/icon/apple-icon-152x152.png}"/>
-        <link rel="apple-touch-icon" sizes="180x180" th:href="@{/images/icon/apple-icon-180x180.png}"/>
-        <link rel="icon" type="image/png" sizes="192x192"  th:href="@{/images/icon/android-icon-192x192.png}"/>
-        <link rel="icon" type="image/png" sizes="32x32" th:href="@{/images/icon/favicon-32x32.png}"/>
-        <link rel="icon" type="image/png" sizes="96x96" th:href="@{/images/icon/favicon-96x96.png}"/>
-        <link rel="icon" type="image/png" sizes="16x16" th:href="@{/images/icon/favicon-16x16.png}"/>
+    <!--  Android 5 Chrome Color-->
+    <meta name="theme-color" content="#0d47a1"/>
 
-        <!-- CSS
-        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css" />
-        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-        -->
+    <!-- CSS
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    -->
 
-        <!--Import Google Icon Font-->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-        <!--<link href="https://fonts.googleapis.com/icon?family=Roboto" rel="stylesheet"/>-->
-        <!--Import materialize.css-->
-        <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.css}" media="screen,projection" />
-        <!--<link type="text/css" rel="stylesheet" th:href="@{/css/ghpages-materialize.css}" media="screen,projection" />-->
-        <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}" media="screen,projection" />
-        <link type="text/css" rel="stylesheet" th:href="@{/css/sweetalert/sweetalert.css}" media="screen,projection" />
-        <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    </div>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <!--<link href="https://fonts.googleapis.com/icon?family=Roboto" rel="stylesheet"/>-->
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.css}" media="screen,projection" />
+    <!--<link type="text/css" rel="stylesheet" th:href="@{/css/ghpages-materialize.css}" media="screen,projection" />-->
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" th:href="@{/css/sweetalert/sweetalert.css}" media="screen,projection" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
 <header th:fragment="header" ><!--class="navbar-fixed"-->
@@ -76,7 +73,8 @@
         <li><a th:href="@{/members}" class="blue-text text-darken-4">Team</a></li>
     </ul>
 
-    <nav class="blue darken-4" role="navigation">
+    <div class="navbar-fixed"><!-- PARA MANTENER EL MENU PEGADO A ARRIBA -->
+        <nav class="blue darken-4" role="navigation">
         <div class="nav-wrapper container">
             <a id="logo-container" href="/" class="brand-logo">
                 <img width="200" th:src="@{/images/logo_disnet/H_White.png}" alt=""
@@ -138,6 +136,8 @@
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="large material-icons">menu</i></a>
         </div>
     </nav>
+    </div>
+
 </header>
 </body>
 </html>
