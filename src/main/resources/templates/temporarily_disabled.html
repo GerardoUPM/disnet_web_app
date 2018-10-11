@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - Web page under construction</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+    <div th:replace="fragments/header :: header"/>
+    <!--<a class='dropdown-button btn' data-beloworigin="true" href='#' data-activates='dropdown1'>Drop Me!</a>
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a href="#!">one</a></li>
+        <li><a href="#!">two</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">three</a></li>
+    </ul>-->
+
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br/><br/>
+            <h1 class="header center orange-text"><img width="250" th:src="@{/images/logo_disnet/V_color.png}" /></h1>
+            <div class="row center">
+                <h5 class="header col s12 light">Drug repositioning and disease understanding through complex networks creation and analysis</h5>
+            </div>
+            <br/><br/>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="section">
+
+            <!--   Icon Section   -->
+            <div class="row">
+                <div class="col s12 m12 l12 center-align">
+                    <div class="icon-block">
+                        <h2 class="center  blue-text text-darken-4"><i class="fa fa-cubes"></i></h2><!--light-blue-->
+                        <h5 class="center">Working for you...</h5>
+
+                        <p class="light text-center">This Web Page is temporarily disabled. We are working to deliver quality content. If you have any question please contact with the administrator.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br/><br/>
+    </div>
+    <!-- /.container -->
+
+    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/footer :: footer-js"/>
+
+</body>
+</html>

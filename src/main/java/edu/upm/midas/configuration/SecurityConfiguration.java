@@ -86,7 +86,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/apis/disnet/common_errors",
                         "/apis/disease_album",
                         "/user/admin/home",
-                        "/user/client/home").permitAll()
+                        "/user/client/home",
+                        "/temporarily_disabled").permitAll()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/user/update").permitAll()
                 .antMatchers(HttpMethod.POST,"/user/reset_password").permitAll()

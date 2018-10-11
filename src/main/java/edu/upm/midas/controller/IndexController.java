@@ -56,4 +56,12 @@ public class IndexController {
         return "apis/disease_album";
     }
 
+
+    @RequestMapping("/temporarily_disabled")
+    public String temporarilyDisabledPage(Model model){
+        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //System.out.println("PWD: " + passwordEncoder.encode("groot"));
+        return "temporarily_disabled";
+    }
+
 }

@@ -16,6 +16,7 @@ $(function () {
             "iTotalRecords": "0",
             "iTotalDisplayRecords": "0",
             "bLengthChange": true,
+            // "scrollX": true, si pongo esto, los encabezados no se redefinen
             "columns": [
                 {
                     "class":          "details-control",

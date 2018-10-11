@@ -24,20 +24,21 @@
                     <div class="col l3 m3 s12">
                         <h6 class="white-text">Results</h6>
                         <ul>
-                            <li><a class="light white-text" href="#!">Publications</a></li>
+                            <li><a class="light white-text tooltipped" th:href="@{/temporarily_disabled}" data-position="top" data-tooltip="Web Page temporarily disabled">Publications</a></li>
+                            <li><a class="light white-text tooltipped" th:href="@{/temporarily_disabled}" data-position="top" data-tooltip="Web Page temporarily disabled">Status</a></li>
+                            <li><a class="light white-text tooltipped" th:href="@{/temporarily_disabled}" data-position="top" data-tooltip="Web Page temporarily disabled">Visualization</a></li>
                         </ul>
                     </div>
                     <div class="col l3 m3 s12">
                         <h6 class="white-text">Support</h6>
                         <ul>
-                            <li><a class="light white-text" href="#!">Status</a></li>
-                            <li><a class="light white-text" href="#!">Contact DISNET</a></li>
+                            <li><a class="light white-text tooltipped" th:href="@{/temporarily_disabled}" data-position="top" data-tooltip="Web Page temporarily disabled">Contact DISNET</a></li>
                         </ul>
                     </div>
                     <div class="col l2 m2 s12">
                         <h6 class="white-text">Team</h6>
                         <ul>
-                            <li><a class="light white-text" th:href="@{/members}">About</a></li>
+                            <li><a class="light white-text tooltipped" th:href="@{/about}" data-position="top" data-tooltip="DISNET Team">About</a></li>
                         </ul>
                     </div>
                 </div>
@@ -49,10 +50,10 @@
                             2018 <span class="orange-text text-lighten-3" style="color: orange;">DISNET Project</span>
                         </div>
                         <div class="col s1 m1 l1 right-align">
-                            <a href="#!">Terms</a>
+                            <a th:href="@{/temporarily_disabled}" class="tooltipped" data-position="top" data-tooltip="Web Page temporarily disabled">Terms</a>
                         </div>
                         <div class="col s1 m1 l1 right-align">
-                            <a href="#!">Privacy</a>
+                            <a th:href="@{/temporarily_disabled}" class="tooltipped" data-position="top" data-tooltip="Web Page temporarily disabled">Privacy</a>
                         </div>
                     </div>
                 </div>

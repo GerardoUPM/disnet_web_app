@@ -42,7 +42,7 @@ import java.util.List;
  * @className LoginController
  * @see
  */
-@Controller
+@Controller //@RestController // - Si tuviera RestController no podría redirigir a user/login, sino que pintaría en una página en blanco user/login?
 @RequestMapping("/user")
 public class LoginController {
 

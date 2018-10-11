@@ -1,8 +1,10 @@
 package edu.upm.midas.controller;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.upm.midas.common.utils.TimeProvider;
 import edu.upm.midas.common.utils.UniqueId;
 import edu.upm.midas.constants.Constants;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
+import edu.upm.midas.data.relational.entities.disnetdb.PersonToken;
 import edu.upm.midas.data.relational.service.CountryService;
 import edu.upm.midas.data.relational.service.LogQuery_Service;
 import edu.upm.midas.data.relational.service.PersonService;
@@ -10,15 +12,15 @@ import edu.upm.midas.data.relational.service.PersonTokenService;
 import edu.upm.midas.data.relational.service.helper.PersonHelper;
 import edu.upm.midas.email.model.EmailStatus;
 import edu.upm.midas.email.service.EmailService;
-import edu.upm.midas.model.user.RequestResetPassword;
-import edu.upm.midas.model.user.Response;
-import edu.upm.midas.model.user.TransactionHistory;
-import edu.upm.midas.model.user.UserUpdateForm;
+import edu.upm.midas.model.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,6 +61,10 @@ public class UserController {
     private EmailService emailService;
     @Autowired
     private TimeProvider timeProvider;
+    @Autowired
+    private PersonTokenService personTokenService;
+    @Autowired
+    private CountryService countryService;
 
 
     /**
