@@ -7,6 +7,7 @@
         <link type="text/css" rel="stylesheet"  th:href="@{/css/user.css}" media="screen,projection" />
     </head>
     <body class="login-content" >
+        <div th:replace="fragments/header :: header"/>
         <div class="container">
             <div id="login-request" class="row" >
                 <div class="col s12 m8 l8 offset-m2 offset-l2">
@@ -30,8 +31,8 @@
                                     <p class="center login-form-text">By clicking "Create an account" below, <br/> you agree to our <a class="modal-trigger" href="#terms_and_conditions">terms and conditions of service</a> and <a class="modal-trigger" href="#terms_and_conditions">privacy statements</a>. We’ll occasionally send you account related emails.</p>
                                 </div>
                                 <div class="input-field col s12 m12 l12">
-                                    <div class="center-align red-text text-accent-2">Registration is temporarily disabled. If you have any question please contact with the administrator</div>
-                                    <!--<button id="register_now-btn" type="button" class="btn waves-effect waves-light submit col s12 m12 l8 offset-l2 blue darken-3" style="text-transform: none;">Create an account</button>-->
+                                    <!--<div class="center-align red-text text-accent-2">Registration is temporarily disabled. If you have any question please contact with the administrator</div>-->
+                                    <button id="register_now-btn" type="button" class="btn waves-effect waves-light submit col s12 m12 l8 offset-l2 blue darken-3" style="text-transform: none;" disabled="disabled">Create an account</button>
                                 </div>
                                 <div class="input-field col s12 m12 l12">
                                     <p class="margin center medium-small sign-up"><a th:href="@{/user/login}">Already have an account?</a></p>
@@ -54,7 +55,7 @@
                 </div>
             </div>
         </div>
-
+        <div th:replace="fragments/footer :: footer"/>
         <div th:replace="fragments/footer :: footer-js"/>
         <script type="text/javascript" th:src="@{/js/user/registration.js}"></script>
     </body>

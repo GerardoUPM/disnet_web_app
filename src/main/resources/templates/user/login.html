@@ -7,7 +7,9 @@
     <link type="text/css" rel="stylesheet"  th:href="@{/css/user.css}" media="screen,projection" />
 </head>
 <body class="login-content" >
-    <div class="container"><br/><br/><br/><br/><br/><br/><br/>
+    <div th:replace="fragments/header :: header"/>
+    <div class="container">
+        <br/><br/><br/><br/><br/>
         <div id="login-request" class="row" >
             <div class="col s12 m8 l8 offset-m2 offset-l2">
                 <div class="z-depth-5 card" style="padding: 24px;">
@@ -43,10 +45,10 @@
                             <div class="col s12 m12 l12"><br/></div>
                             <div class="col s12 m12 l12 center">
                                 <div class="col s6 m6 l6 left-align">
-                                    <!--<a th:href="@{/user/registration}">New to DISNET? Create an account.</a>-->
+                                    <a th:href="@{/user/registration}">New to DISNET? Create an account.</a>
                                 </div>
                                 <div class="col s6 m6 l6 right-align">
-                                    <!--<a th:href="@{/user/forgot}">Forgot password?</a>-->
+                                    <a th:href="@{/user/forgot}">Forgot password?</a>
                                 </div>
                             </div>
                         </form>
@@ -65,17 +67,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-action center">
-                        <a href="#">Terms</a>
-                        <a href="#">Privacy</a>
-                        <a href="#">Security</a>
-                        <a href="#">Contact DISNET</a>
+                    <div class="card-action">
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <div class="col s6 m3 l3 center-align tooltipped" data-position="bottom" data-tooltip="Terms and Conditions"><a href="#">Terms</a></div>
+                                <div class="col s6 m3 l3 center-align tooltipped" data-position="bottom" data-tooltip="Privacy"><a href="#">Privacy</a></div>
+                                <div class="col s6 m3 l3 center-align tooltipped" data-position="bottom" data-tooltip="Security"><a href="#">Security</a></div>
+                                <div class="col s6 m3 l3 center-align tooltipped" data-position="bottom" data-tooltip="Contact DISNET"><a href="#">Contact</a></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <br/><br/><br/><br/><br/>
     </div>
-
+    <div th:replace="fragments/footer :: footer"/>
     <div th:replace="fragments/footer :: footer-js"/>
     <script type="text/javascript" th:src="@{/js/user/login.js}"></script>
     <!--Se encuentra al final para que cargue al encontrar un error-->
