@@ -15,7 +15,7 @@
                 <div class="col s12 m8 offset-m1 xl7 offset-xl1">
                     <div id="Retrieve_most_common_DISNET_Concepts" class="section scrollspy wrap-text">
                         <h3 class="header blue-text text-darken-3">/query/mostCommonDisnetConcepts</h3>
-                        <p>Information will added soon</p>
+                        <!--<p>Information will added soon</p>-->
                     </div>
                     <ul class="collection">
                             <li class="collection-item text-align-justify">
@@ -131,25 +131,25 @@
                                             "disnetConceptsCount": 3,
                                             "disnetConcepts": [
                                                 {
-                                                    "cui": "C0455990",
-                                                    "name": "Immune hydrops fetalis",
-                                                    "common": 1,
+                                                    "cui": "C0162429",
+                                                    "name": "Malnutrition",
+                                                    "common": 760,
                                                     "semanticTypes": [
                                                         "dsyn"
                                                     ]
                                                 },
                                                 {
-                                                    "cui": "C0013608",
-                                                    "name": "Cardiac edema",
-                                                    "common": 1,
+                                                    "cui": "C0011849",
+                                                    "name": "Diabetes mellitus, NOS",
+                                                    "common": 467,
                                                     "semanticTypes": [
                                                         "dsyn"
                                                     ]
                                                 },
                                                 {
-                                                    "cui": "C0015938",
-                                                    "name": "Fetal macrosomia",
-                                                    "common": 1,
+                                                    "cui": "C0038454",
+                                                    "name": "Cerebrovascular accident",
+                                                    "common": 382,
                                                     "semanticTypes": [
                                                         "dsyn"
                                                     ]
@@ -161,9 +161,12 @@
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Error_response" class="section scrollspy">Error response (application/json)</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                                <p>Example:</p>
-                                <p class="text-align-justify text-indent">...</p>
+                                <p>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Authorization_error">Authorization error</a></div>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Source_error">Source error</a></div>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Version_error">Version error</a></div>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Defining_semantic_types_error">Semantic types definition error</a></div>
+                                </p>
                             </li>
                         </ul>
                 </div>

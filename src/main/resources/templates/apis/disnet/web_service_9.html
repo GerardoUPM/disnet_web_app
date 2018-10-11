@@ -15,24 +15,24 @@
                 <div class="col s12 m8 offset-m1 xl7 offset-xl1">
                     <div id="Retrieve_less_common_DISNET_Concepts" class="section scrollspy wrap-text">
                         <h3 class="header blue-text text-darken-3">/query/lessCommonDisnetConcepts</h3>
-                        <p>Information will added soon</p>
+                        <!--<p>Information will added soon</p>-->
                     </div>
-                    <ul class="collection">
+                        <ul class="collection">
                             <li class="collection-item text-align-justify">
                                 <h5 id="Description" class="section scrollspy">Description</h5>
-                                <p class="text-align-justify text-indent">Retrieve less common DISNET Concepts for a given source and snapshot</p>
+                                <p class="text-align-justify">Retrieve less common DISNET Concepts for a given source and snapshot. Excludes or forcing semantic types, it adds an option to show or not the codes associated with the disease and finally allowed retrieve that DISNET Concepts that were filtered by our TVP procedure.</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="URL_PATH" class="section scrollspy">URL (PATH)</h5>
-                                <p class="text-align-justify text-indent">/query/lessCommonDisnetConcepts?</p>
+                                <p class="text-align-justify wrap-text">/query/lessCommonDisnetConcepts?<b>source</b>=:source&amp;<b>version</b>=:version&amp;<b>validated</b>=:validated&amp;<b>limit</b>=:limit&amp;<b>excludeSemanticTypes</b>=:excludeSemanticTypes&amp;<b>forceSemanticTypes</b>=:forceSemanticTypes&amp;<b>token</b>=:token</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Method" class="section scrollspy">Method</h5>
-                                <p class="text-align-justify text-indent">GET</p>
+                                <p class="text-align-justify">GET</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Auth_required" class="section scrollspy">Auth required</h5>
-                                <p class="text-align-justify text-indent">Yes (token)</p>
+                                <p class="text-align-justify">Yes (token)</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Request_parameters_description" class="section scrollspy">Request parameters</h5>
@@ -46,9 +46,57 @@
                                     <tbody>
                                         <tr>
                                             <td>
+                                                <b>source *required</b>
+                                                <br/>[alphanumeric]
+                                                <br/>example: source=wikipedia
+                                            </td>
+                                            <td>Name of the information source.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>version *required</b>
+                                                <br/>[alphanumeric with format “aaaa-mm-dd”]
+                                                <br/>example: token=eyJhbGciOiJI...
+                                            </td>
+                                            <td>Date of information source extraction, in "yyyy-mm-dd" format.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>validated</b>
+                                                <br/>[boolean] by default always is <b>true</b>
+                                                <br/>example: validated=false
+                                            </td>
+                                            <td>Show DISNET Concepts filtered by our TVP process.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>limit</b>
+                                                <br/>[integer] by default always is <b>10</b>
+                                                <br/>example: limit=2
+                                            </td>
+                                            <td>Show DISNET Concepts filtered by our TVP process.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>excludeSemanticTypes</b>
+                                                <br/>[alphanumeric]
+                                                <br/>example: excludeSemanticTypes=dsyn,sosy
+                                            </td>
+                                            <td>Excludes the semantic type or types defined. If there are more than one, they are separated by commas (,).</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>forceSemanticTypes</b>
+                                                <br/>[alphanumeric]
+                                                <br/>example: forceSemanticTypes=dsyn,sosy
+                                            </td>
+                                            <td>It forces the semantic type or types defined. If there are more than one, they are separated by commas (,).</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
                                                 <b>token *required</b>
                                                 <br/>[alphanumeric]
-                                                <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
+                                                <br/>example: token=eyJhbGciOiJI...
                                             </td>
                                             <td>Access key that allows the query to be executed.</td>
                                         </tr>
@@ -56,23 +104,72 @@
                                 </table>
                             </li>
                             <li class="collection-item text-align-justify">
+                                <h5 id="Important" class="section scrollspy">Important</h5>
+                                <p class="text-align-justify">
+                                    A correct request can only be made if the <b>excludeSemanticTypes</b>=true parameter and the <b>forceSemanticTypes</b>=false parameter are used, both cannot have the true value.
+                                </p>
+                            </li>
+                            <li class="collection-item text-align-justify">
                                 <h5 id="Example_request" class="section scrollspy">Example request</h5>
-                                <p class="text-align-justify text-indent">...</p>
+                                <pre>
+                                     <code class="token style language-http">
+                                         GET http://disnet.ctb.upm.es/api/disnet/query/lessCommonDisnetConcepts?source=wikipedia&amp;version=2018-09-15&amp;limit=3&amp;validated=&amp;excludeSemanticTypes=&amp;forceSemanticTypes=dsyn&amp;token=eyJhbGciOiJI...
+                                     </code>
+                                </pre>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Success_response" class="section scrollspy">Success response (application/json)</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                                <p>Example:</p>
-                                <p class="text-align-justify text-indent">...</p>
+                                <pre>
+                                    <code class="language-json">
+                                        {
+                                            "token": "eyJhbGciOiJI...",
+                                            "authorized": true,
+                                            "authorizationMessage": "Authorized!",
+                                            "responseCode": "200",
+                                            "responseMessage": "OK",
+                                            "errorsFound": [],
+                                            "disnetConceptsCount": 3,
+                                            "disnetConcepts": [
+                                                {
+                                                    "cui": "C0455990",
+                                                    "name": "Immune hydrops fetalis",
+                                                    "common": 1,
+                                                    "semanticTypes": [
+                                                        "dsyn"
+                                                    ]
+                                                },
+                                                {
+                                                    "cui": "C0013608",
+                                                    "name": "Cardiac edema",
+                                                    "common": 1,
+                                                    "semanticTypes": [
+                                                        "dsyn"
+                                                    ]
+                                                },
+                                                {
+                                                    "cui": "C0015938",
+                                                    "name": "Fetal macrosomia",
+                                                    "common": 1,
+                                                    "semanticTypes": [
+                                                        "dsyn"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    </code>
+                                </pre>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Error_response" class="section scrollspy">Error response (application/json)</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                                <p>Example:</p>
-                                <p class="text-align-justify text-indent">...</p>
+                                <p>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Authorization_error">Authorization error</a></div>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Source_error">Source error</a></div>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Version_error">Version error</a></div>
+                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Defining_semantic_types_error">Semantic types definition error</a></div>
+                                </p>
                             </li>
                         </ul>
-                </div>
+                    </div>
                 <div id="float_table_of_content" class="col hide-on-small-only m3 xl3 offset-xl1" >
                     <div class="toc-wrapper pinned" style="top: 0px;">
                         <!--<div class="buysellads hide-on-small-only"></div>-->

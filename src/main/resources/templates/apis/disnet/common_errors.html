@@ -105,6 +105,62 @@
                                 </pre>
                             </li>
 
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Invalid_disease_name_error" class="section scrollspy">Disease name error</h5>
+                                <pre>
+                                    <code class="language-json">
+                                        {
+                                            "token": "eyJhbGciOiJI...",
+                                            "authorized": true,
+                                            "authorizationMessage": "Authorized!",
+                                            "responseCode": "400",
+                                            "responseMessage": "A required parameter for this API operation is invalid or has not been provided",
+                                            "errorsFound": [
+                                                {
+                                                    "errorCode": "404",
+                                                    "errorStatus": "RESOURCE_NOT_FOUND",
+                                                    "message": "Could not find resource. No disease with that exact name was found. Verify the exact disease name in the DISNET disease list.",
+                                                    "parameter": {
+                                                        "name": "diseaseName",
+                                                        "required": true,
+                                                        "defaultValue": false,
+                                                        "value": "InvalidName"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    </code>
+                                </pre>
+                            </li>
+
+                            <li class="collection-item text-align-justify">
+                                <h5 id="Defining_semantic_types_error" class="section scrollspy">Semantic types definition error</h5>
+                                <pre>
+                                    <code class="language-json">
+                                        {
+                                                "token": "eyJhbGciOiJI...",
+                                                "authorized": true,
+                                                "authorizationMessage": "Authorized!",
+                                                "responseCode": "200",
+                                                "responseMessage": "OK",
+                                                "errorsFound": [
+                                                    {
+                                                        "errorCode": "404",
+                                                        "errorStatus": "RESOURCE_NOT_FOUND",
+                                                        "message": "Could not find resource. Semantic type not found.",
+                                                        "parameter": {
+                                                            "name": "forceSemanticTypes",
+                                                            "required": false,
+                                                            "defaultValue": false,
+                                                            "value": "InvalidValue"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                    </code>
+                                </pre>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -125,6 +181,8 @@
                                 <li><a href="#Authorization_error" class="text-indent-sub">Authorization error</a></li>
                                 <li><a href="#Source_error" class="text-indent-sub">Source error</a></li>
                                 <li><a href="#Version_error" class="text-indent-sub">Version error</a></li>
+                                <li><a href="#Invalid_disease_name_error" class="text-indent-sub">Disease name error</a></li>
+                                <li><a href="#Defining_semantic_types_error" class="text-indent-sub">Semantic types definition error</a></li>
                             </ul>
                         </div>
                     </div>

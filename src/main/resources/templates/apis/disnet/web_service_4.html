@@ -8,156 +8,156 @@
     <link type="text/css" rel="stylesheet"  th:href="@{/css/prism/prism_default.css}" media="screen,projection" />
 </head>
 <body>
-    <div th:replace="fragments/header :: header"/>
-    <main>
-        <div class="container">
-            <div class="row">
-                <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-                    <div id="Retrieve_DISNET_Concept_list" class="section scrollspy wrap-text">
-                        <h3 class="header blue-text text-darken-3">/query/disnetConceptList</h3>
-                        <!--<p>Information will added soon</p>-->
-                    </div>
-                    <ul class="collection">
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Description" class="section scrollspy">Description</h5>
-                                <p class="text-align-justify">Retrieve DISNET Concept list for a given source and snapshot. Search by disease: exact name or not, other vocabulary code, excluding or forcing semantic types. It also adds an option to show or not the codes associated with the disease and to show the number of times the DISNET Concept has been found in the disease texts.</p>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="URL_PATH" class="section scrollspy">URL (PATH)</h5>
-                                <p class="text-align-justify wrap-text">/query/disnetConceptList?<b>source</b>=:source&amp;<b>version</b>=:version&amp;<b>diseaseName</b>=:diseaseName&amp;<b>diseaseCode</b>=:diseaseCode&amp;<b>typeCode</b>=:typeCode&amp;<b>excludeSemanticTypes</b>=:excludeSemanticTypes&amp;<b>forceSemanticTypes</b>=:forceSemanticTypes&amp;<b>matchExactName</b>=:matchExactName&amp;<b>detectionInformation</b>=:detectionInformation&amp;<b>includeCode</b>=:includeCode&amp;<b>token</b>=:token</p>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Method" class="section scrollspy">Method</h5>
-                                <p class="text-align-justify">GET</p>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Auth_required" class="section scrollspy">Auth required</h5>
-                                <p class="text-align-justify">Yes (token)</p>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Request_parameters_description" class="section scrollspy">Request parameters</h5>
-                                <table class="striped highlight responsive-table">
-                                    <thead>
-                                    <tr>
-                                        <th class="grey-text text-darken-2">Parameter</th>
-                                        <th class="grey-text text-darken-2">Description</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <b>source *required</b>
-                                                <br/>[alphanumeric]
-                                                <br/>example: source=wikipedia
-                                            </td>
-                                            <td>Name of the information source.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <b>version *required</b>
-                                                <br/>[alphanumeric with format “aaaa-mm-dd”]
-                                                <br/>example: token=eyJhbGciOiJI...
-                                            </td>
-                                            <td>Date of information source extraction, in "yyyy-mm-dd" format.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <b>diseaseName</b>
-                                                <br/>[alphanumeric]
-                                                <br/>example: diseaseName=Cancer
-                                            </td>
-                                            <td>Name of the disease.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <b>diseaseCode</b>
-                                                <br/>[alphanumeric]
-                                                <br/>example: diseaseCode=117.7
-                                            </td>
-                                            <td>Code of the disease in a source external to DISNET.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <b>typeCode</b>
-                                                <br/>[alphanumeric]
-                                                <br/>example: typeCode=ICD-9-CM
-                                            </td>
-                                            <td>Type of disease code of the source external to DISNET specified in the <b>diseaseCode</b> parameter.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <b>excludeSemanticTypes</b>
-                                                <br/>[alphanumeric]
-                                                <br/>example: excludeSemanticTypes=dsyn,sosy
-                                            </td>
-                                            <td>Excludes the semantic type or types defined. If there are more than one, they are separated by commas (,).</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <b>forceSemanticTypes</b>
-                                                <br/>[alphanumeric]
-                                                <br/>example: forceSemanticTypes=dsyn,sosy
-                                            </td>
-                                            <td>It forces the semantic type or types defined. If there are more than one, they are separated by commas (,).</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <b>matchExactName</b>
-                                                <br/>[boolean] by default always is <b>false</b>
-                                                <br/>example: matchExactName=true
-                                            </td>
-                                            <td>If it is <b>true</b> it allows to consult by the exact name of disease, if it is <b>false</b> it recovers the diseases in whose name the value specified in the parameter diseaseName is found.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <b>detectionInformation</b>
-                                                <br/>[boolean] by default always is <b>false</b>
-                                                <br/>example: detectionInformation=true
-                                            </td>
-                                            <td>Shows the number of times the DISNET Concept has been found in the disease texts.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <b>includeCode</b>
-                                                <br/>[boolean] by default always is <b>false</b>
-                                                <br/>example: includeCode=true
-                                            </td>
-                                            <td>Shows the disease codes in sources external to DISNET.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <b>token *required</b>
-                                                <br/>[alphanumeric]
-                                                <br/>example: token=eyJhbGciOiJI...
-                                            </td>
-                                            <td>Access key that allows the query to be executed.</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Important" class="section scrollspy">Important</h5>
-                                <p class="text-align-justify">
-                                    The <b>diseaseName</b> parameter and the parameter pair <b>diseaseCode</b> and <b>typeCode</b> are optional, but it is necessary to specify at least one of them (<b>diseaseName</b> or (<b>diseaseCode</b> and <b>typeCode</b>)), in order to make a correct request. For example, if the request is made using <b>diseaseName</b>, it is not allowed to make the request using <b>diseaseCode</b> and <b>typeCode</b> and vice versa the same rule applies.
-                                </p>
-                                <p class="text-align-justify text-indent">
-                                    The <b>matchExactName</b> parameter can only be used if you are using the <b>diseaseName</b> parameter, otherwise you will not get results.
-                                </p>
-                                <p class="text-align-justify text-indent">
-                                    A correct request can only be made if the <b>excludeSemanticTypes</b>=true parameter and the <b>forceSemanticTypes</b>=false parameter are used, both cannot have the true value.
-                                </p>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Example_request" class="section scrollspy">Example request</h5>
-                                <pre>
+<div th:replace="fragments/header :: header"/>
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m8 offset-m1 xl7 offset-xl1">
+                <div id="Retrieve_DISNET_Concept_list" class="section scrollspy wrap-text">
+                    <h3 class="header blue-text text-darken-3">/query/disnetConceptList</h3>
+                    <!--<p>Information will added soon</p>-->
+                </div>
+                <ul class="collection">
+                    <li class="collection-item text-align-justify">
+                        <h5 id="Description" class="section scrollspy">Description</h5>
+                        <p class="text-align-justify">Retrieve DISNET Concept list for a given source and snapshot. Search by disease: exact name or not, other vocabulary code, excluding or forcing semantic types. It also adds an option to show or not the codes associated with the disease and to show the number of times the DISNET Concept has been found in the disease texts.</p>
+                    </li>
+                    <li class="collection-item text-align-justify">
+                        <h5 id="URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                        <p class="text-align-justify wrap-text">/query/disnetConceptList?<b>source</b>=:source&amp;<b>version</b>=:version&amp;<b>diseaseName</b>=:diseaseName&amp;<b>diseaseCode</b>=:diseaseCode&amp;<b>typeCode</b>=:typeCode&amp;<b>excludeSemanticTypes</b>=:excludeSemanticTypes&amp;<b>forceSemanticTypes</b>=:forceSemanticTypes&amp;<b>matchExactName</b>=:matchExactName&amp;<b>detectionInformation</b>=:detectionInformation&amp;<b>includeCode</b>=:includeCode&amp;<b>token</b>=:token</p>
+                    </li>
+                    <li class="collection-item text-align-justify">
+                        <h5 id="Method" class="section scrollspy">Method</h5>
+                        <p class="text-align-justify">GET</p>
+                    </li>
+                    <li class="collection-item text-align-justify">
+                        <h5 id="Auth_required" class="section scrollspy">Auth required</h5>
+                        <p class="text-align-justify">Yes (token)</p>
+                    </li>
+                    <li class="collection-item text-align-justify">
+                        <h5 id="Request_parameters_description" class="section scrollspy">Request parameters</h5>
+                        <table class="striped highlight responsive-table">
+                            <thead>
+                            <tr>
+                                <th class="grey-text text-darken-2">Parameter</th>
+                                <th class="grey-text text-darken-2">Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <b>source *required</b>
+                                    <br/>[alphanumeric]
+                                    <br/>example: source=wikipedia
+                                </td>
+                                <td>Name of the information source.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>version *required</b>
+                                    <br/>[alphanumeric with format “aaaa-mm-dd”]
+                                    <br/>example: token=eyJhbGciOiJI...
+                                </td>
+                                <td>Date of information source extraction, in "yyyy-mm-dd" format.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>diseaseName</b>
+                                    <br/>[alphanumeric]
+                                    <br/>example: diseaseName=Cancer
+                                </td>
+                                <td>Name of the disease.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>diseaseCode</b>
+                                    <br/>[alphanumeric]
+                                    <br/>example: diseaseCode=117.7
+                                </td>
+                                <td>Code of the disease in a source external to DISNET.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>typeCode</b>
+                                    <br/>[alphanumeric]
+                                    <br/>example: typeCode=ICD-9-CM
+                                </td>
+                                <td>Type of disease code of the source external to DISNET specified in the <b>diseaseCode</b> parameter.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>excludeSemanticTypes</b>
+                                    <br/>[alphanumeric]
+                                    <br/>example: excludeSemanticTypes=dsyn,sosy
+                                </td>
+                                <td>Excludes the semantic type or types defined. If there are more than one, they are separated by commas (,).</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>forceSemanticTypes</b>
+                                    <br/>[alphanumeric]
+                                    <br/>example: forceSemanticTypes=dsyn,sosy
+                                </td>
+                                <td>It forces the semantic type or types defined. If there are more than one, they are separated by commas (,).</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>matchExactName</b>
+                                    <br/>[boolean] by default always is <b>false</b>
+                                    <br/>example: matchExactName=true
+                                </td>
+                                <td>If it is <b>true</b> it allows to consult by the exact name of disease, if it is <b>false</b> it recovers the diseases in whose name the value specified in the parameter diseaseName is found.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>detectionInformation</b>
+                                    <br/>[boolean] by default always is <b>false</b>
+                                    <br/>example: detectionInformation=true
+                                </td>
+                                <td>Shows the number of times the DISNET Concept has been found in the disease texts.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>includeCode</b>
+                                    <br/>[boolean] by default always is <b>false</b>
+                                    <br/>example: includeCode=true
+                                </td>
+                                <td>Shows the disease codes in sources external to DISNET.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>token *required</b>
+                                    <br/>[alphanumeric]
+                                    <br/>example: token=eyJhbGciOiJI...
+                                </td>
+                                <td>Access key that allows the query to be executed.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </li>
+                    <li class="collection-item text-align-justify">
+                        <h5 id="Important" class="section scrollspy">Important</h5>
+                        <p class="text-align-justify">
+                            The <b>diseaseName</b> parameter and the parameter pair <b>diseaseCode</b> and <b>typeCode</b> are optional, but it is necessary to specify at least one of them (<b>diseaseName</b> or (<b>diseaseCode</b> and <b>typeCode</b>)), in order to make a correct request. For example, if the request is made using <b>diseaseName</b>, it is not allowed to make the request using <b>diseaseCode</b> and <b>typeCode</b> and vice versa the same rule applies.
+                        </p>
+                        <p class="text-align-justify text-indent">
+                            The <b>matchExactName</b> parameter can only be used if you are using the <b>diseaseName</b> parameter, otherwise you will not get results.
+                        </p>
+                        <p class="text-align-justify text-indent">
+                            A correct request can only be made if the <b>excludeSemanticTypes</b>=true parameter and the <b>forceSemanticTypes</b>=false parameter are used, both cannot have the true value.
+                        </p>
+                    </li>
+                    <li class="collection-item text-align-justify">
+                        <h5 id="Example_request" class="section scrollspy">Example request</h5>
+                        <pre>
                                      <code class="token style language-http">
                                          GET http://disnet.ctb.upm.es/api/disnet/query/disnetConceptList?source=wikipedia&amp;version=2018-09-15&amp;diseaseName=Cancer&amp;matchExactName=true&amp;diseaseCode=&amp;typeCode=&amp;forceSemanticTypes=&amp;token=eyJhbGciOiJI...
                                      </code>
                                 </pre>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Success_response" class="section scrollspy">Success response (application/json)</h5>
-                                <pre>
+                    </li>
+                    <li class="collection-item text-align-justify">
+                        <h5 id="Success_response" class="section scrollspy">Success response (application/json)</h5>
+                        <pre>
                                     <code class="language-json">
                                         {
                                             "token": "eyJhbGciOiJI...",
@@ -348,18 +348,20 @@
                                         }
                                     </code>
                                 </pre>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Error_response" class="section scrollspy">Error response (application/json)</h5>
-                                <p class="text-align-justify"><b>Common errors</b></p>
-                                <p>
-                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Authorization_error">Authorization error</a></div>
-                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Source_error">Source error</a></div>
-                                    <div class="text-indent"><a href="/apis/disnet/common_errors#Version_error">Version error</a></div>
-                                </p>
-                                <p id="Error_in_parameters_diseaseName_diseaseCode_typeCode" class="text-align-justify section scrollspy"><b>Error in parameters diseaseName, diseaseCode and typeCode</b></p>
-                                <p class="text-align-justify">
-                                    <pre>
+                    </li>
+                    <li class="collection-item text-align-justify">
+                        <h5 id="Error_response" class="section scrollspy">Error response (application/json)</h5>
+                        <p class="text-align-justify"><b>Common errors</b></p>
+                        <p>
+                            <div class="text-indent"><a href="/apis/disnet/common_errors#Authorization_error">Authorization error</a></div>
+                            <div class="text-indent"><a href="/apis/disnet/common_errors#Source_error">Source error</a></div>
+                            <div class="text-indent"><a href="/apis/disnet/common_errors#Version_error">Version error</a></div>
+                            <div class="text-indent"><a href="/apis/disnet/common_errors#Defining_semantic_types_error">Semantic types definition error</a></div>
+                            <div class="text-indent"><a href="/apis/disnet/common_errors#Invalid_disease_name_error">Disease name error</a></div>
+                        </p>
+                        <p id="Error_in_parameters_diseaseName_diseaseCode_typeCode" class="text-align-justify section scrollspy"><b>Error in parameters diseaseName, diseaseCode and typeCode</b></p>
+                        <p class="text-align-justify">
+                        <pre>
                                         <code class="language-json">
                                             {
                                                 "token": "eyJhbGciOiJI...",
@@ -397,37 +399,10 @@
                                             }
                                         </code>
                                     </pre>
-                                    </p>
-                                <p id="Error_Invalid_disease_name" class="text-align-justify section scrollspy"><b>Invalid or not found disease name</b></p>
-                                <p class="text-align-justify">
-                                    <pre>
-                                        <code class="language-json">
-                                            {
-                                                "token": "eyJhbGciOiJI...",
-                                                "authorized": true,
-                                                "authorizationMessage": "Authorized!",
-                                                "responseCode": "400",
-                                                "responseMessage": "A required parameter for this API operation is invalid or has not been provided",
-                                                "errorsFound": [
-                                                    {
-                                                        "errorCode": "404",
-                                                        "errorStatus": "RESOURCE_NOT_FOUND",
-                                                        "message": "Could not find resource. No disease with that exact name was found. Verify the exact disease name in the DISNET disease list.",
-                                                        "parameter": {
-                                                            "name": "diseaseName",
-                                                            "required": true,
-                                                            "defaultValue": false,
-                                                            "value": "InvalidName"
-                                                        }
-                                                    }
-                                                ]
-                                            }
-                                        </code>
-                                    </pre>
-                                </p>
-                                <p id="Error_Invalid_disease_code_code_type" class="text-align-justify section scrollspy"><b>Invalid or not found disease code or code type</b></p>
-                                <p class="text-align-justify">
-                                <pre>
+                        </p>
+                        <p id="Error_Invalid_disease_code_code_type" class="text-align-justify section scrollspy"><b>Invalid or not found disease code or code type</b></p>
+                        <p class="text-align-justify">
+                        <pre>
                                         <code class="language-json">
                                             {
                                                 "token": "eyJhbGciOiJI...",
@@ -462,258 +437,50 @@
                                             }
                                         </code>
                                     </pre>
-                                </p>
-                                <p id="Error_defining_semantic_types" class="text-align-justify section scrollspy"><b>Error when defining semantic types</b></p>
-                                <p class="text-align-justify">
-                                    <pre>
-                                        <code class="language-json">
-                                            {
-                                                "token": "eyJhbGciOiJI...",
-                                                "authorized": true,
-                                                "authorizationMessage": "Authorized!",
-                                                "responseCode": "200",
-                                                "responseMessage": "OK",
-                                                "errorsFound": [
-                                                    {
-                                                        "errorCode": "404",
-                                                        "errorStatus": "RESOURCE_NOT_FOUND",
-                                                        "message": "Could not find resource. Semantic type not found.",
-                                                        "parameter": {
-                                                            "name": "forceSemanticTypes",
-                                                            "required": false,
-                                                            "defaultValue": false,
-                                                            "value": "InvalidValue"
-                                                        }
-                                                    }
-                                                ],
-                                                "diseaseCount": 1,
-                                                "diseaseList": [
-                                                    {
-                                                        "diseaseId": "DIS004014",
-                                                        "name": "Cancer",
-                                                        "url": "http://en.wikipedia.org/wiki/Cancer",
-                                                        "disnetConceptsCount": 24,
-                                                        "disnetConceptList": [
-                                                            {
-                                                                "cui": "C0028754",
-                                                                "name": "Obesity",
-                                                                "semanticTypes": [
-                                                                    "dsyn"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C3714514",
-                                                                "name": "Infection",
-                                                                "semanticTypes": [
-                                                                    "patf"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0016059",
-                                                                "name": "Fibrosis",
-                                                                "semanticTypes": [
-                                                                    "patf"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0021368",
-                                                                "name": "Inflammation",
-                                                                "semanticTypes": [
-                                                                    "patf"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0004364",
-                                                                "name": "Autoimmune disease NOS",
-                                                                "semanticTypes": [
-                                                                    "dsyn"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0018941",
-                                                                "name": "Blood test",
-                                                                "semanticTypes": [
-                                                                    "lbpr"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0005558",
-                                                                "name": "Biopsy",
-                                                                "semanticTypes": [
-                                                                    "diap"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0041582",
-                                                                "name": "Ulcer",
-                                                                "semanticTypes": [
-                                                                    "dsyn"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0003467",
-                                                                "name": "Anxiety",
-                                                                "semanticTypes": [
-                                                                    "mobd"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0344315",
-                                                                "name": "Depressed mood",
-                                                                "semanticTypes": [
-                                                                    "fndg"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0002871",
-                                                                "name": "Anemia",
-                                                                "semanticTypes": [
-                                                                    "dsyn"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0010200",
-                                                                "name": "Coughing",
-                                                                "semanticTypes": [
-                                                                    "sosy"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0013604",
-                                                                "name": "Edema",
-                                                                "semanticTypes": [
-                                                                    "fndg"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0019080",
-                                                                "name": "Hemorrhage",
-                                                                "semanticTypes": [
-                                                                    "patf"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0030193",
-                                                                "name": "Pain",
-                                                                "semanticTypes": [
-                                                                    "sosy"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0032285",
-                                                                "name": "Pneumonia",
-                                                                "semanticTypes": [
-                                                                    "dsyn"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0267596",
-                                                                "name": "Rectal hemorrhage",
-                                                                "semanticTypes": [
-                                                                    "patf"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C2979982",
-                                                                "name": "Vaginal hemorrhage",
-                                                                "semanticTypes": [
-                                                                    "dsyn"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0015672",
-                                                                "name": "Fatigue",
-                                                                "semanticTypes": [
-                                                                    "sosy"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0159028",
-                                                                "name": "General symptom",
-                                                                "semanticTypes": [
-                                                                    "sosy"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C2363736",
-                                                                "name": "Unintentional weight loss",
-                                                                "semanticTypes": [
-                                                                    "fndg"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0019209",
-                                                                "name": "Hepatomegaly",
-                                                                "semanticTypes": [
-                                                                    "sosy"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0038002",
-                                                                "name": "Splenomegaly",
-                                                                "semanticTypes": [
-                                                                    "fndg"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "cui": "C0497156",
-                                                                "name": "Lymphadenopathy",
-                                                                "semanticTypes": [
-                                                                    "fndg"
-                                                                ]
-                                                            }
-                                                        ]
-                                                    }
-                                                ]
-                                            }
-                                        </code>
-                                    </pre>
-                                </p>
-                            </li>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div id="float_table_of_content" class="col hide-on-small-only m3 xl3 offset-xl1" >
+                <div class="toc-wrapper pinned" style="top: 0px;">
+                    <!--<div class="buysellads hide-on-small-only"></div>-->
+                    <div style="height: 1px;">
+                        <ul class="section table-of-contents">
+                            <li><a href="/apis/disnet#DISNET_REST_API_DOCUMENTATION">DISNET API DOCUMENTATION</a></li>
+                            <li><a href="/apis/disnet#Version_information">1. Version_information</a></li>
+                            <li><a href="/apis/disnet#Getting_Started">2. Getting Started</a></li>
+                            <li><a href="/apis/disnet#REST_API_Introduction">3. REST API Introduction</a></li>
+                            <li><a href="/apis/disnet#NLP_Tools_and_Configuration">4. NLP Tools and Configuration</a></li>
+                            <li><a href="/apis/disnet#Service_List">5. Service List</a></li>
+
+                            <li><a href="#Retrieve_DISNET_Concept_list" class="text-indent">Retrieve DISNET Concept list</a></li>
+
+                            <li><a href="#Description" class="text-indent-sub">Description</a></li>
+                            <li><a href="#URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
+                            <li><a href="#Method" class="text-indent-sub">Method</a></li>
+                            <li><a href="#Auth_required" class="text-indent-sub">Auth required</a></li>
+                            <li><a href="#Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
+                            <li><a href="#Important" class="text-indent-sub">Important</a></li>
+                            <li><a href="#Example_request" class="text-indent-sub">Example request</a></li>
+                            <li><a href="#Success_response" class="text-indent-sub">Success response</a></li>
+
+                            <li><a href="#Error_response" class="text-indent-sub-2">Error response</a></li>
+                            <li><a href="#Error_in_parameters_diseaseName_diseaseCode_typeCode" class="text-indent-sub-2">Error in parameters diseaseName, diseaseCode and typeCode</a></li>
+                            <li><a href="#Error_Invalid_disease_code_code_type" class="text-indent-sub-2">Invalid or not found disease code or code type</a></li>
+
+                            <li><a href="/apis/disnet/common_errors#Common_errors">6. Common errors</a></li>
                         </ul>
-                </div>
-                <div id="float_table_of_content" class="col hide-on-small-only m3 xl3 offset-xl1" >
-                    <div class="toc-wrapper pinned" style="top: 0px;">
-                        <!--<div class="buysellads hide-on-small-only"></div>-->
-                        <div style="height: 1px;">
-                            <ul class="section table-of-contents">
-                                <li><a href="/apis/disnet#DISNET_REST_API_DOCUMENTATION">DISNET API DOCUMENTATION</a></li>
-                                <li><a href="/apis/disnet#Version_information">1. Version_information</a></li>
-                                <li><a href="/apis/disnet#Getting_Started">2. Getting Started</a></li>
-                                <li><a href="/apis/disnet#REST_API_Introduction">3. REST API Introduction</a></li>
-                                <li><a href="/apis/disnet#NLP_Tools_and_Configuration">4. NLP Tools and Configuration</a></li>
-                                <li><a href="/apis/disnet#Service_List">5. Service List</a></li>
-
-                                <li><a href="#Retrieve_DISNET_Concept_list" class="text-indent">Retrieve DISNET Concept list</a></li>
-
-                                <li><a href="#Description" class="text-indent-sub">Description</a></li>
-                                <li><a href="#URL_PATH" class="text-indent-sub">URL (PATH)</a></li>
-                                <li><a href="#Method" class="text-indent-sub">Method</a></li>
-                                <li><a href="#Auth_required" class="text-indent-sub">Auth required</a></li>
-                                <li><a href="#Request_parameters_description" class="text-indent-sub">Request parameters description</a></li>
-                                <li><a href="#Important" class="text-indent-sub">Important</a></li>
-                                <li><a href="#Example_request" class="text-indent-sub">Example request</a></li>
-                                <li><a href="#Success_response" class="text-indent-sub">Success response</a></li>
-
-                                <li><a href="#Error_response" class="text-indent-sub-2">Error response</a></li>
-                                <li><a href="#Error_in_parameters_diseaseName_diseaseCode_typeCode" class="text-indent-sub-2">Error in parameters diseaseName, diseaseCode and typeCode</a></li>
-                                <li><a href="#Error_Invalid_disease_name" class="text-indent-sub-2">Invalid or not found disease name</a></li>
-                                <li><a href="#Error_Invalid_disease_code_code_type" class="text-indent-sub-2">Invalid or not found disease code or code type</a></li>
-                                <li><a href="#Error_defining_semantic_types" class="text-indent-sub-2">Error when defining semantic types</a></li>
-
-                                <li><a href="/apis/disnet/common_errors#Common_errors">6. Common errors</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
-    <!-- /.container -->
+    </div>
+</main>
+<!-- /.container -->
 
-    <div th:replace="fragments/footer :: footer"/>
-    <div th:replace="fragments/footer :: footer-js"/>
-    <script type="text/javascript" th:src="@{/js/prism/prism_default.js}"></script>
-    <!--<script type="text/javascript" th:src="@{/js/prism/okaidia/prism.js}"></script>-->
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: footer-js"/>
+<script type="text/javascript" th:src="@{/js/prism/prism_default.js}"></script>
+<!--<script type="text/javascript" th:src="@{/js/prism/okaidia/prism.js}"></script>-->
 </body>
 </html>

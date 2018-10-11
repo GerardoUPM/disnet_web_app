@@ -15,63 +15,267 @@
                 <div class="col s12 m8 offset-m1 xl7 offset-xl1">
                     <div id="Retrieve_diseases" class="section scrollspy wrap-text">
                         <h3 class="header blue-text text-darken-3">/query/searchByDiseaseName</h3>
-                        <p>Information will added soon</p>
+                        <!--<p>Information will added soon</p>-->
                     </div>
                     <ul class="collection">
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Description" class="section scrollspy">Description</h5>
-                                <p class="text-align-justify text-indent">Retrieve disease(s) for a given source and snapshot by exact name or not</p>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="URL_PATH" class="section scrollspy">URL (PATH)</h5>
-                                <p class="text-align-justify text-indent">/query/searchByDiseaseName?</p>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Method" class="section scrollspy">Method</h5>
-                                <p class="text-align-justify text-indent">GET</p>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Auth_required" class="section scrollspy">Auth required</h5>
-                                <p class="text-align-justify text-indent">Yes (token)</p>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Request_parameters_description" class="section scrollspy">Request parameters</h5>
-                                <table class="striped highlight responsive-table">
-                                    <thead>
-                                    <tr>
-                                        <th class="grey-text text-darken-2">Parameter</th>
-                                        <th class="grey-text text-darken-2">Description</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <b>token *required</b>
-                                                <br/>[alphanumeric]
-                                                <br/>example: token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJncmGlGG...
-                                            </td>
-                                            <td>Access key that allows the query to be executed.</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Example_request" class="section scrollspy">Example request</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Success_response" class="section scrollspy">Success response (application/json)</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                                <p>Example:</p>
-                                <p class="text-align-justify text-indent">...</p>
-                            </li>
-                            <li class="collection-item text-align-justify">
-                                <h5 id="Error_response" class="section scrollspy">Error response (application/json)</h5>
-                                <p class="text-align-justify text-indent">...</p>
-                                <p>Example:</p>
-                                <p class="text-align-justify text-indent">...</p>
-                            </li>
-                        </ul>
+                        <li class="collection-item text-align-justify">
+                            <h5 id="Description" class="section scrollspy">Description</h5>
+                            <p class="text-align-justify">Retrieve disease(s) for a given source and snapshot by exact name or not.</p>
+                        </li>
+                        <li class="collection-item text-align-justify">
+                            <h5 id="URL_PATH" class="section scrollspy">URL (PATH)</h5>
+                            <p class="text-align-justify wrap-text">/query/searchByDiseaseName?<b>source</b>=:source&amp;<b>version</b>=:version&amp;<b>diseaseName</b>=:diseaseName&amp;<b>limit</b>=:limit&amp;<b>token</b>=:token</p>
+                        </li>
+                        <li class="collection-item text-align-justify">
+                            <h5 id="Method" class="section scrollspy">Method</h5>
+                            <p class="text-align-justify ">GET</p>
+                        </li>
+                        <li class="collection-item text-align-justify">
+                            <h5 id="Auth_required" class="section scrollspy">Auth required</h5>
+                            <p class="text-align-justify">Yes (token)</p>
+                        </li>
+                        <li class="collection-item text-align-justify">
+                            <h5 id="Request_parameters_description" class="section scrollspy">Request parameters</h5>
+                            <table class="striped highlight responsive-table">
+                                <thead>
+                                <tr>
+                                    <th class="grey-text text-darken-2">Parameter</th>
+                                    <th class="grey-text text-darken-2">Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <b>source *required</b>
+                                        <br/>[alphanumeric]
+                                        <br/>example: source=wikipedia
+                                    </td>
+                                    <td>Name of the information source.</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>version *required</b>
+                                        <br/>[alphanumeric with format “aaaa-mm-dd”]
+                                        <br/>example: token=eyJhbGciOiJI...
+                                    </td>
+                                    <td>Date of information source extraction, in "yyyy-mm-dd" format.</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>diseaseName</b>
+                                        <br/>[alphanumeric]
+                                        <br/>example: diseaseName=Cancer
+                                    </td>
+                                    <td>Name of the disease.</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>matchExactName</b>
+                                        <br/>[boolean] by default always is <b>false</b>
+                                        <br/>example: matchExactName=true
+                                    </td>
+                                    <td>If it is <b>true</b> it allows to consult by the exact name of disease, if it is <b>false</b> it recovers the diseases in whose name the value specified in the parameter diseaseName is found.</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>token *required</b>
+                                        <br/>[alphanumeric]
+                                        <br/>example: token=eyJhbGciOiJI...
+                                    </td>
+                                    <td>Access key that allows the query to be executed.</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                        <li class="collection-item text-align-justify">
+                            <h5 id="Important" class="section scrollspy">Important</h5>
+                            <p class="text-align-justify">
+                                A correct request can only be made if the <b>excludeSemanticTypes</b>=true parameter and the <b>forceSemanticTypes</b>=false parameter are used, both cannot have the true value.
+                            </p>
+                        </li>
+                        <li class="collection-item text-align-justify">
+                            <h5 id="Example_request" class="section scrollspy">Example request</h5>
+                            <pre>
+                                <code class="token style language-http">
+                                    GET http://disnet.ctb.upm.es/api/disnet/query/searchByDiseaseName?source=pubmed&amp;version=2018-04-03&amp;diseaseName=Influenza&amp;matchExactName=true&amp;token=eyJhbGciOiJI
+                                </code>
+                            </pre>
+                        </li>
+                        <li class="collection-item text-align-justify">
+                            <h5 id="Success_response" class="section scrollspy">Success response (application/json)</h5>
+                            <pre>
+                                <code class="language-json">
+                                    {
+                                        "token": "eyJhbGciOiJI...",
+                                        "authorized": true,
+                                        "authorizationMessage": "Authorized!",
+                                        "responseCode": "200",
+                                        "responseMessage": "OK",
+                                        "errorsFound": [],
+                                        "diseaseCount": 1,
+                                        "diseaseList": [
+                                            {
+                                                "diseaseId": "DIS006504",
+                                                "name": "Influenza",
+                                                "urlsCount": 100,
+                                                "urls": [
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28220658",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28605429",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28648674",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28799220",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28799670",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28825515",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28844381",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28855230",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28870104",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28880061",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28887040",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28902408",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28917132",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28930520",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28956760",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28958678",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28968871",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28978710",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28981699",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/28986441",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29016311",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29016325",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29032772",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29046448",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29051331",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29065022",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29075888",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29077596",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29079697",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29079954",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29081496",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29086107",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29088573",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29097380",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29107987",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29109069",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29112968",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29113630",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29117874",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29121624",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29126397",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29129247",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29130266",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29140945",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29141334",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29144466",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29145389",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29145441",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29145498",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29146628",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29149183",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29155812",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29157706",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29162037",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29166867",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29166978",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29168676",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29173310",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29176767",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29178863",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29180488",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29185857",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29190684",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29202715",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29212467",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29216030",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29216845",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29220381",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29220709",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29244811",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29244814",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29246199",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29250946",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29252990",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29262784",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29283997",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29288876",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29294594",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29297852",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29298153",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29315320",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29322273",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29324781",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29351330",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29352897",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29365305",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29388195",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29388196",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29388197",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29388675",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29407029",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29407031",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29447141",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29447145",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29458688",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29466160",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29555588",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29569429",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29569430",
+                                                    "https://www.ncbi.nlm.nih.gov/pubmed/29590549"
+                                                ],
+                                                "codesCount": 9,
+                                                "codes": [
+                                                    {
+                                                        "code": "155559006",
+                                                        "typeCode": "SNOMED_CT"
+                                                    },
+                                                    {
+                                                        "code": "155562009",
+                                                        "typeCode": "SNOMED_CT"
+                                                    },
+                                                    {
+                                                        "code": "195931008",
+                                                        "typeCode": "SNOMED_CT"
+                                                    },
+                                                    {
+                                                        "code": "266353003",
+                                                        "typeCode": "SNOMED_CT"
+                                                    },
+                                                    {
+                                                        "code": "266393000",
+                                                        "typeCode": "SNOMED_CT"
+                                                    },
+                                                    {
+                                                        "code": "6142004",
+                                                        "typeCode": "SNOMED_CT"
+                                                    },
+                                                    {
+                                                        "code": "C0021400",
+                                                        "typeCode": "UMLS"
+                                                    },
+                                                    {
+                                                        "code": "D007251",
+                                                        "typeCode": "MeSH"
+                                                    },
+                                                    {
+                                                        "code": "J11.1",
+                                                        "typeCode": "ICD-10"
+                                                    }
+                                                ],
+                                                "disnetConceptsCount": 33
+                                            }
+                                        ]
+                                    }
+                                </code>
+                            </pre>
+                        </li>
+                        <li class="collection-item text-align-justify">
+                            <h5 id="Error_response" class="section scrollspy">Error response (application/json)</h5>
+                            <p>
+                                <div class="text-indent"><a href="/apis/disnet/common_errors#Authorization_error">Authorization error</a></div>
+                                <div class="text-indent"><a href="/apis/disnet/common_errors#Source_error">Source error</a></div>
+                                <div class="text-indent"><a href="/apis/disnet/common_errors#Version_error">Version error</a></div>
+                                <div class="text-indent"><a href="/apis/disnet/common_errors#Invalid_disease_name_error">Disease name error</a></div>
+                            </p>
+                        </li>
+                    </ul>
                 </div>
                 <div id="float_table_of_content" class="col hide-on-small-only m3 xl3 offset-xl1" >
                     <div class="toc-wrapper pinned" style="top: 0px;">
