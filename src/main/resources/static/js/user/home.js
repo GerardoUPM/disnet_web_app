@@ -7,38 +7,32 @@ $(function () {
         $('.modal').modal();
         disabledTrueForm();
         //Carga los datos de las consultas hechas por el usuario
-        var requestHistoryTable = $('#request_history_table').DataTable({
+        var requestHistoryTable = $("#request_history_table").DataTable({
             "sAjaxSource": "/user/request_history",
             "sAjaxDataProp": "",
-            "responsive": true,
             "processing": true,
+            // "responsive": true,
             "sEcho": 0,
             "iTotalRecords": "0",
             "iTotalDisplayRecords": "0",
-             /*"sScrollX": "100%",*/
-            /*"scrollX": true,*/
-             /*"scrollY": 200,
-            "bScrollCollapse": true,*/
             "bLengthChange": true,
-            "order": [[ 3, "desc" ]],
-            "aoColumns": [
+            "columns": [
                 {
                     "class":          "details-control",
                     "orderable":      false,
                     "data":           null,
                     "defaultContent": ""
-                },
-                { "mData": "transactionId"},
-                { "mData": "runtime_milliseconds"},
-                { "mData": "datetimeFormat"},
-                { "mData": "request"}
+                }
+                ,{ "mData": "transactionId"}
+                ,{ "mData": "runtime_milliseconds"}
+                ,{ "mData": "datetimeFormat"}
+                ,{ "mData": "request"}
             ]
         });
         //Oculta la columna de request que es muy larga
         requestHistoryTable.column(4).visible(false);
         //Añade la clase "browser-default" para que se muestra el select del número de registros a mostrar
-        $('select').addClass("browser-default");
-        //$('#request_history_table_length').addClass("input-field");
+        $("select[name='request_history_table_length']").addClass("browser-default");
 
         //Cada que se hace clic en el boton + se muestra un modal con la info de la request
         //Originalmente muestra una nueva fila con la información de toda la fila con la función format( row.data() )
@@ -47,11 +41,9 @@ $(function () {
         $('#request_history_table tbody').on( 'click', 'tr td.details-control', function () {
             var tr = $(this).closest('tr');
             var row = requestHistoryTable.row( tr );
-            //var idx = $.inArray( tr.attr('id'), detailRows );
-            //swal("Request", row.data().request, "info");
-            $('#requestBody').text(row.data().request);
-            $('#modalRequest').modal('open');
-            /*if ( row.child.isShown() ) {
+            var idx = $.inArray( tr.attr('id'), detailRows );
+
+            if ( row.child.isShown() ) {
                 tr.removeClass( 'details' );
                 row.child.hide();
 
@@ -66,15 +58,29 @@ $(function () {
                 if ( idx === -1 ) {
                     detailRows.push( tr.attr('id') );
                 }
-            }*/
-        });
+            }
+        } );
 
+        // On each draw, loop over the `detailRows` array and show any child rows
+        requestHistoryTable.on( 'draw', function () {
+            $.each( detailRows, function ( i, id ) {
+                $('#'+id+' td.details-control').trigger( 'click' );
+            } );
+        } );
     });
+
     //Ordena la información que se mostrará en la fila creada al presionar el boton + en cada fila
     function format ( d ) {
-        return 'Full name: '+d.transactionId+' '+d.request+'<br>'+
-            'Salary: '+d.datetimeFormat+'<br>'+
-            'The child row can contain any data you wish, including links, images, inner tables etc.';
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" width="20%">'+
+        '<tr>'+
+        '<td><b>Full request:</b></td>'+
+        '<td class="wrap-text">'+d.request+'</td>'+
+        '</tr>'+
+        '</table>';
+
+        // return '<div class="row"><div class="wrap-text"><b>Full request:</b> ' + d.request + '</div></div>';
+            // +'<br>'+ d.transactionId + 'Salary: '+d.datetimeFormat+'<br>'+
+            // 'The child row can contain any data you wish, including links, images, inner tables etc.';
     }
 
     $('#edit_personal_info-btn').on('click', function() {
@@ -115,6 +121,9 @@ $(function () {
 
     });
 
+    // $('#test').on('click', function(){
+    //     $('#request_history_table').css( "width", "50% !important" );alert("hola");
+    // });
 
     function convertUserForm(userForm) {
         return {
@@ -200,4 +209,50 @@ $(function () {
 
 });
 
-jQuery('.dataTable').wrap('<div class="dataTables_scroll" />');
+// jQuery('.dataTable').wrap('<div class="dataTables_scroll" />');
+
+
+// FUNCION PARA ABRIR UN POP UP CON EL CUERPO DE LA PETICIÓN COMPLETA
+// $('#request_history_table tbody').on( 'click', 'tr td.details-control', function () {
+//     var tr = $(this).closest('tr');
+//     var row = requestHistoryTable.row( tr );
+//     //var idx = $.inArray( tr.attr('id'), detailRows );
+//     //swal("Request", row.data().request, "info");
+//     $('#requestBody').text(row.data().request);
+//     $('#modalRequest').modal('open');
+//     /*if ( row.child.isShown() ) {
+//         tr.removeClass( 'details' );
+//         row.child.hide();
+//
+//         // Remove from the 'open' array
+//         detailRows.splice( idx, 1 );
+//     }
+//     else {
+//         tr.addClass( 'details' );
+//         row.child( format( row.data() ) ).show();
+//
+//         // Add to the 'open' array
+//         if ( idx === -1 ) {
+//             detailRows.push( tr.attr('id') );
+//         }
+//     }*/
+// });
+
+//datatables details option
+// ,responsive: {
+//     details: {
+//         display: $.fn.dataTable.Responsive.display.modal( {
+//             header: function ( row ) {
+//                 var data = row.data();
+//                 return 'Details for '+data[0]+' '+data[1];
+//             }
+//         } ),
+//         renderer: $.fn.dataTable.Responsive.renderer.tableAll()
+//     }
+// }
+// ,responsive: {
+//     details: {
+//         display: $.fn.dataTable.Responsive.display.childRowImmediate,
+//             type: ''
+//     }
+// }
