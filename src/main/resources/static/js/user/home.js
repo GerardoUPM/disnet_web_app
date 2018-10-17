@@ -3,6 +3,9 @@
  */
 $(function () {
 
+    /**
+     *
+     */
     $(document).ready(function(){
         $('.modal').modal();
         disabledTrueForm();
@@ -70,7 +73,13 @@ $(function () {
         } );
     });
 
-    //Ordena la información que se mostrará en la fila creada al presionar el boton + en cada fila
+
+    /**
+     * Ordena la información que se mostrará en la fila creada al presionar el boton + en cada fila
+     *
+     * @param d
+     * @returns {string}
+     */
     function format ( d ) {
         return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" width="20%">'+
         '<tr>'+
@@ -84,6 +93,10 @@ $(function () {
             // 'The child row can contain any data you wish, including links, images, inner tables etc.';
     }
 
+
+    /**
+     *
+     */
     $('#edit_personal_info-btn').on('click', function() {
         var option  = $(this).val();
         if (option == "edit"){
@@ -102,6 +115,10 @@ $(function () {
 
     });
 
+
+    /**
+     *
+     */
     $('#save_personal_info-btn').on('click', function() {
         var userForm = getDataForm("#updateForm");
         if(registerValidation(userForm, "update")){
@@ -126,6 +143,11 @@ $(function () {
     //     $('#request_history_table').css( "width", "50% !important" );alert("hola");
     // });
 
+    /**
+     *
+     * @param userForm
+     * @returns {{firstName: Document.firstName, lastName: Document.lastName, email: (Document.email|Document.resetPasswordForm.email), password: *, institution: Document.institution, country: (Document.country|string), occupation: Document.occupation, interest: Document.interest}}
+     */
     function convertUserForm(userForm) {
         return {
             firstName:      userForm.firstName,
@@ -139,6 +161,10 @@ $(function () {
         };
     }
 
+
+    /**
+     *
+     */
     function disabledTrueForm() {
         $('input[name="firstName"]').prop('disabled', true);
         $('input[name="lastName"]').prop('disabled', true);
@@ -153,6 +179,10 @@ $(function () {
         $("#save_personal_info-btn").addClass('disabled');
     }
 
+
+    /**
+     *
+     */
     function disabledFalseForm() {
         $('input[name="firstName"]').prop('disabled', false);
         $('input[name="lastName"]').prop('disabled', false);
@@ -167,7 +197,13 @@ $(function () {
         $("#save_personal_info-btn").removeClass('disabled');
     }
 
+
     // REGISTER EVENT LISTENERS =============================================================
+
+    /**
+     *
+     * @param uploadData
+     */
     function doUpdate(uploadData) {
         /*alert(JSON.stringify(uploadData));*/
         $.ajax({
