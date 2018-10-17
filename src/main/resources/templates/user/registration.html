@@ -58,5 +58,12 @@
         <div th:replace="fragments/footer :: footer"/>
         <div th:replace="fragments/footer :: footer-js"/>
         <script type="text/javascript" th:src="@{/js/user/registration.js}"></script>
+        <script type="text/javascript">
+            swal({
+                title: "DISNET Information",
+                text: "Registration is temporarily disabled. If you have any question please contact with the administrator",
+                type: "info"
+            });
+        </script>
     </body>
 </html>
