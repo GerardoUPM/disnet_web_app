@@ -72,7 +72,7 @@
         <li sec:authorize="!isAuthenticated()" id="registration_li"><!--isAnonymous()--><a href="/user/registration" class="blue-text text-darken-4">Sign up</a></li>
     </ul>
     <ul id="start_mobile" class="dropdown-content">
-        <li sec:authorize="!isAuthenticated()" id="signin_li_mb"><!--isAnonymous()-->
+        <li sec:authorize="!isAuthenticated()" id="signin_li_mobile"><!--isAnonymous()-->
             <a class="blue-text text-darken-4"><form id="signin_li_form_mobile" th:if="${email==null}" th:action="@{/user/login}" method="get">
                 Log In
             </form></a>
