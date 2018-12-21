@@ -1,122 +1,235 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>DISNET - Members</title>
+    <title>DISNET - Database Information</title>
     <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
     <div th:replace="fragments/header :: header"/>
+    <main>
+        <div class="container">
+            <div class="row">
+                <!--<editor-fold desc="CONTENIDO PRINCIPAL">-->
+                <!--/*@thymesVar id="statisticsData" type="resources"*/-->
+                <div class="col s12 m8 offset-m1 xl7 offset-xl1">
+                    <h4 id="ABOUT_DISNET_DATABASE" class="header blue-text text-darken-4 section scrollspy wrap-text">ABOUT DISNET DATABASE</h4>
 
-    <div class="container">
-        <div class="row">
-            <div class="col s12 m8 offset-m1 xl7 offset-xl1 center-on-small-only">
-                <div class="row">
-                    <h3 class="header">The Team</h3>
-                    <p class="caption">We are a team of researchers at the Center for Biomedical Technology (CTB) within the Universidad Politécnica de Madrid (UPM) in Spain.</p>
-                    <br/>
+                    <div id="DISNET_Database_Information" class="section scrollspy">
+                        <h5 class="header blue-text text-darken-3 wrap-text">1. DISNET Database Information</h5>
+                        <p class="text-align-justify">The DISNET database integrates phenotypic and genetic-biological characteristics of diseases and information on drugs from several sources curated by experts and unstructured textual sources. For phenotypic characteristics, information is retrieved from Wikipedia, PubMed and MayoClinic and more are being added; for biological characteristics, information is retrieved from DisGeNet to obtain gene and protein data, WikiPathways to obtain metabolic pathways data and IntAct to obtain protein interaction data; and for drug information, PharmGKB is used, among others.</p>
+                        <p class="text-align-justify text-indent">Currently available online and through the DISNET API is all the phenotypic knowledge processed and structured by our system. Biological characteristics and disease data are in the process of integration, soon these data will be incorporated.</p>
+                    </div>
+
+                    <div id="Knowledge_Data_Sources" class="section scrollspy">
+                        <h5 class="header blue-text text-darken-3 wrap-text">2. Knowledge Data Sources</h5>
+                        <p class="article-text-style">Data in DISNET is retrieved from the following sources:</p>
+                        <p>
+                            <ol class="collection">
+                                <li class="collection-item text-align-justify" th:each="source :${statisticsData.sources}">
+                                    <b style="text-transform: capitalize;" th:text="${{source.name}}" ></b>
+                                </li>
+                            </ol>
+                        </p>
+                    </div>
+
+                    <div id="Database_Statistics" class="section scrollspy">
+                        <h5 class="header blue-text text-darken-3 wrap-text">3. Database Statistics</h5>
+                    </div>
+
+                    <div id="Statistic_datas_on_phenotypical_layer" class="section scrollspy">
+                        <h5 class="header red-text text-darken-4 wrap-text">i. Statistic datas on phenotypical layer</h5>
+                    </div>
+
+                    <div id="Snapshot_by_sources" class="section scrollspy">
+                        <h5 class="header grey-text text-darken-3 text-indent wrap-text">a) Snapshot by sources (<span th:text="${numTotSnapshots}"></span> snapshots)</h5>
+                        <p>
+                            <ol class="collapsible" data-collapsible="accordion">
+                                <li th:each="source :${statisticsData.sources}">
+                                    <div class="collapsible-header">
+                                        <span style="text-transform: capitalize;" th:text="${{source.name + ' (' + source.snapshotCount + ' snapshots)'}}"/>
+                                        <i class="material-icons">arrow_downward</i>
+                                    </div>
+                                    <div class="collapsible-body">
+                                        <ol type="1"><li th:each="snapshot :${source.snapshots}" th:text="${{snapshot.date}}"/></ol>
+                                    </div>
+                                </li>
+                            </ol>
+                        </p>
+                    </div>
+
+                    <div id="diseases" class="section scrollspy">
+                        <h5 class="header grey-text text-darken-3 text-indent wrap-text">b) Diseases (with at least one validated medical term) by source and snapshot</h5>
+                        <span class="decimal-format">123456789</span>
+                        <p>
+                            <ol class="collapsible" data-collapsible="accordion">
+                                <li th:each="source :${statisticsData.sources}">
+                                    <div class="collapsible-header">
+                                        <span style="text-transform: capitalize;" th:text="${{source.name}}"/>
+                                        <i class="material-icons">arrow_downward</i>
+                                    </div>
+                                    <div class="collapsible-body">
+                                        <ol type="1">
+                                            <li th:each="snapshot :${source.snapshots}">
+                                                <span class="teal-text darken-4" th:text="${{ snapshot.date}}"/>:&nbsp;
+                                                <span class="number text-bold" th:text="${{ snapshot.numDisease}}"/>&nbsp;of&nbsp;
+                                                <span class="number" th:text="${{ snapshot.numTotDiseases}}"/>&nbsp;extracted diseases.
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </li>
+                            </ol>
+                        </p>
+                    </div>
+
+                    <div id="validated_medical_term" class="section scrollspy">
+                        <h5 class="header grey-text text-darken-3 text-indent wrap-text">c) Validated medical terms by source and snapshot</h5>
+                        <p>
+                            <ol class="collapsible" data-collapsible="accordion">
+                                <li th:each="source :${statisticsData.sources}">
+                                    <div class="collapsible-header">
+                                        <span style="text-transform: capitalize;" th:text="${{source.name}}"/>
+                                        <i class="material-icons">arrow_downward</i>
+                                    </div>
+                                    <div class="collapsible-body">
+                                        <ol type="1">
+                                            <li th:each="snapshot :${source.snapshots}">
+                                                <span class="teal-text darken-4" th:text="${{ snapshot.date}}"/>:&nbsp;
+                                                <span class="number text-bold" th:text="${{ snapshot.numMedicalTerms}}"/>&nbsp;of&nbsp;
+                                                <span class="number" th:text="${{ snapshot.numTotMedicalTerms}}"/>&nbsp;extracted diseases.
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </li>
+                            </ol>
+                        </p>
+                    </div>
+
+                    <div id="texts" class="section scrollspy">
+                        <h5 class="header grey-text text-darken-3 text-indent wrap-text">d) Text (with at least one validated medical term) by source and snapshot</h5>
+                        <p>
+                            <ol class="collapsible" data-collapsible="accordion">
+                                <li th:each="source :${statisticsData.sources}">
+                                    <div class="collapsible-header">
+                                        <span style="text-transform: capitalize;" th:text="${{source.name}}"/>
+                                        <i class="material-icons">arrow_downward</i>
+                                    </div>
+                                    <div class="collapsible-body">
+                                        <ol type="1">
+                                            <li th:each="snapshot :${source.snapshots}">
+                                                <span class="teal-text darken-4" th:text="${{ snapshot.date}}"/>:&nbsp;
+                                                <span class="number text-bold" th:text="${{ snapshot.numTexts}}"/>&nbsp;of&nbsp;
+                                                <span class="number" th:text="${{ snapshot.numTotTexts}}"/>&nbsp;extracted diseases.
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </li>
+                            </ol>
+                        </p>
+                    </div>
+
+                    <div id="disease_with_codes" class="section scrollspy">
+                        <h5 class="header grey-text text-darken-3 text-indent wrap-text">e) Diseases (with at least one validated medical term) with codes</h5>
+                        <p>
+                            <ol class="collapsible" data-collapsible="accordion">
+                                <li th:each="source :${statisticsData.sources}">
+                                    <div class="collapsible-header">
+                                        <span style="text-transform: capitalize;" th:text="${{source.name}}"/>
+                                        <i class="material-icons">arrow_downward</i>
+                                    </div>
+                                    <div class="collapsible-body">
+                                        <ol type="1">
+                                            <li th:each="snapshot :${source.snapshots}">
+                                                <span class="teal-text darken-4" th:text="${{ snapshot.date}}"/>:&nbsp;
+                                                <span class="number text-bold" th:text="${{ snapshot.numDiseaseWithCodes}}"/>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </li>
+                            </ol>
+                        </p>
+                    </div>
+
+                    <div id="disease_codes" class="section scrollspy">
+                        <h5 class="header grey-text text-darken-3 text-indent wrap-text">f) Disease codes (external vocabularies) by source and snapshot</h5>
+                        <p>
+                            <ol class="collapsible" >
+                                <li th:each="source :${statisticsData.sources}">
+                                    <div class="collapsible-header">
+                                        <span style="text-transform: capitalize;" th:text="${{source.name}}"/>
+                                        <i class="material-icons">arrow_downward</i>
+                                    </div>
+                                    <div class="collapsible-body">
+                                        <ol type="1">
+                                            <li th:each="snapshot :${source.snapshots}">
+                                                <span class="teal-text darken-4" th:text="${{ snapshot.date}}"/>:&nbsp;
+                                                <span class="number text-bold" th:text="${{ snapshot.numDiseaseCodes}}"/>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </li>
+                            </ol>
+                        </p>
+                    </div>
+
+                    <div id="Wikipedia_medical_vocabularies" class="section scrollspy">
+                        <h5 class="header grey-text text-darken-3 text-indent wrap-text">g) Wikipedia medical vocabularies</h5>
+                        <p>Up to <span class="text-bold" th:text="${{statisticsData.numVocabularies}}"/> medical vocabularies have been recovered from Wikipedia.</p>
+                        <p>
+                            <ul class="collapsible" >
+                                <li>
+                                    <div class="collapsible-header">Medical vocabularies<i class="material-icons">arrow_downward</i></div>
+                                    <div class="collapsible-body">
+                                        <ol class="collection">
+                                            <li class="collection-item text-align-justify" th:each="vocabulary :${statisticsData.vocabularies}">
+                                                <b style="text-transform: capitalize;" th:text="${{vocabulary}}" ></b>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+
+                    <div id="Statistic_datas_on_biological_layer" class="section scrollspy">
+                        <h5 class="header red-text text-darken-4 wrap-text">ii. Statistic datas on biological layer</h5>
+                        <p>This information will be available soon.</p>
+                    </div>
+
                 </div>
-                <br/>
-                <!--<editor-fold desc="alejandro member">-->
-                <div class="card grey lighten-5 z-depth-1">
-                    <div class="card-content">
-                        <div class="row valign-wrapper">
-                            <div class="col s3">
-                                <img th:src="@{/images/team/alejandro/alejandro.jpeg}" class="circle responsive-img" alt="Alejandro Rodríguez González"/>
-                            </div>
-                            <div class="col s9">
-                              <span class="card-title">Alejandro Rodríguez González</span>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="card-action col s12 right-align z-depth-1">
-                        <a href="/members/alejandro">About him</a>
-                    </div>
-                </div><br/><br/>
                 <!--</editor-fold>-->
 
-                <!--<editor-fold desc="eduardo member">-->
-                <div class="card grey lighten-5 z-depth-1">
-                    <div class="card-content">
-                        <div class="row valign-wrapper">
-                            <div class="col s3">
-                                <img th:src="@{/images/team/eduardo/eduardo.png}" class="circle responsive-img" alt="Eduardo P. García del Valle"/>
-                            </div>
-                            <div class="col s9">
-                                <span class="card-title">Eduardo P. García del Valle</span>
-                            </div>
-
+                <!--<editor-fold desc="MENU FLOTANTE">-->
+                <div id="float_table_of_content" class="col hide-on-small-only m3 xl3 offset-xl1" >
+                    <div class="toc-wrapper pinned" style="top: 0px;">
+                        <!--<div class="buysellads hide-on-small-only"></div>-->
+                        <div style="height: 1px;">
+                            <ul class="section table-of-contents">
+                                <li><a href="#ABOUT_DISNET_DATABASE">DISNET DATABASE INFORMATION</a></li>
+                                <li><a href="#DISNET_Database_Information">1. DISNET Database Information</a></li>
+                                <li><a href="#Knowledge_Data_Sources">2. Knowledge Data Sources</a></li>
+                                <li><a href="#Database_Statistics">3. Database Statistics</a></li>
+                                <li><a href="#Statistic_datas_on_phenotypical_layer">i. Statistic datas on phenotypical layer</a></li>
+                                <li class="text-indent"><a href="#Snapshot_by_sources">a) Snapshot by sources</a></li>
+                                <li class="text-indent"><a href="#diseases">b) Diseases (with at least one validated medical term) by source and snapshot</a></li>
+                                <li class="text-indent"><a href="#validated_medical_term">c) Validated medical terms by source and snapshot</a></li>
+                                <li class="text-indent"><a href="#texts">d) Text (with at least one validated medical term) by source and snapshot</a></li>
+                                <li class="text-indent"><a href="#disease_with_codes">e) Diseases (with at least one validated medical term) with codes</a></li>
+                                <li class="text-indent"><a href="#disease_codes">f) Disease codes (external vocabularies) by source and snapshot</a></li>
+                                <li class="text-indent"><a href="#Wikipedia_medical_vocabularies">g) Wikipedia medical vocabularies</a></li>
+                                <li><a href="#Statistic_datas_on_biological_layer">ii. Statistic datas on biological layer</a></li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="card-action col s12 right-align z-depth-1">
-                        <a href="/members/eduardo">About him</a>
-                    </div>
-                </div><br/><br/>
-                <!--</editor-fold>-->
-
-                <!--<editor-fold desc="gerardo member">-->
-                <div class="card grey lighten-5 z-depth-1">
-                    <div class="card-content">
-                        <div class="row valign-wrapper">
-                            <div class="col s3">
-                                <img th:src="@{/images/team/gerardo/gerardo.png}" class="circle responsive-img" alt="Gerardo Lagunes García"/>
-                            </div>
-                            <div class="col s9">
-                                <span class="card-title">Gerardo Lagunes García</span>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="card-action col s12 right-align z-depth-1">
-                        <a href="/members/gerardo">About him</a>
-                    </div>
-                </div><br/><br/>
-                <!--</editor-fold>-->
-
-                <!--<editor-fold desc="lucia member">-->
-                <div class="card grey lighten-5 z-depth-1">
-                    <div class="card-content">
-                        <div class="row valign-wrapper">
-                            <div class="col s3">
-                                <img th:src="@{/images/team/lucia/lucia.jpg}" class="circle responsive-img" alt="Lucía Prieto Santamaría"/>
-                            </div>
-                            <div class="col s9">
-                                <span class="card-title">Lucía Prieto Santamaría</span>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="card-action col s12 right-align z-depth-1">
-                        <a href="/members/lucia">About her</a>
-                    </div>
-                </div><br/><br/>
-                <!--</editor-fold>-->
-
-                <!--<editor-fold desc="massi member">-->
-                <div class="card grey lighten-5 z-depth-1">
-                    <div class="card-content">
-                        <div class="row valign-wrapper">
-                            <div class="col s3">
-                                <img th:src="@{/images/team/massi/massi.jpg}" class="circle responsive-img" alt="Dr. Massimiliano Zanin"/>
-                            </div>
-                            <div class="col s9">
-                                <span class="card-title">Massimiliano Zanin</span>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="card-action col s12 right-align z-depth-1">
-                        <a href="/members/massimiliano">About him</a>
                     </div>
                 </div>
                 <!--</editor-fold>-->
             </div>
         </div>
-    </div>
+    </main>
     <!-- /.container -->
 
     <div th:replace="fragments/footer :: footer"/>
     <div th:replace="fragments/footer :: footer-js"/>
+    <script type="text/javascript" th:src="@{/js/statistics/about.js}"></script>
 </body>
 </html>

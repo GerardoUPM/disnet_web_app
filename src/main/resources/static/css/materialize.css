@@ -2948,7 +2948,9 @@ thead {
 td, th {
   padding: 15px 5px;
   display: table-cell;
-  text-align: left;
+  /*EDIT BY GLG*/
+  /*text-align: left;*/
+  text-align: center;
   vertical-align: middle;
   border-radius: 2px;
 }
@@ -2997,7 +2999,9 @@ td, th {
   }
   table.responsive-table th {
     display: block;
-    text-align: right;
+    /*EDIT BY GLG*/
+    /*text-align: right;*/
+    text-align: left;
   }
   table.responsive-table td {
     display: block;
@@ -7355,7 +7359,9 @@ input[type=range]:focus::-ms-fill-upper {
 
 .side-nav {
   position: fixed;
-  width: 300px;
+  /*EDIT BY GLG*/
+  /*width: 300px;*/
+  width: 250px;
   left: 0;
   top: 0;
   margin: 0;
@@ -7400,7 +7406,9 @@ input[type=range]:focus::-ms-fill-upper {
 .side-nav li > a {
   color: rgba(0, 0, 0, 0.87);
   display: block;
-  font-size: 14px;
+  /*EDIT BY GLG*/
+  /*font-size: 14px;*/
+  font-size: 18px;
   font-weight: 500;
   height: 48px;
   line-height: 48px;
