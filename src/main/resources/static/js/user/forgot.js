@@ -33,7 +33,7 @@ $(function () {
             url: "/user/reset_password",
             type: "POST",
             data: JSON.stringify(resetData),
-            contentType: "application/json; charset=utf-8",
+            contentType: "application/jpa; charset=utf-8",
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 /*alert(data);*/

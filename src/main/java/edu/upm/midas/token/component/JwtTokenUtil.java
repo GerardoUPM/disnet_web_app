@@ -1,7 +1,7 @@
 package edu.upm.midas.token.component;
 
-import edu.upm.midas.common.utils.TimeProvider;
-import edu.upm.midas.data.relational.entities.disnetdb.Person;
+import edu.upm.midas.common.util.TimeProvider;
+import edu.upm.midas.model.jpa.Person;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

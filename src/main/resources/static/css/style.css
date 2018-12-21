@@ -40,3 +40,19 @@ body {
 main {
     flex: 1 0 auto;
 }
+
+.article-text-style {
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
+.decimal-format {
+    grouping-separator: ",";
+    decimal-separator : "."
+}
+
+.text-bold {
+    font-weight: bold;
+}

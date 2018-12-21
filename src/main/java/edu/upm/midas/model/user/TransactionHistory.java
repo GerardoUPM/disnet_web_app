@@ -1,12 +1,7 @@
 package edu.upm.midas.model.user;
-import edu.upm.midas.common.utils.TimeProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by gerardo on 28/11/2017.

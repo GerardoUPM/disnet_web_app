@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MemberController {
 
-    @RequestMapping("/members")
+    @RequestMapping("/members/about")
     public String membersPage(Model model){
         //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         //System.out.println("PWD: " + passwordEncoder.encode("groot"));
-        return "members";
+        return "members/about";
     }
 
     @RequestMapping("/members/alejandro")

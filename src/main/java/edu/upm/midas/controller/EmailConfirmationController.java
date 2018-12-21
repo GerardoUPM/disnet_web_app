@@ -1,10 +1,8 @@
 package edu.upm.midas.controller;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import edu.upm.midas.data.relational.service.helper.PersonHelper;
+import edu.upm.midas.service.jpa.helper.PersonHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;

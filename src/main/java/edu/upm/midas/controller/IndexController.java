@@ -1,5 +1,7 @@
 package edu.upm.midas.controller;
 
+import edu.upm.midas.client_modules.disnet_query.texts_extraction.api_response.DisnetService;
+import edu.upm.midas.client_modules.disnet_query.texts_extraction.model.response.analysis.DatabaseStatisticsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.token.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.core.Authentication;
@@ -21,8 +23,6 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class IndexController {
-
-
 
     @RequestMapping("/")
     public String indexPage(Model model, HttpSession sesion){
@@ -63,5 +63,4 @@ public class IndexController {
         //System.out.println("PWD: " + passwordEncoder.encode("groot"));
         return "temporarily_disabled";
     }
-
 }

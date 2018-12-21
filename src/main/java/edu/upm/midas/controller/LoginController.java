@@ -1,22 +1,15 @@
 package edu.upm.midas.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.upm.midas.constants.Constants;
-import edu.upm.midas.data.relational.entities.disnetdb.Person;
-import edu.upm.midas.data.relational.entities.disnetdb.PersonToken;
-import edu.upm.midas.data.relational.service.CountryService;
-import edu.upm.midas.data.relational.service.LogQuery_Service;
-import edu.upm.midas.data.relational.service.PersonService;
-import edu.upm.midas.data.relational.service.PersonTokenService;
-import edu.upm.midas.data.relational.service.helper.PersonHelper;
-import edu.upm.midas.email.component.EmailHtmlSender;
-import edu.upm.midas.email.model.EmailStatus;
-import edu.upm.midas.email.service.EmailService;
+import edu.upm.midas.model.jpa.Person;
+import edu.upm.midas.model.jpa.PersonToken;
+import edu.upm.midas.service.jpa.CountryService;
+import edu.upm.midas.service.jpa.LogQuery_Service;
+import edu.upm.midas.service.jpa.PersonService;
+import edu.upm.midas.service.jpa.PersonTokenService;
+import edu.upm.midas.service.jpa.helper.PersonHelper;
 import edu.upm.midas.model.user.*;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
-import org.springframework.http.HttpStatus;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,14 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.thymeleaf.context.Context;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.security.Principal;
-import java.util.List;
 
 /**
  * Created by gerardo on 21/09/2017.

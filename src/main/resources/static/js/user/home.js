@@ -210,7 +210,7 @@ $(function () {
             url: "/user/update",
             type: "POST",
             data: JSON.stringify(uploadData),
-            contentType: "application/json; charset=utf-8",
+            contentType: "application/jpa; charset=utf-8",
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 /*

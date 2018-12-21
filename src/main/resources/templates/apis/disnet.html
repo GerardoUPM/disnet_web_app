@@ -13,14 +13,15 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-                    <h1 id="DISNET_REST_API_DOCUMENTATION" class="header blue-text text-darken-4 section scrollspy wrap-text">DISNET API DOCUMENTATION</h1>
+                    <h4 id="DISNET_REST_API_DOCUMENTATION" class="header blue-text text-darken-4 section scrollspy wrap-text">DISNET API DOCUMENTATION</h4>
+
                     <div id="Version_information" class="section scrollspy">
-                        <h3 class="header blue-text text-darken-3">Version Information</h3>
+                        <h5 class="header blue-text text-darken-3">Version Information</h5>
                         <table class="striped highlight responsive-table">
                             <thead>
                             <tr>
-                                <th class="grey-text text-darken-2">Version</th>
-                                <th class="grey-text text-darken-2" style="width: 40%;">Date</th>
+                                <th class="grey-text text-darken-2 center-align">Version</th>
+                                <th class="grey-text text-darken-2 center-align" style="width: 40%;">Date</th>
                                 <th class="grey-text text-darken-2">Author</th>
                                 <th class="grey-text text-darken-2">Description</th>
                             </tr>
@@ -47,16 +48,17 @@
                             </tbody>
                         </table>
                     </div>
+
                     <div id="Getting_Started" class="section scrollspy">
-                        <h3 class="header blue-text text-darken-3">Getting Started</h3>
-                        <h4>Base URL</h4>
+                        <h5 class="header blue-text text-darken-3">Getting Started</h5>
+                        <h5>Base URL</h5>
                         <p>disnet.ctb.upm.es/api/disnet</p>
-                        <h4>Schemes</h4>
+                        <h5>Schemes</h5>
                         <p><strong>HTTP</strong> | HTTPS</p>
-                        <h4>Requirements</h4>
+                        <h5>Requirements</h5>
                         <p class="text-align-justify">The requirement to use this API is to have a DISNET account. When an account is generated, an access <strong>token</strong> (unique identifier) is provided. The <strong>token</strong> must always be included in every request made to a service, if it is active the service will respond to the request made, otherwise the results will not be displayed.</p>
                         <p class="text-align-justify text-indent">The <strong>token</strong> is obtained by signing up in the DISNET Web application, which can be found <a href="#" class="tooltipped" data-position="top" data-tooltip="DISNET sign up">here</a>.</p>
-                        <h4>Quick Start</h4>
+                        <h5>Quick Start</h5>
                         <p>Overview of API usage.</p>
                         <p>
                             <ol class="collection">
@@ -80,7 +82,7 @@
                     </div>
 
                     <div id="REST_API_Introduction" class="section scrollspy">
-                        <h3 class="header  blue-text text-darken-3">REST API Introduction</h3>
+                        <h4 class="header  blue-text text-darken-3">REST API Introduction</h4>
                         <p class="text-align-justify">Currently the DISNET API has eleven queries, in <a href="#Service_List">Service List</a> section we can see the detailed list of services offered by DISNET with a short description of its function.</p>
                         <p class="text-align-justify text-indent">In our system, we call "DISNET Concept" to all those terms we store that are validated positively (symptoms) as the medical concepts that were validated negatively and that therefore are not symptoms or signs. All our queries that respond with a list of DISNET Concepts by default return the validated ones positively, but also allow to return the validated ones negatively.</p>
                         <p class="text-align-justify text-indent">These queries are made with a view to providing as much relevant data as possible to users, so they can be consulted from the sources of knowledge that have been mined, the snapshots that have been made, the list of all diseases from a source and a snapshot, to the configurations by which a particular snapshot has been created.</p>
@@ -88,7 +90,7 @@
                     </div>
 
                     <div id="NLP_Tools_and_Configuration" class="section scrollspy">
-                        <h3 class="header  blue-text text-darken-3">NLP Tools and Configuration</h3>
+                        <h4 class="header  blue-text text-darken-3">NLP Tools and Configuration</h4>
                         <p class="text-align-justify">Metamap<sup><a href="https://metamap.nlm.nih.gov/" class="tooltipped" data-position="top" data-tooltip="https://metamap.nlm.nih.gov/">1</a></sup>  was developed by the National Library of Medicine (NLM) and is one of the most widely accepted applications of NLP in biomedicine. When Metamap analyzes texts and identifies words or phrases, it relates and assigns them to concepts of NLM's Unified Medical Language System (UMLS), so we have terms that can be used by other biomedical applications that use the unique identifier concept (CUI) of UMLS (<a href="https://www.ncbi.nlm.nih.gov/pubmed/11825149" class="tooltipped" data-position="top" data-tooltip="Effective mapping of biomedical text to the UMLS Metathesaurus: the MetaMap program">Aronson, 2001</a>; <a class="tooltipped" data-position="top" data-tooltip="Automatically Detecting Failures in Natural Language Processing Tools for Online Community Text" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4642409/">Park et al., 2015</a>).</p>
                         <p class="text-align-justify text-indent">In our research work we processed the texts of our database with Metamap version 2016v2.</p>
                         <p class="text-align-justify text-indent">To add Metamap to the DISNET system we have developed a Web service that consumes Metamap by means of a request that contains the indications of its configuration. Next, we will describe the part of the request that is related to the Metamap configuration.</p>
@@ -109,7 +111,7 @@
                     </div>
 
                     <div id="Service_List" class="section scrollspy">
-                        <h3 class="header blue-text text-darken-3">Service List</h3>
+                        <h4 class="header blue-text text-darken-3">Service List</h4>
                         <table class="striped highlight responsive-table">
                             <thead>
                             <tr>
@@ -179,6 +181,7 @@
                         </table>
                     </div>
                 </div>
+
                 <div id="float_table_of_content" class="col hide-on-small-only m3 xl3 offset-xl1" >
                     <div class="toc-wrapper pinned" style="top: 0px;">
                         <!--<div class="buysellads hide-on-small-only"></div>-->

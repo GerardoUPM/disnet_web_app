@@ -1,28 +1,17 @@
 package edu.upm.midas.controller;
 
 import edu.upm.midas.constants.Constants;
-import edu.upm.midas.data.relational.entities.disnetdb.SystemParameter;
+import edu.upm.midas.model.jpa.SystemParameter;
 import edu.upm.midas.email.component.EmailHtmlSender;
 import edu.upm.midas.email.model.EmailStatus;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 
-import javax.mail.Multipart;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by gerardo on 21/09/2017.

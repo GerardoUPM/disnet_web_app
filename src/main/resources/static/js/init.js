@@ -4,6 +4,11 @@
       $(document).ready(function() {
           $('select').material_select();
           $('.scrollspy').scrollSpy();
+
+          // var elem = document.querySelector('.collapsible.expandable');
+          // var instance = M.Collapsible.init(elem, {
+          //     accordion: false
+          // });
       });
 
       $(".dropdown-button").dropdown();

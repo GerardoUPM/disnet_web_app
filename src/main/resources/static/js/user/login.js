@@ -27,7 +27,7 @@ $(function () {
             url: "/user/login",
             type: "POST",
             data: JSON.stringify(loginData),
-            contentType: "application/json; charset=utf-8",
+            contentType: "application/jpa; charset=utf-8",
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 //setJwtToken(data.token);
