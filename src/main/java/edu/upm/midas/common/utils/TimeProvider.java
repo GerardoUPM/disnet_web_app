@@ -45,4 +45,10 @@ public class TimeProvider {
         return new SimpleDateFormat("yyyy-MM-dd").format(date);
     }
 
+    public String getDateSplitInfo(String code){
+        Date date = new Date(new java.util.Date().getTime());
+        SimpleDateFormat ft = new SimpleDateFormat (code+"");
+        return ft.format(date);
+    }
+
 }

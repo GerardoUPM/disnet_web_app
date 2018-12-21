@@ -74,6 +74,18 @@ public class LoginController {
         return "user/login";
     }
 
+    @RequestMapping(value = "/perform_login")
+    public void userLoginRegister(UserLogin userLogin) throws Exception {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (auth.isAuthenticated() && !auth.getName().equals(Constants.AUTH_ANONYMOUS_USER)) {
+            System.out.println("user/login/deVERDAD??");
+//            Person user = personService.findById(userLogin.getEmail());
+
+            //Registrando el login
+//            personHelper.saveLogin(user);
+//        }
+    }
+
 
     @RequestMapping(value = "/forgot", method = RequestMethod.GET)
     public String userRecovery(Model model){
@@ -86,9 +98,10 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value="/client/home", method = RequestMethod.GET)
-    public ModelAndView home(HttpSession session){
+    public ModelAndView home(HttpSession session) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         if (auth.isAuthenticated() && !auth.getName().equals(Constants.AUTH_ANONYMOUS_USER)) {
 //            System.out.println(auth.getName()
 //                    + " | " + auth.isAuthenticated()
@@ -96,6 +109,7 @@ public class LoginController {
 //                    + " | " + auth.getDetails()
 //                    + " | " + auth.getPrincipal().toString()
 //                    );
+            System.out.println("isNew: "+session.isNew() + ", getCreationTime: " + session.getCreationTime() +", getLastAccessedTime: "+session.getLastAccessedTime());
             //anonymousUser | true |  | org.springframework.security.web.authentication.WebAuthenticationDetails@fffde5d4: RemoteIpAddress: 0:0:0:0:0:0:0:1; SessionId: E725CB142FD05DDCEC4EB437C2DFF507 | anonymousUser
             Person user = personService.findById(auth.getName());
             PersonToken token = personTokenService.findByPersonId(auth.getName());
@@ -111,6 +125,12 @@ public class LoginController {
             modelAndView.addObject("countries", countryService.findAll());
             //modelAndView.addObject("transactions", transactionHistories);
             modelAndView.addObject("clientMessage", "Content Available Only for DISNET clients");
+            //Registrando el login
+            if (session.getAttribute("saveLogin")==null){
+                personHelper.saveLogin(user);
+                session.setAttribute("saveLogin", true);
+            }
+
             modelAndView.setViewName("user/client/home");
         }else{
             modelAndView.setViewName("index");

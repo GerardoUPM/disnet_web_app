@@ -13,6 +13,21 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "person_login", schema = "disnetdb", catalog = "")
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "PersonLoginMapping",
+                entities = @EntityResult(
+                        entityClass = PersonLogin.class,
+                        fields = {
+                                @FieldResult(name = "personId", column = "person_id"),
+                                @FieldResult(name = "loginId", column = "token"),
+                                @FieldResult(name = "enabled", column = "enabled"),
+                                @FieldResult(name = "attempts", column = "date")
+                        }
+                )
+        )
+})
+
 @IdClass(PersonLoginPK.class)
 public class PersonLogin {
     private String personId;

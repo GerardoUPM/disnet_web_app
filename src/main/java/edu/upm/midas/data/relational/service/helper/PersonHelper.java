@@ -3,6 +3,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.upm.midas.common.utils.Common;
 import edu.upm.midas.common.utils.TimeProvider;
+import edu.upm.midas.common.utils.UniqueId;
 import edu.upm.midas.constants.Constants;
 import edu.upm.midas.data.relational.entities.disnetdb.*;
 import edu.upm.midas.data.relational.service.*;
@@ -25,6 +26,7 @@ import org.thymeleaf.context.Context;
 
 import javax.annotation.PostConstruct;
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 /**
@@ -53,6 +55,10 @@ public class PersonHelper {
     private EmailConfirmationService emailConfirmationService;
     @Autowired
     private PersonTokenService personTokenService;
+    @Autowired
+    private PersonLoginService personLoginService;
+    @Autowired
+    private LoginService loginService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -64,6 +70,8 @@ public class PersonHelper {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private Constants constants;
+    @Autowired
+    private UniqueId uniqueId;
     @Autowired
     private Common common;
 
@@ -365,6 +373,50 @@ public class PersonHelper {
     }
 
 
+    @Transactional
+    public boolean saveLogin(Person person) throws Exception {
+        boolean response = false;
+        try {
+            int seconds = Integer.parseInt(timeProvider.getDateSplitInfo("s"));
+            //Genera un loginId
+            String loginId = generateLoginId(person.getPersonId());
+//            System.out.println("Login ID generado: " + loginId);
+            Login login = new Login();
+            login.setLoginId(loginId);
+            login.setDate(timeProvider.getNow());
+            login.setSeconds(seconds);
+            login.setHour(timeProvider.getTimestamp());
+            login.setDatetime(timeProvider.getTimestamp());
+            login.setEndDate(timeProvider.getTimestamp());
+            //Salva un login
+            loginService.save(login);
+
+            //Se crea la relación entre un login y una persona
+            PersonLogin personLogin = new PersonLogin();
+            personLogin.setPersonId(person.getPersonId());
+            personLogin.setLoginId(login.getLoginId());
+            personLogin.setEnabled((byte) 1);
+            personLogin.setAttempts(1);
+            personLoginService.save(personLogin);
+
+        }catch (Exception e){
+
+        }
+        return response;
+    }
+
+
+    public String generateLoginId(String personId){
+        String loginId = uniqueId.generate(25);
+        Login existLogin = loginService.findById(loginId);
+
+        if (existLogin == null){
+            //Crear un nuevo login
+            return loginId;
+        }else{
+            return generateLoginId(personId);
+        }
+    }
 
 
 }
