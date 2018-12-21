@@ -1,5 +1,4 @@
 package edu.upm.midas.controller;
-import edu.upm.midas.service.jpa.helper.PersonHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class EmailConfirmationController {
 
     @Autowired
-    private PersonHelper personHelper;
+    private edu.upm.midas.data.relational.service.helper.PersonHelper personHelper;
 
     @RequestMapping(value = "/confirmation_email", method = RequestMethod.GET, params = {"token"})
     public ModelAndView confirmationEmail(@RequestParam(value = "token") String token, Device device) throws Exception {

@@ -1,10 +1,10 @@
-package edu.upm.midas.data.relational.repository.impl;
+package edu.upm.midas.repository.jpa.impl;
 
-import edu.upm.midas.data.relational.entities.disnetdb.PersonLogin;
-import edu.upm.midas.data.relational.entities.disnetdb.PersonLoginPK;
-import edu.upm.midas.data.relational.repository.AbstractDao;
-import edu.upm.midas.data.relational.repository.PersonLoginRepository;
-import org.apache.commons.collections4.CollectionUtils;
+
+import edu.upm.midas.repository.jpa.PersonLoginRepository;
+import edu.upm.midas.model.jpa.PersonLogin;
+import edu.upm.midas.model.jpa.PersonLoginPK;
+import edu.upm.midas.repository.jpa.AbstractDao;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;

@@ -1,7 +1,6 @@
 package edu.upm.midas.model.jpa;
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +19,7 @@ public class Login {
     private String loginId;
     private Date date;
     private Integer seconds;
-    private Time hour;
+    private Timestamp hour;
     private Timestamp datetime;
     private Timestamp endDate;
     private List<PersonLogin> personLoginsByLoginId;
@@ -57,11 +56,11 @@ public class Login {
 
     @Basic
     @Column(name = "hour", nullable = false)
-    public Time getHour() {
+    public Timestamp getHour() {
         return hour;
     }
 
-    public void setHour(Time hour) {
+    public void setHour(Timestamp hour) {
         this.hour = hour;
     }
 

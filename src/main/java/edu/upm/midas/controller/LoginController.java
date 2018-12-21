@@ -7,7 +7,6 @@ import edu.upm.midas.service.jpa.CountryService;
 import edu.upm.midas.service.jpa.LogQuery_Service;
 import edu.upm.midas.service.jpa.PersonService;
 import edu.upm.midas.service.jpa.PersonTokenService;
-import edu.upm.midas.service.jpa.helper.PersonHelper;
 import edu.upm.midas.model.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
@@ -36,7 +35,7 @@ import javax.validation.Valid;
 public class LoginController {
 
     @Autowired
-    private PersonHelper personHelper;
+    private edu.upm.midas.data.relational.service.helper.PersonHelper personHelper;
     @Autowired
     private PersonService personService;
     @Autowired

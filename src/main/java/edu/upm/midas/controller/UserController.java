@@ -8,7 +8,6 @@ import edu.upm.midas.service.jpa.CountryService;
 import edu.upm.midas.service.jpa.LogQuery_Service;
 import edu.upm.midas.service.jpa.PersonService;
 import edu.upm.midas.service.jpa.PersonTokenService;
-import edu.upm.midas.service.jpa.helper.PersonHelper;
 import edu.upm.midas.email.model.EmailStatus;
 import edu.upm.midas.email.service.EmailService;
 import edu.upm.midas.model.user.*;
@@ -43,7 +42,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private PersonHelper personHelper;
+    private edu.upm.midas.data.relational.service.helper.PersonHelper personHelper;
     @Autowired
     private UniqueId uniqueId;
     @Autowired

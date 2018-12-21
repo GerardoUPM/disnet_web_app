@@ -1,11 +1,11 @@
-package edu.upm.midas.data.relational.repository.impl;
+package edu.upm.midas.repository.jpa.impl;
 
-import edu.upm.midas.data.relational.entities.disnetdb.Login;
-import edu.upm.midas.data.relational.repository.AbstractDao;
-import edu.upm.midas.data.relational.repository.LoginRepository;
+
+import edu.upm.midas.model.jpa.Login;
+import edu.upm.midas.repository.jpa.AbstractDao;
+import edu.upm.midas.repository.jpa.LoginRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 /**

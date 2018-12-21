@@ -1,17 +1,20 @@
 package edu.upm.midas.data.relational.service.helper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.upm.midas.common.utils.Common;
-import edu.upm.midas.common.utils.TimeProvider;
-import edu.upm.midas.common.utils.UniqueId;
+
+import edu.upm.midas.common.util.Common;
+import edu.upm.midas.common.util.TimeProvider;
+import edu.upm.midas.common.util.UniqueId;
 import edu.upm.midas.constants.Constants;
-import edu.upm.midas.data.relational.entities.disnetdb.*;
-import edu.upm.midas.data.relational.service.*;
 import edu.upm.midas.email.model.EmailStatus;
 import edu.upm.midas.email.service.EmailService;
+import edu.upm.midas.model.jpa.*;
 import edu.upm.midas.model.user.Response;
 import edu.upm.midas.model.user.UserRegistrationForm;
 import edu.upm.midas.model.user.UserUpdateForm;
+import edu.upm.midas.service.jpa.*;
+import edu.upm.midas.service.jpa.impl.LoginService;
+import edu.upm.midas.service.jpa.impl.PersonLoginService;
 import edu.upm.midas.token.component.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +29,6 @@ import org.thymeleaf.context.Context;
 
 import javax.annotation.PostConstruct;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 /**

@@ -1,6 +1,7 @@
-package edu.upm.midas.data.relational.repository;
+package edu.upm.midas.repository.jpa;
 
-import edu.upm.midas.data.relational.entities.disnetdb.Login;
+
+import edu.upm.midas.model.jpa.Login;
 
 import java.util.Date;
 import java.util.List;

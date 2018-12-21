@@ -1,8 +1,7 @@
-package edu.upm.midas.data.relational.service.impl;
+package edu.upm.midas.service.jpa.impl;
 
-import edu.upm.midas.data.relational.entities.disnetdb.Login;
-import edu.upm.midas.data.relational.repository.LoginRepository;
-import edu.upm.midas.data.relational.service.LoginService;
+import edu.upm.midas.model.jpa.Login;
+import edu.upm.midas.repository.jpa.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

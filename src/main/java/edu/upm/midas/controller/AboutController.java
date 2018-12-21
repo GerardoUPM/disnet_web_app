@@ -52,7 +52,7 @@ public class AboutController {
     public ModelAndView about(Model model){
         ModelAndView modelAndView = new ModelAndView();
         DatabaseStatisticsResponse statisticsResponse = disnetService.getLastDatabaseStatisticsJSON();
-        System.out.println(statisticsResponse);
+//        System.out.println(statisticsResponse);
         if (statisticsResponse!=null) {
             int numTotSanpshots = 0;
             for (Source source : statisticsResponse.getSources()) {
