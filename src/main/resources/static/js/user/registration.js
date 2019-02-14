@@ -1,8 +1,8 @@
 /**
  * Created by gerardo on 19/09/2017.
  */
-$(function () {
 
+$(function () {
     $(document).ready(function(){
         // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
         $('.modal').modal({
@@ -15,7 +15,6 @@ $(function () {
     $('#register_now-btn').on('click', function() {
         var userForm = getDataForm("#registrationForm");
         if(registerValidation(userForm, "registration")){
-
             swal({
                 title: "Are you sure?",
                 text: "All data is correct?",
@@ -32,6 +31,7 @@ $(function () {
     });
 
 });
+
 
 /*Fuera para ser utilizado por otros archivos js*/
 function getDataForm(form) {
@@ -111,7 +111,48 @@ function registerValidation(user, form) {
         /*alert(JSON.stringify(user));*/
         return true;
     }
+}
 
 
+$(window).on('load', function() {
+
+    //Mensaje porque no cumplimos la protección de datos aun
+    swal({
+        title: "DISNET Information",
+        text: "Registration is temporarily disabled. If you have any question please contact with the administrator",
+        type: "info"
+    });
+    disabledTrueOrFalseForm(true, "registration");
+});
+
+
+/**
+ *
+ */
+function disabledTrueOrFalseForm(_disabledOption_, form) {
+    $('input[name="firstName"]').prop('disabled', _disabledOption_);
+    $('input[name="lastName"]').prop('disabled', _disabledOption_);
+    $('input[name="email"]').prop('disabled', _disabledOption_);
+    $('input[name="password"]').prop('disabled', _disabledOption_);
+    $('input[name="password_again"]').prop('disabled', _disabledOption_);
+    $('input[name="institution"]').prop('disabled', _disabledOption_);
+    $('#country').prop('disabled', _disabledOption_);/*forma diferente*/
+    $('select').material_select();
+    $('input[name="occupation"]').prop('disabled', _disabledOption_);
+    $('textarea[name="interest"]').prop('disabled', _disabledOption_);
+    if (form=="home"){
+        if (_disabledOption_){
+            $("#save_personal_info-btn").addClass('disabled');
+        } else{
+            $("#save_personal_info-btn").removeClass('disabled');
+            $('input[name="email"]').prop('disabled', !_disabledOption_);
+        }
+    } else if (form=="registration") {
+        if (_disabledOption_){
+            $("#register_now-btn").addClass('disabled');
+        } else{
+            $("#register_now-btn").removeClass('disabled');
+        }
+    }
 
 }

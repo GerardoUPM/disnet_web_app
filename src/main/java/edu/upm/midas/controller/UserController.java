@@ -70,7 +70,7 @@ public class UserController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public Response updateUser(@RequestBody @Valid UserUpdateForm userRegistrationForm, Device device) throws Exception {
 
-        //System.out.println("UPDATE: " + userRegistrationForm.toString());
+        System.out.println("UPDATE: " + userRegistrationForm.toString());
         Response response = new Response();
         Person person = personHelper.findByEmailAndStatusOK(userRegistrationForm.getEmail());
 

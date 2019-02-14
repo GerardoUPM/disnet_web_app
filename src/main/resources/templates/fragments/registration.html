@@ -6,7 +6,7 @@
     <div th:fragment="form">
         <div class="input-field col s12 m12 l6">
             <i class="medium material-icons prefix">person_outline</i>
-            <input id="firstName" name="firstName" type="text" class="validate" th:value="${user?.firstName}" disabled="disabled" /><!--th:field="*{firstName}"-->
+            <input id="firstName" name="firstName" type="text" class="validate" th:value="${user?.firstName}"  /><!--th:field="*{firstName}"-->
             <label for="firstName" class="center-align active">Name</label><!--th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" data-error="wrong" data-success="right"-->
         </div>
         <div class="input-field col s12 m12 l6">

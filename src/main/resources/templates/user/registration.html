@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="input-field col s12 m12 l12">
                                     <!--<div class="center-align red-text text-accent-2">Registration is temporarily disabled. If you have any question please contact with the administrator</div>-->
-                                    <button id="register_now-btn" type="button" class="btn waves-effect waves-light submit col s12 m12 l8 offset-l2 blue darken-3" style="text-transform: none;" disabled="disabled">Create an account</button>
+                                    <button id="register_now-btn" type="button" class="btn waves-effect waves-light submit col s12 m12 l8 offset-l2 blue darken-3" style="text-transform: none;">Create an account</button>
                                 </div>
                                 <div class="input-field col s12 m12 l12">
                                     <p class="margin center medium-small sign-up"><a th:href="@{/user/login}">Already have an account?</a></p>
@@ -58,12 +58,6 @@
         <div th:replace="fragments/footer :: footer"/>
         <div th:replace="fragments/footer :: footer-js"/>
         <script type="text/javascript" th:src="@{/js/user/registration.js}"></script>
-        <script type="text/javascript">
-            swal({
-                title: "DISNET Information",
-                text: "Registration is temporarily disabled. If you have any question please contact with the administrator",
-                type: "info"
-            });
-        </script>
+
     </body>
 </html>

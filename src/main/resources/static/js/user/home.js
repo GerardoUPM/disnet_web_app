@@ -8,7 +8,7 @@ $(function () {
      */
     $(document).ready(function(){
         $('.modal').modal();
-        disabledTrueForm();
+        disabledTrueOrFalseForm(true, "home");
         //Carga los datos de las consultas hechas por el usuario
         var requestHistoryTable = $("#request_history_table").DataTable({
             "sAjaxSource": "/user/request_history",
@@ -95,6 +95,7 @@ $(function () {
 
 
     /**
+     * Habilita todos los elementos del formulario con los datos del usuario
      *
      */
     $('#edit_personal_info-btn').on('click', function() {
@@ -103,13 +104,13 @@ $(function () {
             $(this).prop('value', 'cancel');
             $(this).html('cancel');
             /*swal("Hello world!" + option);*/
-            disabledFalseForm();
+            disabledTrueOrFalseForm(false, "home");
             $("#save_personal_info-btn").removeClass('disabled');
         }else{
             //noinspection JSAnnotator
             $(this).prop('value', 'edit');
             $(this).html('edit');
-            disabledTrueForm();
+            disabledTrueOrFalseForm(true, "home");
             $("#save_personal_info-btn").addClass('disabled');
         }
 
@@ -122,7 +123,6 @@ $(function () {
     $('#save_personal_info-btn').on('click', function() {
         var userForm = getDataForm("#updateForm");
         if(registerValidation(userForm, "update")){
-
             swal({
                 title: "Are you sure?",
                 text: "Are you sure that you want to update your personal information?",
@@ -162,44 +162,7 @@ $(function () {
     }
 
 
-    /**
-     *
-     */
-    function disabledTrueForm() {
-        $('input[name="firstName"]').prop('disabled', true);
-        $('input[name="lastName"]').prop('disabled', true);
-        $('input[name="email"]').prop('disabled', true);
-        $('input[name="password"]').prop('disabled', true);
-        $('input[name="password_again"]').prop('disabled', true);
-        $('input[name="institution"]').prop('disabled', true);
-        $('#country').prop('disabled', true);/*forma diferente*/
-        $('select').material_select();
-        $('input[name="occupation"]').prop('disabled', true);
-        $('textarea[name="interest"]').prop('disabled', true);
-        $("#save_personal_info-btn").addClass('disabled');
-    }
-
-
-    /**
-     *
-     */
-    function disabledFalseForm() {
-        $('input[name="firstName"]').prop('disabled', false);
-        $('input[name="lastName"]').prop('disabled', false);
-        /*$('input[name="email"]').prop('disabled', false);*/
-        $('input[name="password"]').prop('disabled', false);
-        $('input[name="password_again"]').prop('disabled', false);
-        $('input[name="institution"]').prop('disabled', false);
-        $('select[name="country"]').prop('disabled', false);
-        $('select').material_select();
-        $('input[name="occupation"]').prop('disabled', false);
-        $('textarea[name="interest"]').prop('disabled', false);
-        $("#save_personal_info-btn").removeClass('disabled');
-    }
-
-
     // REGISTER EVENT LISTENERS =============================================================
-
     /**
      *
      * @param uploadData
@@ -210,7 +173,7 @@ $(function () {
             url: "/user/update",
             type: "POST",
             data: JSON.stringify(uploadData),
-            contentType: "application/jpa; charset=utf-8",
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 /*
@@ -230,7 +193,7 @@ $(function () {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status === 401) {
-                    /*alert("<p>Spring exceptionGLG:<br>" + jqXHR.responseJSON.exception + "</p>")*/
+                    // alert("<p>Spring exceptionGLG:<br>" + jqXHR.responseJSON.exception + "</p>");
                     swal("Error", "Internal error occured: " + jqXHR.responseJSON.exception, "error", {icon: "error"});
                     $('#loginErrorModal')
                     //.modal("show")
