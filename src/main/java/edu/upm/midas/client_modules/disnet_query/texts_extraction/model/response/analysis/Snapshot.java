@@ -14,6 +14,7 @@ public class Snapshot {
     private String date;
     private int numTotDiseases;
     private int numDisease;
+    private int numRelevantDisease;
     private int numTotMedicalTerms;
     private int numMedicalTerms;//Validated medical terms
     private int numTotTexts;
@@ -44,6 +45,14 @@ public class Snapshot {
 
     public void setNumDisease(int numDisease) {
         this.numDisease = numDisease;
+    }
+
+    public int getNumRelevantDisease() {
+        return numRelevantDisease;
+    }
+
+    public void setNumRelevantDisease(int numRelevantDisease) {
+        this.numRelevantDisease = numRelevantDisease;
     }
 
     public int getNumTotMedicalTerms() {

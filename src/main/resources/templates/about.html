@@ -59,8 +59,8 @@
                     </div>
 
                     <div id="diseases" class="section scrollspy">
-                        <h5 class="header grey-text text-darken-3 text-indent wrap-text">b) Diseases (with at least one validated medical term) by source and snapshot</h5>
-                        <span class="decimal-format">123456789</span>
+                        <h5 class="header grey-text text-darken-3 text-indent wrap-text">b) (1) Diseases (with at least one validated medical term) by source and snapshot</h5>
+                        <!--<span class="decimal-format">123456789</span>-->
                         <p>
                             <ol class="collapsible" data-collapsible="accordion">
                                 <li th:each="source :${statisticsData.sources}">
@@ -79,6 +79,30 @@
                                     </div>
                                 </li>
                             </ol>
+                        </p>
+                    </div>
+
+                    <div id="real_diseases" class="section scrollspy">
+                        <h5 class="header grey-text text-darken-3 text-indent wrap-text">b) (2) Proposal of relevant diseases by source and snapshot</h5>
+                        <!--<span class="decimal-format">123456789</span>-->
+                        <p>
+                        <ol class="collapsible" data-collapsible="accordion">
+                            <li th:each="source :${statisticsData.sources}">
+                                <div class="collapsible-header">
+                                    <span style="text-transform: capitalize;" th:text="${{source.name}}"/>
+                                    <i class="material-icons">arrow_downward</i>
+                                </div>
+                                <div class="collapsible-body">
+                                    <ol type="1">
+                                        <li th:each="snapshot :${source.snapshots}">
+                                            <span class="teal-text darken-4" th:text="${{ snapshot.date}}"/>:&nbsp;
+                                            <span class="number text-bold" th:text="${{ snapshot.numRelevantDisease}}"/>&nbsp;of&nbsp;
+                                            <span class="number" th:text="${{ snapshot.numTotDiseases}}"/>&nbsp;extracted diseases.
+                                        </li>
+                                    </ol>
+                                </div>
+                            </li>
+                        </ol>
                         </p>
                     </div>
 
@@ -211,7 +235,8 @@
                                 <li><a href="#Database_Statistics">3. Database Statistics</a></li>
                                 <li><a href="#Statistic_datas_on_phenotypical_layer">i. Statistic datas on phenotypical layer</a></li>
                                 <li class="text-indent"><a href="#Snapshot_by_sources">a) Snapshot by sources</a></li>
-                                <li class="text-indent"><a href="#diseases">b) Diseases (with at least one validated medical term) by source and snapshot</a></li>
+                                <li class="text-indent"><a href="#diseases">b) (1) Diseases (with at least one validated medical term) by source and snapshot</a></li>
+                                <li class="text-indent"><a href="#real_diseases">b) (2) Proposal of relevant diseases by source and snapshot</a></li>
                                 <li class="text-indent"><a href="#validated_medical_term">c) Validated medical terms by source and snapshot</a></li>
                                 <li class="text-indent"><a href="#texts">d) Text (with at least one validated medical term) by source and snapshot</a></li>
                                 <li class="text-indent"><a href="#disease_with_codes">e) Diseases (with at least one validated medical term) with codes</a></li>
