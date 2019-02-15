@@ -116,13 +116,19 @@ function registerValidation(user, form) {
 
 $(window).on('load', function() {
 
+    var pageName = document.location.pathname.match(/[^\/]+$/)[0];
+
+    // alert(document.location.pathname.match(/[^\/]+$/)[0] + " GLG");
+
     //Mensaje porque no cumplimos la protección de datos aun
-    swal({
-        title: "DISNET Information",
-        text: "Registration is temporarily disabled. If you have any question please contact with the administrator",
-        type: "info"
-    });
-    disabledTrueOrFalseForm(true, "registration");
+    if (pageName == "registration"){
+        swal({
+            title: "DISNET Information",
+            text: "Registration is temporarily disabled. If you have any question please contact with the administrator",
+            type: "info"
+        });
+    }
+    disabledTrueOrFalseForm(true, pageName);
 });
 
 
