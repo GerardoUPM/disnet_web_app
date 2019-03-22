@@ -180,6 +180,7 @@ public class PersonHelper {
         return authorityFound;
     }
 
+
     /**
      * @param user
      * @param device

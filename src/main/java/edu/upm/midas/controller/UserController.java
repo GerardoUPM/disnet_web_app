@@ -1,4 +1,5 @@
 package edu.upm.midas.controller;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.upm.midas.common.util.TimeProvider;
 import edu.upm.midas.common.util.UniqueId;
 import edu.upm.midas.constants.Constants;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.context.Context;
 
 import javax.servlet.http.HttpSession;
@@ -149,5 +151,52 @@ public class UserController {
         /*for (TransactionHistory transaction: transactionHistories) {
             System.out.println("TRAN=> " + transaction.getTransactionId() + " | " + transaction.getRequest() + " | " + transaction.getDate() + " | " +transaction.getDatetime()+ " | " +transaction.getStartDatetime()+ " | " +transaction.getEndDatetime()+ " | " +transaction.getRuntime()+ " | " +transaction.getRuntime_milliseconds());
         }*/
+    }
+
+
+    /**
+     * @param userRegistrationForm
+     * @param bindingResult
+     * @param device
+     * @return
+     * @throws JsonProcessingException
+     */
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public ModelAndView createNewUser(@Valid UserRegistrationForm userRegistrationForm, BindingResult bindingResult, Device device) throws JsonProcessingException {
+        System.out.println(userRegistrationForm.toString());
+        ModelAndView modelAndView = new ModelAndView();
+
+        Person userExists = personHelper.findByEmailAndStatusOK( userRegistrationForm.getEmail() );
+
+        if (userExists != null) {
+            bindingResult
+                    .rejectValue("email", "error.user",
+                            "There is already a user registered with the email provided");
+        }
+        if (bindingResult.hasErrors()) {//System.out.println("que pasa" + bindingResult.toString());
+            modelAndView.addObject("countries", countryService.findAll());
+            modelAndView.setViewName("user/registration");
+        } else {
+            //PONER VALIDACIÖN PARA CACHAR ERRORES Y MOSTRARLOS
+            try {
+                if (personHelper.saveNewUser(userRegistrationForm, device)) {
+                    //System.out.println("BIEN");
+                    modelAndView.addObject("successMessage", "User has been registered successfully. Please verify your email for complete the registration.");
+                    modelAndView.addObject("user", userRegistrationForm);
+                    modelAndView.setViewName("user/confirmation");
+                } else {
+                    //System.out.println("MAL");
+                    modelAndView.addObject("errorMessage", "Problems registering user");
+                    modelAndView.addObject("user", userRegistrationForm);
+                    modelAndView.setViewName("user/confirmation");
+                }
+            }catch (Exception e){
+                //System.out.println("MUY MAL");
+                modelAndView.addObject("errorMessage", "Problems registering user");
+                modelAndView.addObject("user", userRegistrationForm);
+                modelAndView.setViewName("user/confirmation");
+            }
+        }
+        return modelAndView;
     }
 }
