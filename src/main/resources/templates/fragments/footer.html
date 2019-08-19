@@ -22,24 +22,31 @@
                         </p>
                     </div>
                     <div class="col l3 m3 s12">
-                        <h6 class="white-text">Results</h6>
-                        <ul>
-                            <li><a class="light white-text tooltipped" th:href="@{/temporarily_disabled}" data-position="top" data-tooltip="Web Page temporarily disabled">Publications</a></li>
-                            <li><a class="light white-text tooltipped" th:href="@{/temporarily_disabled}" data-position="top" data-tooltip="Web Page temporarily disabled">Status</a></li>
-                            <li><a class="light white-text tooltipped" th:href="@{/temporarily_disabled}" data-position="top" data-tooltip="Web Page temporarily disabled">Visualization</a></li>
-                        </ul>
-                    </div>
-                    <div class="col l3 m3 s12">
-                        <h6 class="white-text">Support</h6>
-                        <ul>
-                            <li><a class="light white-text tooltipped" th:href="@{/temporarily_disabled}" data-position="top" data-tooltip="Web Page temporarily disabled">Contact DISNET</a></li>
-                        </ul>
+                        <h6 class="white-text"><a class="white-text tooltipped" th:href="@{/apis/disnet}" data-position="top" data-tooltip="DISNET API">DISNET API</a></h6>
+                                <!--<ul>-->
+                                    <!--<li><a class="light white-text tooltipped" th:href="@{/temporarily_disabled}" data-position="top" data-tooltip="Web Page temporarily disabled">Publications</a></li>-->
+                                    <!--<li><a class="light white-text tooltipped" th:href="@{/temporarily_disabled}" data-position="top" data-tooltip="Web Page temporarily disabled">Status</a></li>-->
+                                    <!--<li><a class="light white-text tooltipped" th:href="@{/temporarily_disabled}" data-position="top" data-tooltip="Web Page temporarily disabled">Visualization</a></li>-->
+                                <!--</ul>-->
                     </div>
                     <div class="col l2 m2 s12">
                         <h6 class="white-text">About</h6>
                         <ul>
-                            <li><a class="light white-text tooltipped" th:href="@{/members/about}" data-position="top" data-tooltip="Team DISNET">Team</a></li>
-                            <li><a class="light white-text tooltipped" th:href="@{/about}" data-position="top" data-tooltip="About DISNET">DISNET</a></li>
+                            <li><a class="light white-text tooltipped" th:href="@{/members/about}" data-position="top" data-tooltip="DISNET team">Team</a></li>
+                            <li><a class="light white-text tooltipped" th:href="@{/about}" data-position="top" data-tooltip="DISNET dataset">DISNET dataset</a></li>
+                            <li><a class="light white-text tooltipped" th:href="@{/results}" data-position="top" data-tooltip="Our publications">Publications</a></li>
+                        </ul>
+                    </div>
+                    <div class="col l3 m3 s12">
+                        <h6 class="white-text">Funded by</h6>
+                        <ul>
+                            <li>
+                                <a id="logo-container" href="http://www.ciencia.gob.es" class="brand-logo">
+                                    <img th:src="@{/images/logo_ministerio_ciencia_espania.png}" alt=""
+                                         class="responsive-img valign profile-image-login tooltipped"
+                                         data-position="bottom" data-delay="50" data-tooltip="Ministerio de Ciencia, Innovación y Universidades" />
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>

@@ -63,4 +63,11 @@ public class IndexController {
         //System.out.println("PWD: " + passwordEncoder.encode("groot"));
         return "temporarily_disabled";
     }
+
+    @RequestMapping("/results")
+    public String results(Model model){
+        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //System.out.println("PWD: " + passwordEncoder.encode("groot"));
+        return "results";
+    }
 }

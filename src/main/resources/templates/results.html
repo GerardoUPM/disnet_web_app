@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - Index</title>
+    <div th:replace="fragments/header :: header-css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/references/apa-reference-styles.css}" media="screen,projection" />
+    <style type="text/css" media="all">
+        /*
+        Generic styling for sample, this should not be copied to your design/template.
+        */
+        h2{font-size: 1.5em;font-weight: bold;margin: .83em 0;}
+        .ref-apa h2 span, .ref-apa dt span {font-size: .76em;font-weight: normal;opacity:.3;}
+    </style>
+</head>
+<body>
+
+    <div th:replace="fragments/header :: header"/>
+
+    <div class="container">
+        <div class="section">
+            <!--   Section   -->
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <h3 class="header blue-text text-darken-3">Our publications</h3>
+                    <br/>
+                    <ol class="ref-apa">
+                        <li>[1]&nbsp;&nbsp;&nbsp;E. P. García del Valle, G. Lagunes García, L. Prieto Santamaría, M. Zanin, E. Menasalvas Ruiz, and A. Rodríguez-González, “Disease networks and their contribution to disease understanding: A review of their evolution, techniques and data sources,” <a class="tooltipped" data-position="top" data-tooltip="Disease networks and their contribution to disease understanding: A review of their evolution, techniques and data sources" href="http://www.sciencedirect.com/science/article/pii/S1532046419301248" ><em>J. Biomed. Inform.</em></a>, vol. 94, p. 103206, Jun. 2019. https://doi.org/10.1016/j.jbi.2019.103206.</li>
+                        <li>[2]&nbsp;&nbsp;&nbsp;G. L. García, A. R. González, L. P. Santamaría, E. P. G. del Valle, M. Zanin, and E. M. Ruiz, “DISNET: Disease understanding through complex networks creation and analysis,” <a class="tooltipped" data-position="top" data-tooltip="DISNET: Disease understanding through complex networks creation and analysis" href="https://www.biorxiv.org/content/10.1101/428201v1"><em>bioRxiv</em></a>, p. 428201, Sep. 2018. https://doi.org/10.1101/428201</li>
+                        <li>[3]&nbsp;&nbsp;&nbsp;G. L. García, L. P. Santamaria, E. P. G. del Valle, M. Zanin, E. M. Ruiz, and A. R. González, “Wikipedia Disease Articles: An Analysis of their Content and Evolution,” in <a class="tooltipped" data-position="top" data-tooltip="Wikipedia Disease Articles: An Analysis of their Content and Evolution" href="https://ieeexplore.ieee.org/document/8787515"><em>2019 IEEE 32nd International Symposium on Computer-Based Medical Systems (CBMS)</em></a>, 2019, pp. 664–671. https://doi.org/10.1109/CBMS.2019.00136</li>
+                        <li>[4]&nbsp;&nbsp;&nbsp;E. P. G. del Valle, G. L. García, E. M. Ruiz, L. P. Santamaría, M. Zanin, and A. Rodríguez-González, “Completing Missing MeSH Code Mappings in UMLS Through Alternative Expert-Curated Sources,” in <a class="tooltipped" data-position="top" data-tooltip="Completing Missing MeSH Code Mappings in UMLS Through Alternative Expert-Curated Sources" href="https://ieeexplore.ieee.org/document/8787463"><em>2019 IEEE 32nd International Symposium on Computer-Based Medical Systems (CBMS)</em></a>, 2019, pp. 174–179. https://doi.org/10.1109/CBMS.2019.00044</li>
+                        <li>[5]&nbsp;&nbsp;&nbsp;E. P. G. del Valle, G. L. García, L. P. Santamaría, M. Zanin, E. M. Ruiz, and A. R. González, “Evaluating Wikipedia as a Source of Information for Disease Understanding,” in <a class="tooltipped" data-position="top" data-tooltip="Evaluating Wikipedia as a Source of Information for Disease Understanding" href="https://ieeexplore.ieee.org/document/8417271"><em>2018 IEEE 31st International Symposium on Computer-Based Medical Systems (CBMS)</em></a>, 2018, pp. 399–404. https://doi.org/10.1109/CBMS.2018.00076</li>
+                    </ol><!-- .ref-apa -->
+
+                </div>
+            </div>
+
+        </div>
+        <br/><br/>
+    </div>
+    <!-- /.container -->
+
+    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/footer :: footer-js"/>
+
+</body>
+</html>

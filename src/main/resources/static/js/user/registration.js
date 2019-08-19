@@ -128,7 +128,7 @@ $(window).on('load', function() {
             type: "info"
         });
     }
-    disabledTrueOrFalseForm(true, pageName);
+    disabledTrueOrFalseForm(false, pageName);
 });
 
 
