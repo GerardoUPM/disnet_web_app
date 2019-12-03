@@ -24,7 +24,7 @@
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="URL_PATH" class="section scrollspy">URL (PATH)</h5>
-                                <p class="text-align-justify wrap-text">/query/diseaseList?<b>source</b>=:source&amp;<b>version</b>=:version&amp;<b>token</b>=:token</p>
+                                <p class="text-align-justify wrap-text">/query/diseaseList?<b>source</b>=:source&amp;<b>version</b>=:version&amp;<b>size</b>=:size&amp;<b>page</b>=:page&amp;<b>token</b>=:token</p>
                             </li>
                             <li class="collection-item text-align-justify">
                                 <h5 id="Method" class="section scrollspy">Method</h5>
@@ -62,6 +62,22 @@
                                         </tr>
                                         <tr>
                                             <td>
+                                                <b>size</b>
+                                                <br/>[integer] by default always is 20
+                                                <br/>example: size=25
+                                            </td>
+                                            <td>First parameter of two, that manage the pagination; it is relative to the number of records to be displayed per page.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>page</b>
+                                                <br/>[integer] by default always is 0
+                                                <br/>example: page=3
+                                            </td>
+                                            <td>Second parameter of two, that manage the pagination; it is relative to the number of the page to be displayed.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
                                                 <b>token *required</b>
                                                 <br/>[alphanumeric]
                                                 <br/>example: token=eyJhbGciOiJI...
@@ -75,7 +91,7 @@
                                 <h5 id="Example_request" class="section scrollspy">Example request</h5>
                                 <pre>
                                      <code class="token style language-http">
-                                         GET http://disnet.ctb.upm.es/api/disnet/query/diseaseList?source=wikipedia&amp;version=2018-09-15&amp;token=eyJhbGciOiJI...
+                                         GET http://disnet.ctb.upm.es/api/disnet/query/diseaseList?source=wikipedia&amp;version=2018-09-15&amp;size=20&amp;page=0&amp;token=eyJhbGciOiJI...
                                      </code>
                                 </pre>
                             </li>
@@ -84,14 +100,7 @@
                                 <pre>
                                     <code class="language-json">
                                         {
-                                            "token": "eyJhbGciOiJI...",
-                                            "authorized": true,
-                                            "authorizationMessage": "Authorized!",
-                                            "responseCode": "200",
-                                            "responseMessage": "OK",
-                                            "errorsFound": [],
-                                            "diseaseCount": 5862,
-                                            "diseaseList": [
+                                            "content": [
                                                 {
                                                     "diseaseId": "DIS004692",
                                                     "name": "17q21.31 microdeletion syndrome",
@@ -204,7 +213,21 @@
                                                     "disnetConceptsCount": 0
                                                 },
                                                 ...
-                                            ]
+                                            ],
+                                            "token": "eyJhbGciOiJI...",
+                                            "authorized": true,
+                                            "authorizationMessage": "Authorized!",
+                                            "responseCode": "200",
+                                            "responseMessage": "OK",
+                                            "errorsFound": [],
+                                            "totalElements": 5862,
+                                            "last": false,
+                                            "totalPages": 294,
+                                            "first": false,
+                                            "sort": null,
+                                            "numberOfElements": 20,
+                                            "size": 20,
+                                            "number": 0
                                         }
                                     </code>
                                 </pre>
