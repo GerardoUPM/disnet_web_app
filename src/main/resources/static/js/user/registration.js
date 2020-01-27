@@ -30,6 +30,22 @@ $(function () {
         }
     });
 
+
+    $('#check_keep_updates').change(function() {
+        if(this.checked) {
+            $("#register_now-btn").removeClass('disabled');
+        }else{
+            $("#register_now-btn").addClass('disabled');
+        }
+
+    });
+
+
+    // $('#check_keep_updates').on('click', function() {
+    //
+    //     $("#register_now-btn").removeClass('disabled');
+    // });
+
 });
 
 
@@ -117,18 +133,20 @@ function registerValidation(user, form) {
 $(window).on('load', function() {
 
     var pageName = document.location.pathname.match(/[^\/]+$/)[0];
-
-    // alert(document.location.pathname.match(/[^\/]+$/)[0] + " GLG");
+    var enabled = false;//true: es para bloquear
 
     //Mensaje porque no cumplimos la protección de datos aun
-    if (pageName == "registration"){
+    disabledTrueOrFalseForm(enabled, pageName);
+
+    // alert(document.location.pathname.match(/[^\/]+$/)[0] + " GLG");
+    // alert(pageName + " - " +enabled);
+    if (pageName == "registration" && enabled){
         swal({
             title: "DISNET Information",
             text: "Registration is temporarily disabled. If you have any question please contact with the administrator",
             type: "info"
         });
     }
-    disabledTrueOrFalseForm(true, pageName);
 });
 
 
@@ -160,5 +178,7 @@ function disabledTrueOrFalseForm(_disabledOption_, form) {
             $("#register_now-btn").removeClass('disabled');
         }
     }
+    //parte que descarta lo anterios, ya que debe estar deshabilitado hasta que presionen el checkbox
+    $("#register_now-btn").addClass('disabled');
 
 }

@@ -10,11 +10,11 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+@SpringBootApplication
 @EnableFeignClients
 @EnableAutoConfiguration
 @EnableCircuitBreaker
 @EnableHystrix
-@SpringBootApplication
 @EnableScheduling
 public class AccesControlUsersDisnetApplication {
 
