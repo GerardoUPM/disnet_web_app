@@ -88,6 +88,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/apis/disease_album",
                         "/user/admin/home",
                         "/user/client/home",
+                        "/terms_and_conditions",
                         "/temporarily_disabled").permitAll()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/user/update").permitAll()

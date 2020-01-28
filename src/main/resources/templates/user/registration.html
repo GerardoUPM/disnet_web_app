@@ -21,14 +21,14 @@
                                              data-position="bottom" data-delay="50" data-tooltip="Come back to the DISNET home" />
                                     </a>
                                     <br/>
-                                    <p class="center login-form-text"><h5>User Sing up</h5></p>
+                                    <p class="center login-form-text"><h5>User Sign up</h5></p>
                                     <br/>
                                 </div>
                                 <div th:replace="fragments/registration :: form"/>
 
 
                                 <div class="col s12 m12 l12 center">
-                                    <p class="center login-form-text">By clicking "Create an account" below, <br/> you agree to our <a class="modal-trigger" href="#terms_and_conditions">Terms of Service and Privacy Statementterms</a>. We’ll occasionally send you account related emails.</p>
+                                    <p class="center login-form-text">By clicking "Create an account" below, <br/> you agree to our <a th:href="@{/terms_and_conditions}" target="_blank">Terms of Service and Privacy Statement</a> <!--<a class="modal-trigger" href="#terms_and_conditions">Terms of Service and Privacy Statement</a>-->. We’ll occasionally send you account related emails.</p>
                                     <p class="center">
                                         <input id="check_keep_updates" name="check_keep_updates" type="checkbox" class="filled-in"  />
                                         <label for="check_keep_updates"><span class="login-form-text">Keep me updated about any new relevant change in DISNET platform.</span></label>

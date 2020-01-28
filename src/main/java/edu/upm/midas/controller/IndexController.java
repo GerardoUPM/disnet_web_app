@@ -70,4 +70,11 @@ public class IndexController {
         //System.out.println("PWD: " + passwordEncoder.encode("groot"));
         return "results";
     }
+
+    @RequestMapping("/terms_and_conditions")
+    public String termsAndConditions(Model model){
+        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //System.out.println("PWD: " + passwordEncoder.encode("groot"));
+        return "terms_and_conditions";
+    }
 }
