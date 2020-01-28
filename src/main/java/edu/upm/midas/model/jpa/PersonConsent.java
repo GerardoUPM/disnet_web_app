@@ -1,6 +1,7 @@
 package edu.upm.midas.model.jpa;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
 /**
@@ -14,6 +15,41 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "person_consent", schema = "disnetdb", catalog = "")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "PersonConsent.findAll", query = "SELECT p FROM PersonConsent p")
+        , @NamedQuery(name = "PersonConsent.findById", query = "SELECT p FROM PersonConsent p WHERE p.personId = :personId AND p.consentId = :consentId")
+        , @NamedQuery(name = "PersonConsent.findByPersonId", query = "SELECT p FROM PersonConsent p WHERE p.personId = :personId")
+        , @NamedQuery(name = "PersonConsent.findByConsentId", query = "SELECT p FROM PersonConsent p WHERE p.consentId = :consentId")
+        })
+
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "PersonConsent.findByIdNative",
+                query = "SELECT p.person_id, p.consent_id " +
+                        "FROM person_consent p " +
+                        "WHERE p.person_id = :personId AND p.consent_id = :consentId "
+        ),
+
+        @NamedNativeQuery(
+                name = "PersonConsent.insertNative",
+                query = "INSERT INTO person_consent (person_id, consent_id) " +
+                        "VALUES ( :personId, :consentId) "
+        )
+})
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "PersonConsentMapping",
+                entities = @EntityResult(
+                        entityClass = PersonConsent.class,
+                        fields = {
+                                @FieldResult(name = "personId", column = "person_id"),
+                                @FieldResult(name = "consentId", column = "consent_id")
+                        }
+                )
+        )
+})
 @IdClass(PersonConsentPK.class)
 public class PersonConsent {
     private String personId;

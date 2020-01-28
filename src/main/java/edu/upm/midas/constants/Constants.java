@@ -50,6 +50,8 @@ public class Constants {
 
     public final static String TOKEN = "token";
 
+    public final static String CHECK_KEEP_UPDATES_CONSENT = "registration_check_keep_updates";
+
 
     public static final String IMAGE_PATTERN =
             "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";

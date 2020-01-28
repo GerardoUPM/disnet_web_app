@@ -35,7 +35,7 @@ import javax.validation.Valid;
 public class LoginController {
 
     @Autowired
-    private edu.upm.midas.data.relational.service.helper.PersonHelper personHelper;
+    private edu.upm.midas.service.jpa.helper.PersonHelper personHelper;
     @Autowired
     private PersonService personService;
     @Autowired
@@ -53,6 +53,7 @@ public class LoginController {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String userRegister(Model model){
         model.addAttribute("countries", countryService.findAll());
+        model.addAttribute("userRegistrationForm", new UserRegistrationForm());
         return "user/registration";
     }
 

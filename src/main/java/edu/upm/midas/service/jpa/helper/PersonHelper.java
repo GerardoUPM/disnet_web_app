@@ -1,4 +1,5 @@
-package edu.upm.midas.data.relational.service.helper;
+package edu.upm.midas.service.jpa.helper;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -61,6 +62,10 @@ public class PersonHelper {
     private PersonLoginService personLoginService;
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private ConsentService consentService;
+    @Autowired
+    private PersonConsentService personConsentService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -220,6 +225,17 @@ public class PersonHelper {
 
         //Enviar correo de confirmación
         if (isSuccessful){
+            //<editor-fold desc="INSERTAR CONSENTIMIENTOS">
+            Consent checkKeepUpdatesConsent = consentService.findByFormName(Constants.CHECK_KEEP_UPDATES_CONSENT);
+            if (checkKeepUpdatesConsent!=null){
+                if (checkKeepUpdatesConsent.getConsentId()>0){
+                    PersonConsent personConsent = new PersonConsent();
+                    personConsent.setPersonId(person.getPersonId());
+                    personConsent.setConsentId(checkKeepUpdatesConsent.getConsentId());
+                    personConsentService.save(personConsent);
+                }
+            }
+            //</editor-fold>
 
             //<editor-fold desc="GENERACIÓN DE TOKEN">
             String token = jwtTokenUtil.generateToken(person, device);
@@ -227,7 +243,7 @@ public class PersonHelper {
 
             Token oToken = new Token();
             oToken.setToken(token);
-            oToken.setType("C");//De Confirmación
+            oToken.setType("C");//"C" de Confirmación
             oToken.setEnabled(true);
             oToken.setExpiration(0);
             oToken.setScope("");
@@ -239,6 +255,7 @@ public class PersonHelper {
 //            logger.info( "Object Persist: {}",objectMapper.writeValueAsString(oToken) );
             //</editor-fold>
 
+            //<editor-fold desc="PREPARACIÓN DEL CORREO DE CONFIRMACIÓN">
             String tokenConfirmationLink =  constants.HTTP_HEADER +
                                             /*Constants.TWO_POINTS + Constants.TWO_SLASH +*/
                                             constants.URL_DISNET_WEB_APP +
@@ -263,7 +280,7 @@ public class PersonHelper {
 //            logger.info( "Object Persist: {}",objectMapper.writeValueAsString( emailConfirmation ) );
             emailConfirmationService.save( emailConfirmation );
 //            logger.info( "Object Persist: {}",objectMapper.writeValueAsString( emailConfirmation ) );
-
+            //</editor-fold>
         }
 
         // Se verifica que se haya insertado bien (TRUE) y lo retorna

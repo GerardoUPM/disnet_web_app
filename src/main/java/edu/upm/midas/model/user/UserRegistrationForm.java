@@ -50,6 +50,7 @@ public class UserRegistrationForm {
     @Length(min = 1, max = 200, message = "Your insterest must not exceed 2000 characters")
     @NotEmpty(message = "*Please provide your insterest")
     private String interest;
+    private boolean check_keep_updates;
 
     public String getFirstName() {
         return firstName;
@@ -115,6 +116,14 @@ public class UserRegistrationForm {
         this.interest = interest;
     }
 
+    public boolean isCheck_keep_updates() {
+        return check_keep_updates;
+    }
+
+    public void setCheck_keep_updates(boolean check_keep_updates) {
+        this.check_keep_updates = check_keep_updates;
+    }
+
     @Override
     public String toString() {
         return "UserRegistrationForm{" +
@@ -126,6 +135,7 @@ public class UserRegistrationForm {
                 ", country=" + country +
                 ", occupation='" + occupation + '\'' +
                 ", interest='" + interest + '\'' +
+                ", check_keep_updates=" + check_keep_updates +
                 '}';
     }
 }

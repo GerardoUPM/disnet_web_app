@@ -13,7 +13,7 @@
                 <div class="col s12 m8 l8 offset-m2 offset-l2">
                     <div class="z-depth-5 card-panel">
                         <div class="row">
-                            <form id="registrationForm" class="login-form right-alert" method="post" action="#" th:action="@{/user/registration}"  ><!--th:object="${userRegistrationForm}"-->
+                            <form id="registrationForm" class="login-form right-alert" method="post" action="#" th:action="@{/user/registration}" th:object="${userRegistrationForm}" > <!--th:object="${userRegistrationForm}"-->
                                 <div class="input-field col s12 m12 l12 center">
                                     <a href="/">
                                         <img width="300" th:src="@{/images/logo_disnet/H_color.png}" alt=""
@@ -24,14 +24,13 @@
                                     <p class="center login-form-text"><h5>User Sing up</h5></p>
                                     <br/>
                                 </div>
-
                                 <div th:replace="fragments/registration :: form"/>
 
 
                                 <div class="col s12 m12 l12 center">
                                     <p class="center login-form-text">By clicking "Create an account" below, <br/> you agree to our <a class="modal-trigger" href="#terms_and_conditions">Terms of Service and Privacy Statementterms</a>. We’ll occasionally send you account related emails.</p>
                                     <p class="center">
-                                        <input id="check_keep_updates" type="checkbox" class="filled-in" />
+                                        <input id="check_keep_updates" name="check_keep_updates" type="checkbox" class="filled-in"  />
                                         <label for="check_keep_updates"><span class="login-form-text">Keep me updated about any new relevant change in DISNET platform.</span></label>
                                     </p>
                                 </div>

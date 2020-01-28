@@ -61,7 +61,8 @@ function getDataForm(form) {
         institution:    $form.find('input[name="institution"]').val(),
         country:        $form.find('select[name="country"]').val(),
         occupation:     $form.find('input[name="occupation"]').val(),
-        interest:       $form.find('textarea[name="interest"]').val()
+        interest:       $form.find('textarea[name="interest"]').val(),
+        check_updates:  $form.find('input[id="check_keep_updates"]').val()
     };
     return formData;
 }
@@ -164,6 +165,7 @@ function disabledTrueOrFalseForm(_disabledOption_, form) {
     $('select').material_select();
     $('input[name="occupation"]').prop('disabled', _disabledOption_);
     $('textarea[name="interest"]').prop('disabled', _disabledOption_);
+    $('input[id="check_keep_updates"]').prop('disabled', _disabledOption_);
     if (form=="home"){
         if (_disabledOption_){
             $("#save_personal_info-btn").addClass('disabled');

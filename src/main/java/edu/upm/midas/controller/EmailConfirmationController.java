@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class EmailConfirmationController {
 
     @Autowired
-    private edu.upm.midas.data.relational.service.helper.PersonHelper personHelper;
+    private edu.upm.midas.service.jpa.helper.PersonHelper personHelper;
 
     @RequestMapping(value = "/confirmation_email", method = RequestMethod.GET, params = {"token"})
     public ModelAndView confirmationEmail(@RequestParam(value = "token") String token, Device device) throws Exception {

@@ -3,12 +3,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.upm.midas.common.util.TimeProvider;
 import edu.upm.midas.common.util.UniqueId;
 import edu.upm.midas.constants.Constants;
+import edu.upm.midas.model.jpa.Consent;
 import edu.upm.midas.model.jpa.Person;
 import edu.upm.midas.model.jpa.PersonToken;
-import edu.upm.midas.service.jpa.CountryService;
-import edu.upm.midas.service.jpa.LogQuery_Service;
-import edu.upm.midas.service.jpa.PersonService;
-import edu.upm.midas.service.jpa.PersonTokenService;
+import edu.upm.midas.service.jpa.*;
 import edu.upm.midas.email.model.EmailStatus;
 import edu.upm.midas.email.service.EmailService;
 import edu.upm.midas.model.user.*;
@@ -44,7 +42,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private edu.upm.midas.data.relational.service.helper.PersonHelper personHelper;
+    private edu.upm.midas.service.jpa.helper.PersonHelper personHelper;
     @Autowired
     private UniqueId uniqueId;
     @Autowired
@@ -61,6 +59,10 @@ public class UserController {
     private PersonTokenService personTokenService;
     @Autowired
     private CountryService countryService;
+
+
+    @Autowired
+    private ConsentService consentService;
 
 
     /**
@@ -180,6 +182,7 @@ public class UserController {
             //PONER VALIDACIÖN PARA CACHAR ERRORES Y MOSTRARLOS
             try {
                 if (personHelper.saveNewUser(userRegistrationForm, device)) {
+
                     //System.out.println("BIEN");
                     modelAndView.addObject("successMessage", "User has been registered successfully. Please verify your email for complete the registration.");
                     modelAndView.addObject("user", userRegistrationForm);
