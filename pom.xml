@@ -5,8 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.3.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>1.5.7.RELEASE</version>
 	</parent>
 	<groupId>edu.upm.midas</groupId>
 	<artifactId>disnet_web_app</artifactId>
@@ -35,12 +34,16 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity4 -->
+<!--		<dependency>-->
+<!--			<groupId>org.thymeleaf.extras</groupId>-->
+<!--			<artifactId>thymeleaf-extras-springsecurity4</artifactId>-->
+<!--		</dependency>-->
+		<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity4 -->
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
 			<version>2.1.2.RELEASE</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -90,11 +93,18 @@
 		</dependency>
 -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mobile -->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-mobile</artifactId>-->
+<!--		</dependency>-->
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.mobile/spring-mobile-device -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mobile</artifactId>
-			<version>1.5.22.RELEASE</version>
+			<groupId>org.springframework.mobile</groupId>
+			<artifactId>spring-mobile-device</artifactId>
+			<version>1.1.5.RELEASE</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>

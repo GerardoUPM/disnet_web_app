@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableFeignClients
-@EnableAutoConfiguration
 @EnableCircuitBreaker
 @EnableHystrix
 @EnableScheduling
