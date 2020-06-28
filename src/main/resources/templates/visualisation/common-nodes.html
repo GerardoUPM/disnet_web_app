@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - Database Information</title>
+    <div th:replace="fragments/header :: header-css"></div>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" />-->
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" />
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/helpers.css}" media="screen,projection" />
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualisation/networks.css}" media="screen,projection" />
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main>
+    <!--div class="container"-->
+    <div class="row" th:if="${!emptySVG}">
+        <svg class="col m8 s12 mt-20 md-ml-50 p-0" id="d3"
+             th:attr="data-nodes=${preNodes}, data-links=${preLinks}, data-intersections=${intersectionsJson}"></svg>
+        <div class="col m3 s12 mt-20 md-ml-50 table-wrapper">
+            <th:block th:if="${!intersections.isEmpty()}">
+            <table class="bordered">
+                <thead>
+                <tr>
+                    <th>Diseases</th>
+                    <th th:text="${'Common '+#strings.capitalize(type)}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="instance : ${intersections}">
+                    <tr class="fader" th:classappend="${'intersection_'+instanceStat.index}" data-toggled="0">
+                        <td th:rowspan="${instance.value.size()}">
+                            <th:block th:each="disease : ${instance.key}">
+                                <span th:text="${disease}"
+                                ></span>
+                                <th:block th:if="${diseaseStat.index&lt;instance.key.size()-1}">
+                                    <br></br>∩<br></br>
+                                </th:block>
+                            </th:block>
+                        </td>
+                        <td th:text="${instance.value[0]}" ></td>
+                    </tr>
+                    <th:block th:if="${instance.value.size()>1}">
+                    <th:block th:each="i : ${#numbers.sequence(1, instance.value.size()-1)}">
+                        <tr class="fader" th:classappend="${'intersection_'+instanceStat.index}" data-toggled="0">
+                            <td th:text="${instance.value[i]}"></td>
+                        </tr>
+                    </th:block>
+                    </th:block>
+                </th:block>
+                </tbody>
+            </table>
+            </th:block>
+            <th:block th:if="${intersections.isEmpty()}">
+                <table>
+                    <caption class="pb-5 left-align" th:text="'There are no common '+${type}+' within your disease list.'"></caption>
+                    <thead>
+                    <tr>
+                        <th th:text="${'Disease'+(diseasesSymptom.keySet().size()&gt;1?'s':'')}"></th>
+                        <th th:text="${#strings.capitalize(type)}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="instance : ${diseasesSymptom}">
+                    <tr>
+                        <td th:rowspan="${instance.value.size()}"
+                            th:text="${instance.key}"
+                        ></td>
+                        <th:block th:if="${!instance.value.isEmpty()}">
+                        <td th:text="${instance.value[0]}"></td>
+                        </th:block>
+                    </tr>
+                    <th:block th:if="${instance.value.size()>1}">
+                    <th:block th:each="i : ${#numbers.sequence(1, instance.value.size()-1)}">
+                        <tr class="fader" th:classappend="${'intersection_'+instanceStat.index}" data-toggled="0">
+                            <td th:text="${instance.value[i]}"></td>
+                        </tr>
+                    </th:block>
+                    </th:block>
+                    </th:block>
+                    </tbody>
+                </table>
+            </th:block>
+        </div>
+    </div>
+    <div th:if="${!diseasesWithoutSymptoms.isEmpty()}" class="row">
+        <div class="col s12 md-ml-50 md-pl-0 easy-bold"
+             th:utext="${'No '+type+' were found for: '+diseasesWithoutSymptoms}"
+             th:classappend="${emptySVG} ? 'center-align mt-50'"
+        >
+
+        </div>
+    </div>
+    <!--</div>-->
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="fragments/footer :: footer-js"></div>
+<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>-->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-color.v1.min.js"></script>
+<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script th:if="${!emptySVG}" type="text/javascript" th:src="@{/js/visualisation/common-nodes.js}"></script>
+</body>
+</html>

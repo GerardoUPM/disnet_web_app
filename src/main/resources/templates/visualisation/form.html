@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - Database Information</title>
+    <div th:replace="fragments/header :: header-css"></div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" />
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualisation/form.css}" media="screen,projection" />
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/helpers.css}" media="screen,projection" />
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main>
+    <div class="container">
+        <form action="/visualisation/common-nodes" autocomplete="off" class="row">
+            <div class="col m4 s12 center-align
+            pb-25 md-pb-0
+            mt-50 md-mb-50 md-pr-25
+            step-1-border form-step-height">
+                <h3><span class="material-icons md-36 md-m-48 md-disnet-accent">looks_one</span></h3>
+                <div class="row">
+                    <div class="col s12">
+                        <select class="browser-default" name="sourceId" id="source" th:required="required">
+                            <option value="" disabled="disabled" selected="selected" hidden="hidden">Select a source</option>
+                            <option th:each="source : ${sources}"
+                                    th:value="${source.getKey()}"
+                                    th:text="${source.getValue()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i id="calendar" class="material-icons md-inactive prefix">event</i>
+                        <input disabled="disabled" name="date" id="date-input" type="text" th:attr="data-dates=${dates}" th:required="required"/>
+                        <label for="date-input">Choose a date</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col m4 s12 center-align
+            pt-25 md-pt-0
+            pb-25 md-pb-0
+            md-mt-50 md-mb-50 md-pl-25 md-pr-25
+            form-step-height">
+                <h3><span id="step-2" class="material-icons md-36 md-m-48 md-disnet-accent md-inactive">looks_two</span></h3>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="mb-0 chips left-align input-field pt-50 form-step-align" id="chips">
+                            <textarea disabled="disabled" id="dummy-list-input" class="mb-0 materialize-textarea pb-0" th:required="required"></textarea>
+                            <label for="dummy-list-input">Enter your disease list
+                            </label>
+                        </div>
+                        <span id="tooltip" class="material-icons md-18 md-inactive cue-left"
+                              data-tooltip="Type two characters for autocompletion, or paste a list of diseases separated by &quot;|&quot;"
+                              data-delay="50"
+                              data-position="right"
+                        >help_outline</span>
+                        <div id="flash" class="orange-text" style="display: none">Press Enter to process your list</div>
+                    </div>
+                    <div class="input-field col s12 hide">
+                        <textarea name="diseaseList" id="disease-list"></textarea>
+                        <label for="disease-list"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col m4 s12 center-align
+            pt-25 md-pt-0
+            md-mt-50 mb-50 md-pl-25
+            step-3-border form-step-height">
+                <h3><span id="step-3" class="material-icons md-36 md-m-48 md-disnet-accent md-inactive">looks_3</span></h3>
+                <input name="type" hidden="hidden"/>
+<!--                <div class="row valign-wrapper right-align pt-50">
+                    <div class="col s4 valign-wrapper center-block pr-0">
+                        <div>
+                            <input id="genes" type="submit" class="step-3-button disabled btn-floating btn-large btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>
+                        </div>
+                    </div>
+                    <div class="col s8 valign-wrapper">
+                        <span class="open-sans viz-title center-align submit-text disable-submit">Visualize common<br/>genes</span>
+                    </div>
+                </div>-->
+                <div class="row valign-wrapper right-align pt-50">
+                    <div class="col s4 valign-wrapper center-block pr-0">
+                        <div>
+                            <input id="symptoms" type="submit" class="step-3-button disabled btn-floating btn-large btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>
+                        </div>
+                    </div>
+                    <div class="col s8 valign-wrapper">
+                        <span class="open-sans viz-title center-align submit-text disable-submit">Visualize common<br/>symptoms</span>
+                    </div>
+                </div>
+<!--                <div class="row valign-wrapper right-align pt-50">
+                    <div class="col s4 valign-wrapper center-block pr-0">
+                        <div>
+                            <input id="drugs" type="submit" class="step-3-button disabled btn-floating btn-large btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>
+                        </div>
+                    </div>
+                    <div class="col s8 valign-wrapper">
+                        <span class="open-sans viz-title center-align submit-text disable-submit">Visualize common<br/>used drugs</span>
+                    </div>
+                </div>-->
+            </div>
+        </form>
+    </div>
+</main>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="fragments/footer :: footer-js"></div>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+<script>$.widget.bridge('uitooltip', $.ui.tooltip);</script>
+<script type="text/javascript" th:src="@{/js/materialize.js}"></script>
+<script type="text/javascript" th:src="@{/js/visualisation/form.js}"></script>
+</body>
+</html>
