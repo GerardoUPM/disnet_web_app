@@ -45,11 +45,19 @@
 			<version>2.1.2.RELEASE</version>
 		</dependency>
 
+		<!--<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>-->
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
+			<version>1.5.8.RELEASE</version>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml
 		SE USA CUANDO SE TIENE EN PROPERTIES spring.thymeleaf.mode=LEGACYHTML5 -->
