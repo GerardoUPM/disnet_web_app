@@ -5,10 +5,12 @@
     <title>DISNET - Database Information</title>
     <div th:replace="fragments/header :: header-css"></div>
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" />-->
-    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
-    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" />
     <link type="text/css" rel="stylesheet"  th:href="@{/css/helpers.css}" media="screen,projection" />
     <link type="text/css" rel="stylesheet"  th:href="@{/css/visualisation/networks.css}" media="screen,projection" />
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualisation/networks-menu.css}"/>
+    <link type="text/css" rel="stylesheet"  href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
+    <link type="text/css" rel="stylesheet"  href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css"/>
+
 
 </head>
 <body>
@@ -17,8 +19,8 @@
     <!--div class="container"-->
     <div class="row" th:if="${!emptySVG}">
         <svg class="col m8 s12 mt-20 md-ml-50 p-0" id="d3"
-             th:attr="data-nodes=${preNodes}, data-links=${preLinks}, data-intersections=${intersectionsJson}"></svg>
-        <div class="col m3 s12 mt-20 md-ml-50 table-wrapper">
+             th:attr="data-type=${type}, data-nodes=${preNodes}, data-links=${preLinks}, data-intersections=${intersectionsJson}"></svg>
+        <div id="common-nodes" class="col m3 s12 mt-20 md-ml-50 table-wrapper">
             <th:block th:if="${!intersections.isEmpty()}">
             <table class="bordered">
                 <thead>
@@ -54,15 +56,15 @@
             </th:block>
             <th:block th:if="${intersections.isEmpty()}">
                 <table>
-                    <caption class="pb-5 left-align" th:text="'There are no common '+${type}+' within your disease list.'"></caption>
+                    <caption class="pb-5 left-align" th:text="'There are no common '+${type}+' within your disease list.'"></caption> <!-- TODO: PLURAL -->
                     <thead>
                     <tr>
-                        <th th:text="${'Disease'+(diseasesSymptom.keySet().size()&gt;1?'s':'')}"></th>
+                        <th th:text="${'Disease'+(diseasesFeature.keySet().size()&gt;1?'s':'')}"></th>
                         <th th:text="${#strings.capitalize(type)}"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <th:block th:each="instance : ${diseasesSymptom}">
+                    <th:block th:each="instance : ${diseasesFeature}">
                     <tr>
                         <td th:rowspan="${instance.value.size()}"
                             th:text="${instance.key}"
@@ -84,11 +86,11 @@
             </th:block>
         </div>
     </div>
-    <div th:if="${!diseasesWithoutSymptoms.isEmpty()}" class="row">
+    <div th:if="${!diseasesWithoutFeatures.isEmpty()}" class="row">
         <div class="col s12 md-ml-50 md-pl-0 easy-bold"
-             th:utext="${'No '+type+' were found for: '+diseasesWithoutSymptoms}"
+             th:utext="${'No '+type+' were found for: '+diseasesWithoutFeatures}"
              th:classappend="${emptySVG} ? 'center-align mt-50'"
-        >
+        > <!-- TODO: PLURAL -->
 
         </div>
     </div>
@@ -102,6 +104,13 @@
 <script src="https://d3js.org/d3-color.v1.min.js"></script>
 <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script th:if="${!emptySVG}" type="text/javascript" th:src="@{/js/visualisation/common-nodes.js}"></script>
+<th:block th:if="${!emptySVG}">
+    <script type="text/javascript" th:src="@{/js/visualisation/common-nodes.js}"></script>
+    <script type="text/javascript" th:src="@{/js/visualisation/network-menu.js}"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+</th:block>
 </body>
 </html>

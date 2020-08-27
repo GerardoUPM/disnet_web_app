@@ -4,8 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.sun.org.apache.bcel.internal.generic.ExceptionThrower;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.http.client.HttpResponseException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +31,16 @@ public class VisualisationController {
     @Value("${my.disnet.layers.datasource.p}")
     private String my_disnet_layers_datasource_p;
 
+    @Value("${my.disnet.layers.datasource.pheno}")
+    private String my_disnet_layers_datasource_pheno;
+
     @Value("${my.disnet.layers.datasource.bio}")
     private String my_disnet_layers_datasource_bio;
+
+    @Value("${my.disnet.layers.datasource.drugs}")
+    private String my_disnet_layers_datasource_drugs;
+
+                            /* HELPER FUNCTIONS */
 
     private static Map<List<String>, List<String>> getIntersections(Map<String,List<String>> diseasesSymptomHM){
         Map<String, List<String>> diseasesSymptomTree = new TreeMap<String, List<String>>(diseasesSymptomHM);
@@ -82,7 +94,7 @@ public class VisualisationController {
 
     @GetMapping("/form")
     public String VisualisationForm(Model model) throws SQLException, JsonProcessingException {
-        String url = this.my_disnet_layers_datasource_bio;
+        String url = this.my_disnet_layers_datasource_pheno;
         Map<String, String> sources = new HashMap<>();
         Map<String, List<Date>> dates = new HashMap<>();
 //        {source_id0: [date0, date1, ..., dateN], source_id1:[date0, date1, ..., dateN],...}
@@ -117,7 +129,7 @@ public class VisualisationController {
     public String Visualisation(Model model, @RequestParam String type,
                                              @RequestParam String sourceId,
                                              @RequestParam String date,
-                                             @RequestParam String diseaseList) throws SQLException {
+                                             @RequestParam String diseaseList) throws Exception {
         System.out.println(sourceId);
         System.out.println(date);
         System.out.println(diseaseList);
@@ -127,22 +139,26 @@ public class VisualisationController {
         String url = null;
         String common = null;
         String commonId = null;
-        switch (type) {
-            case "symptoms":
-                url = this.my_disnet_layers_datasource_bio;
+        switch (type) { // TODO: handle wrong type => ERRROR PAGES
+            case "symptom":
+                url = this.my_disnet_layers_datasource_pheno;
                 common = "symptom_name";
-                commonId = "cui";
+                commonId = "cui"; // TODO: check whether to use cui or disnet_id ¿DONE??¿?¿
                 break;
-        /*    case "genes":
-                url = url + "disnet_biolayer";
-                common = "gene_name";
-                commonId = "gene_id";
+            case "gene":
+            case "protein":
+            case "pathway":
+                url = this.my_disnet_layers_datasource_bio;
+                common = "common_name"; // TODO: use same commonality names for "symptom" if possible
+                commonId = "common_id";
                 break;
-            case "drugs":
-                url = url + "disnet_drugslayer";
+            /*case "drugs":
+                url = this.my_disnet_layers_datasource_drugs;
                 common = "drug_name";
                 commonId = "drug_id";
-                break; */ // TODO: uncomment for new update
+                break;*/
+//            default:
+//                "; // TODO: 200 to form or 400 / 404
         }
 
 
@@ -155,7 +171,7 @@ public class VisualisationController {
 
         PreparedStatement preparedStatement = null;
         switch (type) {
-            case "symptoms":
+            case "symptom":
                 preparedStatement = conn.prepareStatement("SELECT DISTINCTROW d.disease_id, d.name disease_name, sym.name symptom_name, hsym.cui cui " +
                         "FROM disease d " +
                         // document
@@ -183,21 +199,56 @@ public class VisualisationController {
                 preparedStatement.setString(index++, date);
 
                 break;
-        /*    case "genes":
-                preparedStatement = conn.prepareStatement("SELECT disease_name, disease.disease_id, gene_name, CONCAT('g',g.gene_id) gene_id FROM disease " +
-                        "    JOIN disease_gene dg on disease.disease_id = dg.disease_id " +
-                        "    JOIN gene g on dg.gene_id = g.gene_id " +
-                        "WHERE disease_name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") ;");
+            case "gene":
+                preparedStatement = conn.prepareStatement("SELECT e.name disease_name, e.disnet_id disease_id, gene_name common_name, CONCAT('id',dg.gene_id) common_id FROM gene " +
+                        "    JOIN disease_gene dg on gene.gene_id = dg.gene_id " +
+                        "    JOIN disease d on dg.disease_id = d.disease_id " +
+                        "    JOIN  ( " +
+                        "        SELECT edsssdb.layersmappings.cui, ed.name, edsssdb.layersmappings.disnet_id FROM edsssdb.layersmappings " +
+                        "            JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id " +
+                        "        ) e on d.disease_id = e.cui " +
+                        "WHERE  e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") " +
+                        "GROUP BY e.disnet_id, dg.gene_id;");
                 System.out.println(preparedStatement);
-
+                //TODO: MIRAR SI ELEGIMOS LOS GENES SOLO POR ENCIMA DEL SCORE DISEASE_GENE
                 break;
-            case "drugs":
+            case "protein":
+                preparedStatement = conn.prepareStatement("SELECT e.name disease_name, e.disnet_id disease_id, e2.protein_id common_name, CONCAT('id', e2.protein_id) common_id FROM protein " +
+                        "    JOIN encodes e2 on protein.protein_id = e2.protein_id " +
+                        "    JOIN gene g on e2.gene_id = g.gene_id " +
+                        "    JOIN disease_gene dg on g.gene_id = dg.gene_id " +
+                        "    JOIN disease d on dg.disease_id = d.disease_id " +
+                        "    JOIN  ( " +
+                        "            SELECT edsssdb.layersmappings.cui, ed.name, edsssdb.layersmappings.disnet_id FROM edsssdb.layersmappings " +
+                        "                JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id " +
+                        "        ) e on d.disease_id = e.cui " +
+                        "WHERE  e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") " +
+                        "GROUP BY e.disnet_id, e2.protein_id;");
+                System.out.println(preparedStatement);
+                break;
+            case "pathway":
+                preparedStatement = conn.prepareStatement("SELECT e.name disease_name, e.disnet_id disease_id, pathway_name common_name, CONCAT('id', pathway.pathway_id) common_id FROM pathway  " +
+                        "    JOIN gene_pathway gp on pathway.pathway_id = gp.pathway_id  " +
+                        "    JOIN gene g on gp.gene_id = g.gene_id  " +
+                        "    JOIN disease_gene dg on g.gene_id = dg.gene_id  " +
+                        "    JOIN disease d on dg.disease_id = d.disease_id  " +
+                        "    JOIN  (  " +
+                        "            SELECT edsssdb.layersmappings.cui, ed.name, edsssdb.layersmappings.disnet_id FROM edsssdb.layersmappings  " +
+                        "                  JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id  " +
+                        "        ) e on d.disease_id = e.cui  " +
+                        "WHERE  e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") " +
+                        "GROUP BY e.disnet_id, pathway.pathway_id;");
+                System.out.println(preparedStatement);
+                break;
+        /*    case "drugs":
                 preparedStatement = conn.prepareStatement("SELECT disease_name, CONCAT('d',disease.disease_id) disease_id, drug_name, d.drug_id FROM disease " +
                         "    JOIN drug_disease dd on disease.disease_id = dd.disease_id " +
                         "    JOIN drug d on dd.drug_id = d.drug_id " +
                         "WHERE disease_name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ")");
                 System.out.println(preparedStatement);
                 break; */ //TODO: uncomment in new update
+//            default:
+//                 // TODO: HANDLE DEFAULTS ??¿?¿?
         }
 
         //setting the list of diseases
@@ -215,31 +266,31 @@ public class VisualisationController {
         ArrayNode linksArrayNode = mapper.createArrayNode();
         ArrayNode nodesArrayNode = mapper.createArrayNode();
         // TABLE DATA
-        Map<String, List<String>> diseasesSymptomHM = new HashMap<>();
-        Map<String, List<String>> diseasesSymptom = new HashMap<>(); //TODO: rewatch this
-        List<String> symptoms = new ArrayList<>();
+        Map<String, List<String>> diseasesFeatureHM = new HashMap<>();
+        Map<String, List<String>> diseasesFeature = new HashMap<>(); //TODO: rewatch this
+        List<String> features = new ArrayList<>();
         String disease = "";
         String diseaseId = "";
         int count = 0;
 
         while (resultSet.next()){
             ObjectNode link = mapper.createObjectNode();
-            ObjectNode symptomNode = mapper.createObjectNode();
-            String symptomId =  resultSet.getString(commonId);
-            String symptom =  resultSet.getString(common);
-            System.out.println(symptom);
+            ObjectNode featureNode = mapper.createObjectNode();
+            String featureId =  resultSet.getString(commonId);
+            String feature =  resultSet.getString(common);
+            System.out.println(feature);
             if (!disease.equals(resultSet.getString("disease_name"))){
                 if (count==0){
                     disease = resultSet.getString("disease_name");
                     diseaseId = resultSet.getString("disease_id");
                     count++;
                 }else{
-                    diseasesSymptomHM.put(disease, new ArrayList<>(symptoms));
-                    diseasesSymptom.put(disease, new ArrayList<>(symptoms));
-                    System.out.println(diseasesSymptomHM);
+                    diseasesFeatureHM.put(disease, new ArrayList<>(features));
+                    diseasesFeature.put(disease, new ArrayList<>(features));
+                    System.out.println(diseasesFeatureHM);
                     System.out.println("");
                     System.out.println("");
-                    symptoms.clear();
+                    features.clear();
                     disease = resultSet.getString("disease_name");
                     diseaseId = resultSet.getString("disease_id");
                 }
@@ -249,29 +300,29 @@ public class VisualisationController {
                 diseaseNode.put("name", disease);
                 nodesArrayNode.add(diseaseNode);
             }
-            symptoms.add(symptom);
-            symptomNode.put("id", symptomId);
-            symptomNode.put("type", "symptom");
-            symptomNode.put("name", symptom);
-            nodesArrayNode.add(symptomNode);
+            features.add(feature);
+            featureNode.put("id", featureId);
+            featureNode.put("type", "feature");
+            featureNode.put("name", feature);
+            nodesArrayNode.add(featureNode);
             link.put("source", diseaseId);
-            link.put("target", symptomId);
+            link.put("target", featureId);
             linksArrayNode.add(link);
         }
-        diseasesSymptomHM.put(disease, new ArrayList<>(symptoms));
-        diseasesSymptom.put(disease, new ArrayList<>(symptoms));
-        model.addAttribute("diseasesSymptom", diseasesSymptom);
+        diseasesFeatureHM.put(disease, new ArrayList<>(features));
+        diseasesFeature.put(disease, new ArrayList<>(features));
+        model.addAttribute("diseasesFeature", diseasesFeature);
 
-        List<String> diseasesWithSymptoms = new ArrayList<>(diseasesSymptom.keySet());
-        List<String> diseasesWithoutSymptoms = new ArrayList<>(CollectionUtils.subtract(diseaseListToArray,diseasesWithSymptoms));
-        boolean emptySVG = diseasesWithoutSymptoms.size() == diseaseListToArray.size();
+        List<String> diseasesWithFeatures = new ArrayList<>(diseasesFeature.keySet());
+        List<String> diseasesWithoutFeatures = new ArrayList<>(CollectionUtils.subtract(diseaseListToArray,diseasesWithFeatures));
+        boolean emptySVG = diseasesWithoutFeatures.size() == diseaseListToArray.size();
         model.addAttribute("emptySVG", emptySVG);
-        model.addAttribute("diseasesWithoutSymptoms",
-                diseasesWithoutSymptoms.stream().map(d->"<b>"+d+"</b>").collect(Collectors.joining(", ")));
+        model.addAttribute("diseasesWithoutFeatures",
+                diseasesWithoutFeatures.stream().map(d->"<b>"+d+"</b>").collect(Collectors.joining(", ")));
 
-        System.out.println("DSHM   "+diseasesSymptomHM);
+        System.out.println("DSHM   "+diseasesFeatureHM);
 
-        Map<List<String>, List<String>> intersections = getIntersections(diseasesSymptomHM);
+        Map<List<String>, List<String>> intersections = getIntersections(diseasesFeatureHM);
 
         AtomicInteger i= new AtomicInteger(0);
         Map<Integer, List<String>> intersectionsToJson = intersections.entrySet().stream()
@@ -297,6 +348,104 @@ public class VisualisationController {
         return "visualisation/common-nodes";
     }
 
+
+    @GetMapping("/ajax-get-diseases")
+    public String AjaxSearchBySymptom(Model model, @RequestParam String type, @RequestParam String id) throws SQLException, HttpResponseException {
+        System.out.println("hello");
+        System.out.println(id);
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        PreparedStatement idStatement = null;
+        switch (type) {
+            case "symptom":
+                conn = DriverManager.getConnection(this.my_disnet_layers_datasource_pheno, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
+
+                preparedStatement = conn.prepareStatement("SELECT DISTINCT d.name disease_name " +
+                        "                        FROM disease d " +
+                        // document
+                        "                               INNER JOIN has_disease hd ON hd.disorder_id = d.disease_id " +
+                        "                               INNER JOIN document doc ON doc.document_id = hd.document_id AND doc.date = hd.date " +
+                        // source
+                        "                               INNER JOIN has_source hs ON hs.document_id = doc.document_id AND hs.date = doc.date " +
+                        "                               INNER JOIN source sce ON sce.source_id = hs.source_id " +
+                        // texts
+                        "                               INNER JOIN has_section hsec ON hsec.document_id = doc.document_id AND hsec.date = doc.date " +
+                        "                               INNER JOIN has_text ht ON ht.document_id = hsec.document_id AND ht.date = hsec.date AND ht.section_id = hsec.section_id " +
+                        // symptoms
+                        "                               INNER JOIN has_symptom hsym ON hsym.text_id = ht.text_id " +
+                        "                        WHERE " + // sce.source_id =?
+                        // AND hs.date =?
+                        // AND
+                        "                              d.relevant = true " +
+                        "                          AND hsym.validated = true " +
+                        "                          AND hsym.cui =? " +
+                        "                        ORDER BY disease_name;");
+
+                //idStatement = conn.prepareStatement("SELECT symptom.cui FROM symptom WHERE symptom.name=?");
+
+                break;
+            case "gene":
+                conn = DriverManager.getConnection(this.my_disnet_layers_datasource_bio, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
+
+                preparedStatement = conn.prepareStatement("SELECT DISTINCT e.name AS disease_name FROM disease d " +
+                        "    JOIN disease_gene dg on d.disease_id = dg.disease_id " +
+                        "    JOIN  ( " +
+                        "        SELECT edsssdb.layersmappings.cui, ed.name, edsssdb.layersmappings.disnet_id FROM edsssdb.layersmappings " +
+                        "        JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id " +
+                        "    ) e on d.disease_id = e.cui " +
+                        "    WHERE dg.gene_id=?");
+                break;
+            case "protein":
+                conn = DriverManager.getConnection(this.my_disnet_layers_datasource_bio, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
+
+                preparedStatement = conn.prepareStatement("SELECT DISTINCT e.name AS disease_name FROM disease d  " +
+                        "      JOIN disease_gene dg on d.disease_id = dg.disease_id  " +
+                        "      JOIN gene g on g.gene_id = dg.gene_id  " +
+                        "      JOIN encodes e on g.gene_id = e.gene_id  " +
+                        "      JOIN  (  " +
+                        "                SELECT edsssdb.layersmappings.cui, ed.name, edsssdb.layersmappings.disnet_id FROM edsssdb.layersmappings  " +
+                        "                    JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id  " +
+                        "            ) e on d.disease_id = e.cui  " +
+                        "        WHERE e.protein_id=?");
+                break;
+            case "pathway":
+                conn = DriverManager.getConnection(this.my_disnet_layers_datasource_bio, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
+
+                preparedStatement = conn.prepareStatement("SELECT DISTINCT e.name AS disease_name FROM disease d  " +
+                        "         JOIN disease_gene dg on d.disease_id = dg.disease_id  " +
+                        "         JOIN gene g on g.gene_id = dg.gene_id  " +
+                        "         JOIN gene_pathway gp on g.gene_id = gp.gene_id  " +
+                        "         JOIN  (  " +
+                        "                    SELECT edsssdb.layersmappings.cui, ed.name, edsssdb.layersmappings.disnet_id FROM edsssdb.layersmappings  " +
+                        "                          JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id  " +
+                        "                ) e on d.disease_id = e.cui  " +
+                        "        WHERE gp.pathway_id=?");
+
+                break;
+            /*case "drugs":
+                url = this.my_disnet_layers_datasource_drugs;
+                common = "drug_name";
+                commonId = "drug_id";
+                break;*/
+//            default:
+//                throw new                 // TODO handle defaults
+
+        }
+
+        preparedStatement.setString(1, id);
+
+        ResultSet diseasesResultSet = preparedStatement.executeQuery();
+
+        List<String> diseases = new ArrayList<>();
+
+        while (diseasesResultSet.next()){
+            diseases.add(diseasesResultSet.getString("disease_name"));
+        }
+        model.addAttribute("symptomId", id);
+        model.addAttribute("diseases", diseases);
+        return "visualisation/ajax/symptom-table";
+
+    }
 }
 
 @RestController
@@ -308,14 +457,14 @@ class VisualisationHelperController {
     @Value("${my.disnet.layers.datasource.p}")
     private String my_disnet_layers_datasource_p;
 
-    @Value("${my.disnet.layers.datasource.bio}")
-    private String my_disnet_layers_datasource_bio;
+    @Value("${my.disnet.layers.datasource.pheno}")
+    private String my_disnet_layers_datasource_pheno;
 
     @GetMapping("/autocompleteEndPoint")
     public Map<String, List<String>> AutocompleteEndPoint(@RequestParam String sourceId,
                                                           @RequestParam String date,
                                                           @RequestParam String query) throws SQLException, ParseException {
-        String url = this.my_disnet_layers_datasource_bio;
+        String url = this.my_disnet_layers_datasource_pheno;
         System.out.println("sourceId: "+sourceId);
         Date formattedDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
         System.out.println("date: "+date);

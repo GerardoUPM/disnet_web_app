@@ -72,3 +72,10 @@ tr[data-toggled="1"]{
 .easy-bold{
     max-width: 95vw;
 }
+
+.svgButton rect{
+    fill: #c1c1c1c1;
+    stroke: darkslategray;
+}
+
+.svgButton {cursor: pointer;}

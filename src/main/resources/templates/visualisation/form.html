@@ -12,7 +12,7 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <main>
-    <div class="container">
+    <div class="container" style="width: 90% !important;">
         <form action="/visualisation/common-nodes" autocomplete="off" class="row">
             <div class="col m4 s12 center-align
             pb-25 md-pb-0
@@ -68,32 +68,53 @@
             pt-25 md-pt-0
             md-mt-50 mb-50 md-pl-25
             step-3-border form-step-height">
-                <h3><span id="step-3" class="material-icons md-36 md-m-48 md-disnet-accent md-inactive">looks_3</span></h3>
+                <h3 style="font-size: 28px !important;" class="grey-text"><span id="step-3" class="material-icons md-36 md-m-48 md-disnet-accent md-inactive">looks_3</span>
+                </h3>
                 <input name="type" hidden="hidden"/>
-<!--                <div class="row valign-wrapper right-align pt-50">
+                <div class="row valign-wrapper right-align pt-10">
                     <div class="col s4 valign-wrapper center-block pr-0">
                         <div>
-                            <input id="genes" type="submit" class="step-3-button disabled btn-floating btn-large btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>
+                            <input id="gene" type="submit" class="step-3-button disabled btn-floating btn-small btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>
                         </div>
                     </div>
                     <div class="col s8 valign-wrapper">
-                        <span class="open-sans viz-title center-align submit-text disable-submit">Visualize common<br/>genes</span>
-                    </div>
-                </div>-->
-                <div class="row valign-wrapper right-align pt-50">
-                    <div class="col s4 valign-wrapper center-block pr-0">
-                        <div>
-                            <input id="symptoms" type="submit" class="step-3-button disabled btn-floating btn-large btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>
-                        </div>
-                    </div>
-                    <div class="col s8 valign-wrapper">
-                        <span class="open-sans viz-title center-align submit-text disable-submit">Visualize common<br/>symptoms</span>
+                        <span class="open-sans viz-title center-align submit-text disable-submit">Genes<br/>in common</span>
                     </div>
                 </div>
-<!--                <div class="row valign-wrapper right-align pt-50">
+                <div class="row valign-wrapper right-align pt-10">
                     <div class="col s4 valign-wrapper center-block pr-0">
                         <div>
-                            <input id="drugs" type="submit" class="step-3-button disabled btn-floating btn-large btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>
+                            <input id="pathway" type="submit" class="step-3-button disabled btn-floating btn-small btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>
+                        </div>
+                    </div>
+                    <div class="col s8 valign-wrapper">
+                        <span class="open-sans viz-title center-align submit-text disable-submit">Pathways<br/>in common</span>
+                    </div>
+                </div>
+                <div class="row valign-wrapper right-align pt-10">
+                    <div class="col s4 valign-wrapper center-block pr-0">
+                        <div>
+                            <input id="protein" type="submit" class="step-3-button disabled btn-floating btn-small btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>
+                        </div>
+                    </div>
+                    <div class="col s8 valign-wrapper">
+                        <span class="open-sans viz-title center-align submit-text disable-submit">Proteins<br/>in common</span>
+                    </div>
+                </div>
+                <div class="row valign-wrapper right-align pt-10">
+                    <div class="col s4 valign-wrapper center-block pr-0">
+                        <div>
+                            <input id="symptom" type="submit" class="step-3-button disabled btn-floating btn-small btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>
+                        </div>
+                    </div>
+                    <div class="col s8 valign-wrapper">
+                        <span class="open-sans viz-title center-align submit-text disable-submit">Symptoms<br/>in common</span>
+                    </div>
+                </div>
+                <!--<div class="row valign-wrapper right-align pt-10">
+                    <div class="col s4 valign-wrapper center-block pr-0">
+                        <div>
+                            <input id="drugs" type="submit" class="step-3-button disabled btn-floating btn-small btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>
                         </div>
                     </div>
                     <div class="col s8 valign-wrapper">
