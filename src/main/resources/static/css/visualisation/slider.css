@@ -1,0 +1,14 @@
+path.handle:focus{
+    outline: none !important;
+    stroke: rgb(95, 95, 95);
+    stroke-width: 1.5px;
+    stroke-dasharray: 2.5;
+}
+path.handle{
+    stroke: rgba(95, 95, 95,0.7);
+    cursor: pointer;
+}
+
+.tick>text{
+    opacity: 1 !important;
+}

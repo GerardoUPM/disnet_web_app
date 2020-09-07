@@ -1,77 +1,62 @@
-const source = "wikipedia";
-const version = "2020-01-15";
-//const diseaseArray = ["Precancerous condition", "Cancer", "Leukemia", "Progeria", "Male breast cancer"];
-//const fetchPromises = [];
-// diseaseArray.forEach(disease => {
-//     fetchPromises.push(fetch(`http://disnet.ctb.upm.es/api/disnet/query/disnetConceptList?source=${source}&version=${version}&diseaseName=${disease}&matchExactName=true&token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpbmEuZGlhei51enF1aWFub0BhbHVtbm9zLnVwbS5lcyIsImF1ZCI6IndlYiIsIm5hbWUiOiJNYXJpbmEgRMOtYXogVXpxdWlhbm8iLCJ1c2VyIjp0cnVlLCJpYXQiOjE1ODE1MDI3Mjh9.wMptlK7PwfXeVBqf7Em8Ahqmr0r60BqmEvMVOQVDtkbZgO_HTwkJfKG4UsKUN2m7ZFR9cO3qu8MRUvxJ3Bm1Cw`).then(response => response.json()))
-
-let windowWidth = window.innerWidth;
+const windowWidth = window.innerWidth;
 //const svgLeftMargin = 50;
 const offcenter = windowWidth < 601 ? 1 : 8 / 12; // col s8
-let w = windowWidth * offcenter;
+const w = windowWidth * offcenter;
 const margin = {'top': 20, 'right': 0, 'bottom': 0, 'left': 50}
 
-let h = window.innerHeight - 64 - 40; // - header - margin(svg's margin-top + div.row's margin-bottom)
-let svg = d3.select("#d3")
+const h = window.innerHeight - 64 - 40; // - header - margin(svg's margin-top + div.row's margin-bottom)
+let svgSelection = d3.select("#d3")
+let svg = svgSelection
     .attr("width", w)
     .attr("height", h)
-    .attr("id", "svg")
     .style("border", "rgba(47, 79, 79, 0.3) 1px solid")
-    .style("border-radius", "5px");
-
-// });
-
-// NODE COLORS
-let color = d3.scaleOrdinal(d3.schemeCategory20);
-
+    .style("border-radius", "5px"); //TODO: style in css
 
 // BASIC NODE SIZE
-let nodeRadius = 5;
+const nodeRadius = 5;
 
 // GRAPH VARIABLES
-let rcx = w / 2;
-let rcy = h / 2;
+const rcx = w / 2;
+const rcy = h / 2;
 
 // ----- MANAGE JSON DATA -----
-
-
-let preNodes = JSON.parse(svg.attr('data-nodes'))['preNodes']
-let preLinks = JSON.parse(svg.attr('data-links'))['preLinks']
+const preNodes = JSON.parse(svg.attr('data-nodes'))['preNodes']
+const preLinks = JSON.parse(svg.attr('data-links'))['preLinks']
 
 
 
 // D3 node format
 let nodes = [...new Set(preNodes.map(JSON.stringify))].map(JSON.parse)
-    nodes.forEach(n => {
-        svg.append("text").text(n.name).attr("id", "dummy")
-        let textLength = d3.select("#dummy").node().getComputedTextLength()
-        if (textLength>w/4.5){
-            let string = n.name
-            let stringL = string.length
-            let half = stringL/2;
-            let first = string.lastIndexOf(" ", half)
-            if (first===-1){first=stringL+1}
-            let last = string.indexOf(" ", half)
-            if (last===-1){last=stringL+1}
-            let firstHalf, lastHalf;
-            if (half-first  < last-half){
-                firstHalf = string.slice(0,first)
-                lastHalf = string.slice(first)
-            } else {
-                firstHalf = string.slice(0,last)
-                lastHalf = string.slice(last)
-            }
-
-            n.splitName = [firstHalf, lastHalf]
-
-            d3.select("#dummy").remove();
-            svg.append("text").text(firstHalf.length>lastHalf.length ? firstHalf : lastHalf).attr("id", "dummy")
-            textLength = d3.select("#dummy").node().getComputedTextLength();
+nodes.forEach(n => {
+    svg.append("text").text(n.name).attr("id", "dummy")
+    let textLength = d3.select("#dummy").node().getComputedTextLength()
+    if (textLength>w/4.5){
+        let string = n.name
+        let stringL = string.length
+        let half = stringL/2;
+        let first = string.lastIndexOf(" ", half)
+        if (first===-1){first=stringL+1}
+        let last = string.indexOf(" ", half)
+        if (last===-1){last=stringL+1}
+        let firstHalf, lastHalf;
+        if (half-first  < last-half){
+            firstHalf = string.slice(0,first)
+            lastHalf = string.slice(first)
+        } else {
+            firstHalf = string.slice(0,last)
+            lastHalf = string.slice(last)
         }
-        d3.select("#dummy").remove();
 
-        n.textLength = textLength
-    })
+        n.splitName = [firstHalf, lastHalf]
+
+        d3.select("#dummy").remove();
+        svg.append("text").text(firstHalf.length>lastHalf.length ? firstHalf : lastHalf).attr("id", "dummy")
+        textLength = d3.select("#dummy").node().getComputedTextLength();
+    }
+    d3.select("#dummy").remove();
+
+    n.textLength = textLength
+})
 
 
 // calculate node degrees
@@ -85,20 +70,17 @@ nodes.forEach(node => {
 })
 const noIntersections = $.isEmptyObject(intersections)
 // D3 link format
-let index = new Map(nodes.map(d => [d.id, d]))
-let links = preLinks.map(d => Object.assign(Object.create(d), {
+const index = new Map(nodes.map(d => [d.id, d]))
+const links = preLinks.map(d => Object.assign(Object.create(d), {
     "source": index.get(d.source),
-    "target": index.get(d.target)
+    "target": index.get(d.target),
+    "value": +d.value
 }));
 
-//nodes.sort((a,b) => a.degree < b.degree ? 1 : (a.degree > b.degree ? -1 :0)); //sorting nodes by degree makes the nw look messier
 
-
-const graph = {"nodes": nodes, "links": links}
-
+const graphConst = {"nodes": nodes, "links": links}
+let graph = graphConst
 // *** D3 NETWORK *** //
-
-;
 
 const maxDegree = Math.max(...graph.nodes.reduce(function (result, node) {
     if (node.degree !== undefined) {
@@ -111,67 +93,204 @@ const maxDegree = Math.max(...graph.nodes.reduce(function (result, node) {
 const interpolateDegree = d3.scaleLinear().domain([1, maxDegree]).range([0.85, 0.15])
 // FORCE SIMULATION
 
-let featuresN = +graph.nodes.reduce((accumulator, node) => {
+const featuresN = +graph.nodes.reduce((accumulator, node) => {
     return node.type === "feature" ? accumulator + 1 : accumulator + 0
 }, 0)
 
-let diseasesN = +graph.nodes.reduce((accumulator, node) => {
+const diseasesN = +graph.nodes.reduce((accumulator, node) => {
     return node.type === "disease" ? accumulator + 1 : accumulator + 0
 }, 0)
 
+let link, node, circle, labelGroup, label, splitLabel, plainLabel,
+    simulation = d3.forceSimulation(graph.nodes);
 
-let simulation = d3.forceSimulation(graph.nodes)
-    .force("link", d3.forceLink().id(d => d.id))
-    .force("charge", d3.forceManyBody().strength(featuresN * nodeRadius > rcx ? -rcx / 2 : -featuresN * nodeRadius))
-    .force("center", d3.forceCenter(rcx, rcy))
-    .force("collide", d3.forceCollide().radius(nodeRadius * 2))
-    .force("radial", d3.forceRadial().radius(d => d.type === "disease" ? (diseasesN === 1 ? 0 : (Math.log(diseasesN * nodeRadius) / Math.log(diseasesN + 1)) * rcx / 60) : (Math.log(featuresN * nodeRadius) / Math.log(featuresN + 1)) * rcx / 3).x(rcx).y(rcy).strength(1));
+function render(){
 
-// INITIALIZE LINKS
-let link = svg.append("g")
-    .attr("class", "links")
-    .selectAll("line")
-    .data(graph.links)
-    .enter()
-    .append("line");
+    simulation = simulation
+        .force("link", d3.forceLink().id(d => d.id))
+        .force("charge", d3.forceManyBody().strength(featuresN * nodeRadius > rcx ? -rcx / 2 : -featuresN * nodeRadius))
+        .force("center", d3.forceCenter(rcx, rcy))
+        .force("collide", d3.forceCollide().radius(nodeRadius * 2))
+        .force("radial", d3.forceRadial().radius(d => d.type === "disease" ? (diseasesN === 1 ? 0 : (Math.log(diseasesN * nodeRadius) / Math.log(diseasesN + 1)) * rcx / 60) : (Math.log(featuresN * nodeRadius) / Math.log(featuresN + 1)) * rcx / 3).x(rcx).y(rcy).strength(1));
 
-// INITIALIZE NODES
-let node = svg.append("g")
-    .attr("class", "nodes")
-    .selectAll("g")
-    .data(graph.nodes)
-    .enter()
-    .append("g")
-    .attr("class", d => d.intersection.map(i => 'intersection_' + i).join(" ").concat(d.intersection.length?" menu":''))
-let circle = node.append("circle")
-    .attr("r", d => nodeRadius)
-    .attr("fill", d => d.degree !== undefined ? d3.interpolateInferno(interpolateDegree(d.degree)) : "#0D47A1")
-    .attr("stroke-width", 1)
-    .attr("stroke", d => d.type === "disease" ? "rgba(13,71,161,0.75)" : "GhostWhite")
-    .attr("data-name", d => d.name)
-    .attr("data-id", d => d.id)
-    .attr("data-degree", d => d.degree);
+    let l = svg.selectAll(".link")
+        .data(graph.links, d=>d.source+','+d.target)
+    let n = svg.selectAll(".node")
+        .data(graph.nodes, d=>d.id)
+
+    enterLinks(l)
+    enterNodes(n)
+
+    link = svg.selectAll(".link")
+    node = svg.selectAll(".node")
+    circle = svg.selectAll(".circle")
+    labelGroup = svg.selectAll(".label-group")
+    label = svg.selectAll(".label")
+    plainLabel = svg.selectAll(".no-split")
+    splitLabel = svg.selectAll(".split-text")
+
+    node.call(d3.drag()
+        .on("start", dragStart)
+        .on("drag", dragging)
+        .on("end", dragEnd));
+
+    // DEFINE SIMULATION
+    simulation.nodes(graph.nodes)
+
+    simulation.force("link")
+        .links(graph.links);
+
+}
+
+function update(){
+
+    let l = svg.selectAll(".link")
+        .data(graph.links, d=>d.source+','+d.target)
+    let n = svg.selectAll(".node")
+        .data(graph.nodes, d=>d.id)
+
+    enterLinks(l)
+    exitLinks(l)
+    enterNodes(n)
+    exitNodes(n)
+
+    link = svg.selectAll(".link")
+    node = svg.selectAll(".node")
+    circle = svg.selectAll(".circle")
+    labelGroup = svg.selectAll(".label-group")
+    label = svg.selectAll(".label")
+    plainLabel = svg.selectAll(".no-split")
+    splitLabel = svg.selectAll(".split-text")
+
+    node.call(d3.drag()
+        .on("start", dragStart)
+        .on("drag", dragging)
+        .on("end", dragEnd));
+
+    // DEFINE SIMULATION
+    simulation.nodes(graph.nodes)
+    simulation.force("link")
+        .links(graph.links);
+
+    simulation.alpha(1).restart()
 
 
-// INITIALIZE LABELS
-let labelGroup = node.append("g")
-    .attr("id", d => d.id)
-    .attr("data-text-length", d => d.textLength)
+}
 
-let label = labelGroup.append("text")
-    .attr("font-weight", d => d.type === "disease" ? 500 : 400)
-    .attr("class", d => d.splitName?"split-text":"no-split")
+function enterNodes(n){
+    let g = n.enter().append("g")
+        .attr("class", d => d.intersection.map(i => 'intersection_' + i).join(" ").concat(d.intersection.length?" menu node":" node"))
 
-let plainLabel = label.filter(".no-split")
-    .attr("y", d => d.type === "feature" ? nodeRadius : 2.1 * nodeRadius)
-    .text(d => d.type === "disease" ? d.name : (d.degree > 1 || diseasesN === 1 || noIntersections ? d.name : "")) // No labels in nodes with degree 1 (too many nodes, looks messy)
+    let circleHelper = g.append("circle")
+        .attr("class", "circle")
+        .attr("r", d => nodeRadius)
+        .attr("fill", d => d.degree !== undefined ? d3.interpolateInferno(interpolateDegree(d.degree)) : "#0d47a1")
+        .attr("stroke-width", 1)
+        .attr("stroke", d => d.type === "disease" ? "rgba(13,71,161,0.75)" : "GhostWhite")
+        .attr("data-name", d => d.name)
+        .attr("data-id", d => d.id)
+        .attr("data-degree", d => d.degree);
 
-let splitLabel = label.filter(".split-text")
-    splitLabel.append("tspan")
+    // INITIALIZE LABELS
+    let labelGroupHelper = g.append("g")
+        .attr("class", "label-group")
+        .attr("id", d => d.id)
+        .attr("data-text-length", d => d.textLength)
+
+    let labelHelper = labelGroupHelper.append("text")
+        .attr("font-weight", d => d.type === "disease" ? 500 : 400)
+        .attr("class", d => d.splitName?"split-text label":"no-split label")
+
+    labelHelper.filter(".no-split")
+        .attr("y", d => d.type === "feature" ? nodeRadius : 2.1 * nodeRadius)
+        .text(d => d.type === "disease" ? d.name : (d.degree > 1 || diseasesN === 1 || noIntersections ? d.name : "")) // No labels in nodes with degree 1 (too many nodes, looks messy)
+
+    let splitLabelHelper = labelHelper.filter(".split-text")
+
+    splitLabelHelper.append("tspan")
         .text(d => d.type === "disease" ? d.splitName[0] : (d.degree > 1 ? d.splitName[0] : "")) // No labels in nodes with degree 1 (too many nodes, looks messy)
-    splitLabel.append("tspan")
+    splitLabelHelper.append("tspan")
         .text(d => d.type === "disease" ? d.splitName[1] : (d.degree > 1 ? d.splitName[1] : "")) // No labels in nodes with degree 1 (too many nodes, looks messy)
         .attr("dy", "1.1em")
+
+    // Display tooltips when hovering over nodes w/o label (= nodes with degree 1)
+    circleHelper.on("mouseover", function () {
+        if (+this.getAttribute("data-degree") === 1 && !noIntersections) {
+            return tooltip.style("visibility", "visible")
+                .text(this.getAttribute("data-name"));
+        }
+    })
+        .on("mousemove", function () {
+            return tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
+        })
+        .on("mouseout", function () {
+            return tooltip.style("visibility", "hidden");
+        });
+
+    g.on('mouseover', fade(0.3))
+        .on('mouseout', fade(1))
+
+    // Display menus
+    d3.selectAll(".menu circle").on("click", function () {
+        d3.event.stopPropagation()
+
+
+        if (menu.style("visibility")==="visible" && this.getAttribute('data-id')===menu.attr("data-menu-id")) {
+            return menu.style("visibility","hidden")
+        }
+        else {
+            return menu.style("visibility", "visible")
+                .attr("data-menu-id", this.getAttribute('data-id') )
+                .html(
+                    "<div class='row mb-10'>" +
+                    "<div class='col s12 valign-wrapper'>" +
+                    "<div class='col s9 menu-title'>" +
+                    `<b>SEARCH BY ${type.toUpperCase()}</b>` +
+                    "</div>" +
+                    "<div class='col s3'>" +
+                    "<a " +
+                    "class='get-disease-ajax btn-floating btn-xs waves-effect waves-light grey' " +
+                    "data-feature='"+this.getAttribute("data-name")+"'" +
+                    "data-id='"+this.getAttribute("data-id")+"'>"+
+                    "<i class= 'material-icons right '>chevron_right</i>" +
+                    "</a>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "<div class='row menu-description mb-5'>" +
+                    "<div class='col s12 left-align'>" +
+                    `Find diseases having <i>${this.getAttribute("data-name")}</i> as a ${type}` +
+                    "</div>" +
+                    "</div>"
+                );
+
+        }
+    })
+
+}
+function exitNodes(n){
+    // Avoid having a node menu when the node doesn't exist (bc it's been removed)
+    if (menu.style("visibility")==="visible"){
+        const preN = n
+        let removedNodesId = Object.values(preN._exit[0].map(e=>d3.select(e).select("circle").attr("data-id")))
+        let currentMenuId = d3.select(".menu-wrapper").attr("data-menu-id")
+        removedNodesId.includes(currentMenuId) && menu.style("visibility", "hidden")
+    }
+    n.exit().remove()
+}
+function enterLinks(l){
+    l.enter().insert("line", ".node")
+        .attr("class", "link")
+        .attr("stroke-width", d => d.value*4)
+        .attr("stroke", "#cccccc");
+    l.on('mouseover', fadeLink(0.5))
+        .on('mouseout', fadeLink(1))
+
+}
+function exitLinks(l){
+    l.exit().remove()
+}
+
 
 // INITIALIZE TOOLTIPS
 let tooltip = d3.select("body")
@@ -200,20 +319,6 @@ let menu = d3.select("body")
     .style("border", "1px solid #bdbdbd")
     .style("color", "black");
 
-// Display tooltips when hovering over nodes w/o label (= nodes with degree 1)
-circle.on("mouseover", function () {
-    if (+this.getAttribute("data-degree") === 1 && !noIntersections) {
-        return tooltip.style("visibility", "visible")
-            .text(this.getAttribute("data-name"));
-    }
-})
-    .on("mousemove", function () {
-        return tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
-    })
-    .on("mouseout", function () {
-        return tooltip.style("visibility", "hidden");
-    });
-
 
 // MAKE DRAGGABLE NODES
 function dragStart(d) {
@@ -232,11 +337,6 @@ function dragEnd(d) {
     d.fx = null;
     d.fy = null;
 }
-
-node.call(d3.drag()
-    .on("start", dragStart)
-    .on("drag", dragging)
-    .on("end", dragEnd));
 
 // HIGHLIGHT LINKS AND NODES ON HOVER
 const linkedByIndex = {};
@@ -267,20 +367,8 @@ function fadeLink(opacity) {
     };
 }
 
-node.on('mouseover', fade(0.3))
-    .on('mouseout', fade(1))
-link.on('mouseover', fadeLink(0.5))
-    .on('mouseout', fadeLink(1))
+simulation.on("tick", function() {
 
-// DEFINE SIMULATION
-simulation.nodes(graph.nodes)
-    .on("tick", ticked);
-
-simulation.force("link")
-    .links(graph.links);
-
-// function to return link, circle and label position when the simulation is generated
-function ticked() {
     //display circles so that their label is not off range + menu position
     circle
         .attr("cx", d => {
@@ -299,6 +387,8 @@ function ticked() {
             }
             return d.y
         });
+
+
     // move labels along and rotate the text to make it readable
     labelGroup
         .attr("transform", d => {
@@ -321,9 +411,8 @@ function ticked() {
     splitLabel.select("tspan:nth-child(1)")
         .attr("dx", d=>d.x)
         .attr("dy", d => d.y)
-     splitLabel.select("tspan:nth-child(2)")
-         .attr("x", d=>d.x)
-    //     .attr("dy", d => d.y)
+    splitLabel.select("tspan:nth-child(2)")
+        .attr("x", d=>d.x)
 
     link
         .attr("x1", function (d) {
@@ -338,10 +427,24 @@ function ticked() {
         .attr("y2", function (d) {
             return d.target.y;
         });
-}
 
 
-//// when clicking the table, nodes are highlighted
+});
+
+
+render()
+// function to return link, circle and label position when the simulation is generated
+/*function ticked() {
+
+    //
+
+
+
+
+}*/
+
+
+// when clicking the table, nodes are highlighted
 
 $('.fader').on('click', e => {
 
@@ -385,43 +488,8 @@ $('.table-wrapper').on('scroll', function () {
 
 
 /* MENU AND SIDE-TABLES */
-const type = $("#svg").data("type")
-// Display
-d3.selectAll(".menu circle").on("click", function () {
-    d3.event.stopPropagation()
+const type = $("#d3").data("type")
 
-
-    if (menu.style("visibility")==="visible" && this.getAttribute('data-id')===menu.attr("data-menu-id")) {
-        return menu.style("visibility","hidden")
-    }
-    else {
-        return menu.style("visibility", "visible")
-            .attr("data-menu-id", this.getAttribute('data-id') )
-            .html("<div class='row mb-10'>" +
-                "<div class='col s12 valign-wrapper'>" +
-                "<div class='col s9 menu-title'>" +
-                `<b>SEARCH BY ${type.toUpperCase()}</b>` +
-                "</div>" +
-                "<div class='col s3'>" +
-                "<a " +
-                "class='get-disease-ajax btn-floating btn-xs waves-effect waves-light grey' " +
-                "data-feature='"+this.getAttribute("data-name")+"'" +
-                "data-id='"+this.getAttribute("data-id")+"'>"+
-                "<i class= 'material-icons right '>chevron_right</i>" +
-                "</a>" +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                "<div class='row menu-description mb-5'>" +
-                "<div class='col s12 left-align'>" +
-                `Find diseases having <i>${this.getAttribute("data-name")}</i> as a ${type}` +
-                "</div>" +
-                "</div>" +
-                "</div>"
-            );
-
-    }
-})
 $(document).click(function() {
     return menu.style("visibility")==="visible"&&menu.style("visibility","hidden")
 });
@@ -447,54 +515,54 @@ $('body').on('click', '.get-disease-ajax', (event) => {
                 $(wrapperId+' *').hide()
                 $(wrapperId).children().first().before(
                     '<div id="loader" style="margin: auto">' +
-                        '<div class="preloader-wrapper big active">' +
-                            '<div class="spinner-layer spinner-grey-only">' +
-                                '<div class="circle-clipper left">' +
-                                    '<div class="circle">' +
-                                    '</div>' +
-                                '</div>' +
-                                '<div class="gap-patch">' +
-                                    '<div class="circle">' +
-                                    '</div>' +
-                                '</div>' +
-                                '<div class="circle-clipper right">' +
-                                    '<div class="circle">' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
+                    '<div class="preloader-wrapper big active">' +
+                    '<div class="spinner-layer spinner-grey-only">' +
+                    '<div class="circle-clipper left">' +
+                    '<div class="circle">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="gap-patch">' +
+                    '<div class="circle">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="circle-clipper right">' +
+                    '<div class="circle">' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
                     '</div>')
                 $(wrapperId).addClass('valign-wrapper')
                 $(wrapperId).css('height', '90vh')
 
             },
             success: function(htmlTable){
-                    // TODO: can this be optimized???
-                    new Promise( (resolve) => {
-                        if (!$('#new-wrapper').length){
-                            $(".table-wrapper").removeClass(layoutClasses)
-                            $(".table-wrapper").wrap(`<div class="row"><div id="new-wrapper" class="${layoutClasses}"></div></div>`)
-                            $(".table-wrapper").before("    <ul class='tabs'>" +
-                                "        <li class='tab col s4 two-lines'><a href='#common-nodes'><b class='pt-5'><span class='row mb-0'>Common</span><span class='row mb-0'>symptoms</span></b></a></li>" +
-                                `       <li class='tab col s4'><a href='#${tabId}'>${feature}</a></li>` +
-                                "    </ul>")
-                            $(".table-wrapper").after(`<div id=${tabId}></div>`)
-                        } else {
-                            $('.tabs').append(`<li class='tab col s4'><a href='#${tabId}'>${feature}</a></li>`)
-                            $('#new-wrapper').children().last().after(`<div id=${tabId}></div>`)
-                        }
-                        resolve()
-                    }).then(()=>{
-                        $(document).ready(function () {
-                            $('ul.tabs').tabs()
-                        })
-                    }).then(()=>{
+                // TODO: can this be optimized???
+                new Promise( (resolve) => {
+                    if (!$('#new-wrapper').length){
+                        $(".table-wrapper").removeClass(layoutClasses)
+                        $(".table-wrapper").wrap(`<div class="row"><div id="new-wrapper" class="${layoutClasses}"></div></div>`)
+                        $(".table-wrapper").before("    <ul class='tabs'>" +
+                            "        <li class='tab col s4 two-lines'><a href='#common-nodes'><b class='pt-5'><span class='row mb-0'>Common</span><span class='row mb-0'>symptoms</span></b></a></li>" +
+                            `       <li class='tab col s4'><a href='#${tabId}'>${feature}</a></li>` +
+                            "    </ul>")
+                        $(".table-wrapper").after(`<div id=${tabId}></div>`)
+                    } else {
+                        $('.tabs').append(`<li class='tab col s4'><a href='#${tabId}'>${feature}</a></li>`)
+                        $('#new-wrapper').children().last().after(`<div id=${tabId}></div>`)
+                    }
+                    resolve()
+                }).then(()=>{
+                    $(document).ready(function () {
+                        $('ul.tabs').tabs()
+                    })
+                }).then(()=>{
 
-                        $(wrapperId).removeClass('valign-wrapper')
-                        $(wrapperId).removeAttr('style')
-                        $('#loader').remove()
-                        $(wrapperId+' *:not(script)').show()
-                        $('#'+tabId).html(htmlTable)
+                    $(wrapperId).removeClass('valign-wrapper')
+                    $(wrapperId).removeAttr('style')
+                    $('#loader').remove()
+                    $(wrapperId+' *:not(script)').show()
+                    $('#'+tabId).html(htmlTable)
                 })
 
 
@@ -512,3 +580,42 @@ $('body').on('click', '.get-disease-ajax', (event) => {
 const layoutClasses = $(".table-wrapper").attr('class').replace('table-wrapper','')
 
 $('body').on('click', '.tab', () => {$.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust()})
+
+
+let sliderDef = d3
+    .sliderTop()
+    .min(0)
+    .max(1)
+    .width(300)
+    .tickFormat(d3.format('.1~f'))
+    .displayFormat(d3.format(',.2~f'))
+    .step(0.01)
+    .ticks(10)
+    .default(0)
+    .handle(
+        d3
+            .symbol()
+            .type(d3.symbolCircle)
+            .size(200)()
+    )
+    .on('onchange', val => {
+        let limit = d3.format(',.2~f')(val)
+        console.log(limit)
+        let newLinks = graphConst.links.filter(n=>n.value>=limit)
+        let newNodes = [...new Set(newLinks.flatMap(l=>[l.target,l.source]))]
+        graph = {
+            'nodes': newNodes,
+            'links': newLinks
+        }
+        // TODO do not update unless there's something to update
+        update()
+    });
+
+let slider = svgSelection
+    .append("g")
+    .attr('transform', `translate(${w*0.024},${h-40})`);
+
+if(slider.call(sliderDef)) {
+    d3.select(".parameter-value > text").attr("y", 27);
+    d3.select(".slider").attr("cursor","auto")
+}
