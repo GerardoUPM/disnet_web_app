@@ -105,10 +105,11 @@
 <script src="https://d3js.org/d3-color.v1.min.js"></script>
 <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="https://unpkg.com/d3-simple-slider"></script>
+<script src="https://unpkg.com/d3-simple-slider@1.8.0/dist/d3-simple-slider.min.js"></script>
 
 <th:block th:if="${!emptySVG}">
     <script type="text/javascript" th:src="@{/js/visualisation/common-nodes.js}"></script>
+    <script th:if="${type.equals('gene') || type.equals('protein')}" type="text/javascript" th:src="@{/js/visualisation/common-nodes-slider.js}"></script>
 <!--    <script type="text/javascript" th:src="@{/js/visualisation/network-menu.js}"></script>-->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>

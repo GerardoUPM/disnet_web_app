@@ -161,53 +161,7 @@ $(document).on('click', '.chip .close', function (e) {
     }
 });
 
-
-$("#dummy-list-input").on("paste", () => {
-    console.log('poipoi')
-    $("#flash").fadeIn('fast').delay(1500).queue((next)=>{
-        $("#flash").fadeOut('slow', 'swing')
-        next();
-        console.log('poi')
-    })
-    $('#dummy-list-input').keypress(function(event){
-        let keycode = (event.keyCode ? event.keyCode : event.which);
-        if(+keycode === 13) {
-            let textareaValue = $("#dummy-list-input").val();
-            if (textareaValue) {
-                let allTerms = split($("#disease-list").val())
-                let diseases = [... new Set(split(textareaValue).map(term=> term.trim()))] //get array of unique values from the pasted list + remove possible whitespace characters
-                diseases.forEach((disease, idx) => {
-                    if (!allTerms.includes(disease)&&disease) {
-                        $("#disease-list").val($("#disease-list").val()+disease+' | ')
-                        if (idx === 0) {
-                            // adding first chip
-                            $("#chips").children().first().before("<div class='chip' contenteditable='false'>" +
-                                disease +
-                                "<i class=\"material-icons close\">close</i>" +
-                                "</div>")
-                            /* The required attribute for step-2 points to a disabled textarea (used as a dummy)
-                                so when the first chip is written, that means the form is filled, so we remove the
-                                required attr  from textarea (otherwise html will always see it as empty cause it's disabled)
-                             */
-                            $("#dummy-list-input").removeAttr('required');
-                            // when first chip is added, step 3 unblocks
-                            $("#step-3").removeClass("md-inactive")
-                            $(".submit-text").removeClass("disable-submit")
-                            $(".step-3-button").removeClass("disabled")
-                        } else {
-                            $("#chips").find("div").last().after("<div class='chip' contenteditable='false'>" +
-                                disease +
-                                "<i class=\"material-icons close\">close</i>" +
-                                "</div>")
-                        }
-                    }
-                })
-                $("#dummy-list-input").val("")
-            }
-        }
-    });
-
-})
+pasteToChips($("#dummy-list-input"));
 
 // $('#searchLocus').on('focus', function () {
 //     if ($('#searchGenesBy_2').is(':checked')) {
@@ -219,6 +173,8 @@ $("#dummy-list-input").on("paste", () => {
 //     }
 
 $(document).ready(function(){
+    // TODO: common-function w/ symptom-form
+    //     $(".input>.waves-button-input").on('click', e => {
     $("input.waves-button-input").on('click', e => {
         $("#dummy-list-input").val("") //empty textarea to trigger html control in case step-2 is not filled
         $('input[name=type]').val($(e.currentTarget).attr('id'))

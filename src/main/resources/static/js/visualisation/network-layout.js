@@ -79,88 +79,88 @@
 // // DEFINE SIMULATION
 // simulation.nodes(graph.nodes)
 //     .on("tick", ticked);
-//
-// let button = svg.append('g')
-//     .attr("transform", `translate(${margin.left / 4},${h - margin.top/2 - 27})`)
-//     .attr("class", "svgButton")
-//     .attr("id", "triggerMenuLayout")
-// let buttonRect = button.append('rect')
-//     .attr("width", 110)
-//     .attr("height", 27)
-//     .attr("rx", "0.2%")
-//     .attr("ry", "0.8%")
-// let buttonText = button.append('text')
-//     .attr("dy", 18)
-//     .attr("dx", 7)
-//     .text('Search by symptom')
-//
-// const moredeg = nodes.reduce((c,n)=>{
-//     +n.degree>1 && c++
-//     return c
-// },0)
-//
-// const central = nodes.reduce((c,n)=>{!n.degree && c++
-//     return c
-// },0)
-//
-// const onedeg = nodes.reduce((c,n)=>{
-//     +n.degree===1 && c++
-//     return c
-// },0)
-// let maxLength = Math.max(...graph.nodes.filter(n=>+n.degree>1).map(n=>+d3.select("#" + n.id).attr('data-text-length')));
-// $("#triggerMenuLayout").on('click', ()=> {
-//
-//     simulation.stop()
-//         .force("radial",null)
-//         .force("charge", d3.forceManyBody().strength(0))
-//         .force("center", d3.forceCenter(w/2,h/2))
-//         .force("collide", d3.forceCollide().radius(2.5*nodeRadius))
-//         .force("x", d3.forceX().x(d => d.degree?(+d.degree===1?-2*onedeg:onedeg):-1.9*(onedeg)).strength(0.9))
-//         .alpha(1).restart()
-//         .nodes(graph.nodes).on("tick", ()=> {
-//         circle
-//             .attr("cx", d => {
-//                 d.x = d.degree?(+d.degree===1?margin.left+50:w-50-maxLength):w/2
-//                 menu.style("left", (d.x + 20) + "px")
-//                 return d.x
-//             })
-//             .attr("cy", d => {
-//                 menu.style("top", (d.y - 30) + "px")
-//                 return d.y
-//             });
-//         // move labels along and rotate the text to make it readable
-//         label.attr("dx", d=> d.x = d.degree?(+d.degree===1?margin.left+50:w-50-maxLength+nodeRadius):w/2)
-//             .attr("dy", d=>d.y)
-//             .attr("transform", null)
-//             .attr("text-anchor", d => d.type === "disease" ? "middle" : (d.x <= rcx ? "end" : "start"))
-//             .attr("x", d => d.type === "symptom" ? (d.x > rcx ? nodeRadius : -nodeRadius) : 0);
-//
-//         link
-//             .attr("x1", function (d) {
-//                 return d.source.x;
-//             })
-//             .attr("y1", function (d) {
-//                 return d.source.y;
-//             })
-//             .attr("x2", function (d) {
-//                 return d.target.x;
-//             })
-//             .attr("y2", function (d) {
-//                 return d.target.y;
-//             });
-//
-//         })
-//
-//
-//         node.call(d3.drag()
-//             .on("start", null)
-//             .on("drag", null)
-//             .on("end", null));
-//
-// })
-//
-//
-//
+
+let button = svg.append('g')
+    .attr("transform", `translate(${margin.left / 4},${height - margin.top/2 - 27})`)
+    .attr("class", "svgButton")
+    .attr("id", "triggerMenuLayout")
+let buttonRect = button.append('rect')
+    .attr("width", 110)
+    .attr("height", 27)
+    .attr("rx", "0.2%")
+    .attr("ry", "0.8%")
+let buttonText = button.append('text')
+    .attr("dy", 18)
+    .attr("dx", 7)
+    .text('linear layout')
+
+const moredeg = nodes.reduce((c,n)=>{
+    +n.degree>1 && c++
+    return c
+},0)
+
+const central = nodes.reduce((c,n)=>{!n.degree && c++
+    return c
+},0)
+
+const onedeg = nodes.reduce((c,n)=>{
+    +n.degree===1 && c++
+    return c
+},0)
+let maxLength = Math.max(...graph.nodes.filter(n=>+n.degree>1).map(n=>+d3.select("#" + n.id).attr('data-text-length')));
+$("#triggerMenuLayout").on('click', ()=> {
+
+    simulation.stop()
+        .force("radial",null)
+        .force("charge", d3.forceManyBody().strength(0))
+        .force("center", d3.forceCenter(width/2,height/2))
+        .force("collide", d3.forceCollide().radius(2.5*nodeRadius))
+        .force("x", d3.forceX().x(d => d.degree?(+d.degree===1?-2*onedeg:onedeg):-1.9*(onedeg)).strength(0.9))
+        .alpha(1).restart()
+        .nodes(graph.nodes).on("tick", ()=> {
+        circle
+            .attr("cx", d => {
+                d.x = d.degree?(+d.degree===1?margin.left+50:width-50-maxLength):width/2
+                menu.style("left", (d.x + 20) + "px")
+                return d.x
+            })
+            .attr("cy", d => {
+                menu.style("top", (d.y - 30) + "px")
+                return d.y
+            });
+        // move labels along and rotate the text to make it readable
+        label.attr("dx", d=> d.x = d.degree?(+d.degree===1?margin.left+50:width-50-maxLength+nodeRadius):width/2)
+            .attr("dy", d=>d.y)
+            .attr("transform", null)
+            .attr("text-anchor", d => d.type === "disease" ? "middle" : (d.x <= rcx ? "end" : "start"))
+            .attr("x", d => d.type === "symptom" ? (d.x > rcx ? nodeRadius : -nodeRadius) : 0);
+
+        link
+            .attr("x1", function (d) {
+                return d.source.x;
+            })
+            .attr("y1", function (d) {
+                return d.source.y;
+            })
+            .attr("x2", function (d) {
+                return d.target.x;
+            })
+            .attr("y2", function (d) {
+                return d.target.y;
+            });
+
+        })
+
+
+        node.call(d3.drag()
+            .on("start", null)
+            .on("drag", null)
+            .on("end", null));
+
+})
+
+
+
 // $('body').on('click', '.symptom-ajax', (event) => {
 //     console.log('aaaaaaaaaaaaaaasdfclicked')
 //
@@ -212,9 +212,3 @@
 //         $("a[href='#"+symptomId+"']").click();
 //     }
 // })
-//
-// const layoutClasses = $(".table-wrapper").attr('class').replace('table-wrapper','')
-//
-// $('body').on('click', '.tab', () => {$.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust()})
-//
-//

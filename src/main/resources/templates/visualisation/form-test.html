@@ -4,15 +4,59 @@
 <head>
     <title>DISNET - Database Information</title>
     <div th:replace="fragments/header :: header-css"></div>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" />
-    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualisation/form.css}" media="screen,projection" />
-    <link type="text/css" rel="stylesheet"  th:href="@{/css/helpers.css}" media="screen,projection" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/visualisation/form.css}" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/visualisation/form-test.css}" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/visualisation/symptom-form.css}" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/helpers.css}" media="screen,projection"/>
 
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 <main>
-    <div class="container" style="width: 90% !important;">
+    <div id="select-search-method" style="width: 90% !important;" class="container mt-50 pt-50">
+        <div class="row mt-50 pt-50">
+            <div class="col s12 center-align-col">
+                <div class="col s12 mb-25">
+                    <div class="col s8 center-align-col">
+                        <div class="col s6 center-align">
+                            <a id="search-by-disease-button" class="btn-large waves-effect waves-light white valign-wrapper">
+                                <span class="col s12">
+                                <h5 class="orange-text text-lighten-2 col s10">Serch By Disease
+
+
+                                </h5>
+                                <span class="material-icons md-36 orange-text text-lighten-2 col s2" style="margin-top: 0.41rem">
+                                                                            arrow_forward_ios
+                                                                        </span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 mt-25">
+                    <div class="col s8 center-align-col">
+                        <div class="col s6 center-align">
+                            <a id="search-by-symptom-button" class="btn-large waves-effect waves-light white valign-wrapper">
+                                <span class="col s12">
+                                <h5 class="orange-text text-lighten-2 col s11">Serch By Symptom
+
+
+                                </h5>
+                                <span class="material-icons md-36 orange-text text-lighten-2 col s1" style="margin-top: 0.41rem">
+                                                                            arrow_forward_ios
+                                                                        </span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="search-by-disease" style="width: 90% !important; display: none; opacity: 0; transform: translateY(-100%);">
         <form action="/visualisation/common-nodes" autocomplete="off" class="row">
             <div class="col m4 s12 center-align
             pb-25 md-pb-0
@@ -23,7 +67,8 @@
                     <div class="col s12">
                         <select class="browser-default" name="sourceId" id="source" th:required="required">
                             <option value="" disabled="disabled" selected="selected" hidden="hidden">Select a source</option>
-                            <option th:each="source : ${sources}"
+                            <option
+                                    th:each="source : ${sources}"
                                     th:value="${source.getKey()}"
                                     th:text="${source.getValue()}">
                             </option>
@@ -33,7 +78,8 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <i id="calendar" class="material-icons md-inactive prefix">event</i>
-                        <input disabled="disabled" name="date" id="date-input" type="text" th:attr="data-dates=${dates}" th:required="required"/>
+                        <input disabled="disabled" name="date" id="date-input" type="text"
+                               th:attr="data-dates=${dates}" th:required="required"/>
                         <label for="date-input">Choose a date</label>
                     </div>
                 </div>
@@ -124,15 +170,59 @@
             </div>
         </form>
     </div>
+
+    <div class="container" id="search-by-symptom" style="width: 90% !important; display: none; opacity: 0; transform: translateY(-100%);">
+        <form action="/visualisation/diseases-by-symptom" autocomplete="off" class="row">
+            <div class="col s12 center-align
+            pt-25 md-pt-0
+            pb-25 md-pb-0
+            md-mt-50 md-mb-50 md-pl-25 md-pr-25
+            form-step-height">
+                <h5 class="orange-text">Serch By Symptom</h5>
+                <div class="row">
+                    <div class="col s6 center-align-col">
+                        <div class="mb-0 chips input-field pt-50" id="chips2">
+                            <textarea id="dummy-list-input2" class="mb-0 materialize-textarea pb-0" th:required="required"></textarea>
+                            <label for="dummy-list-input2">Enter a list of symptoms
+                            </label>
+                        </div>
+                        <span id="tooltip2" class="material-icons md-18 cue-left"
+                              data-tooltip="Type two characters for autocompletion, or paste a list of diseases separated by &quot;|&quot;"
+                              data-delay="50"
+                              data-position="right"
+                        >help_outline</span>
+                        <div id="flash2" class="orange-text" style="display: none">Press Enter to process your list</div>
+                    </div>
+                    <div class="input-field col s12 hide">
+                        <textarea name="symptoms" id="disease-list2"></textarea>
+                        <label for="disease-list2"></label>
+                    </div>
+                    <div class="row">
+                        <div class="col s6 center-align-col">
+                            <div class="right-align">
+                                <button id="gene2" type="submit"
+                                        class="waves-effect waves-dark btn white symptom-submit black-text">Submit</button>
+                                <!--                                       class="step-3-button disabled btn-floating btn-small btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </main>
 <!-- /.container -->
 
 <div th:replace="fragments/footer :: footer"></div>
 <div th:replace="fragments/footer :: footer-js"></div>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+
 <script>$.widget.bridge('uitooltip', $.ui.tooltip);</script>
 <script type="text/javascript" th:src="@{/js/materialize.js}"></script>
 <script type="text/javascript" th:src="@{/js/visualisation/helper-functions/paste-to-chips.js}"></script>
 <script type="text/javascript" th:src="@{/js/visualisation/form.js}"></script>
+<script type="text/javascript" th:src="@{/js/visualisation/symptom-form.js}"></script>
+<script type="text/javascript" th:src="@{/js/visualisation/form-test.js}"></script>
 </body>
 </html>

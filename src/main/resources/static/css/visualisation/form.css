@@ -52,7 +52,7 @@ input[type="text"]:not(.browser-default):focus:not([readonly]){
     color: #0D47A1;
 }
 
-#chips{
+#chips, #chips2{
     border-bottom: none !important;
 }
 .invisible{

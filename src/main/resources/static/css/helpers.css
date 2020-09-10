@@ -727,3 +727,12 @@
         margin-bottom: 0px !important;
     }
 }
+
+
+.row .col.center-align-col{
+    float: none !important;
+}
+.col.center-align-col{
+    margin-left: auto;
+    margin-right: auto;
+}

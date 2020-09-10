@@ -74,8 +74,9 @@ tr[data-toggled="1"]{
 }
 
 .svgButton rect{
-    fill: #c1c1c1c1;
-    stroke: darkslategray;
+    fill: white;
+    stroke: #e4e4e4;
+    stroke-width: 2px;
 }
 
 .svgButton {cursor: pointer;}
