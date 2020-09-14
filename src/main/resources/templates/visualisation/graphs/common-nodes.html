@@ -6,9 +6,9 @@
     <div th:replace="fragments/header :: header-css"></div>
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" />-->
     <link type="text/css" rel="stylesheet"  th:href="@{/css/helpers.css}" media="screen,projection" />
-    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualisation/networks.css}" media="screen,projection" />
-    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualisation/networks-menu.css}"/>
-    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualisation/slider.css}"/>
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualisation/graphs/networks.css}" media="screen,projection" />
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualisation/graphs/networks-menu.css}"/>
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualisation/graphs/slider.css}"/>
     <link type="text/css" rel="stylesheet"  href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
     <link type="text/css" rel="stylesheet"  href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css"/>
 
@@ -108,9 +108,10 @@
 <script src="https://unpkg.com/d3-simple-slider@1.8.0/dist/d3-simple-slider.min.js"></script>
 
 <th:block th:if="${!emptySVG}">
-    <script type="text/javascript" th:src="@{/js/visualisation/common-nodes.js}"></script>
-    <script th:if="${type.equals('gene') || type.equals('protein')}" type="text/javascript" th:src="@{/js/visualisation/common-nodes-slider.js}"></script>
-<!--    <script type="text/javascript" th:src="@{/js/visualisation/network-menu.js}"></script>-->
+    <script type="text/javascript" th:src="@{/js/visualisation/graphs/common-nodes.js}"></script>
+    <script type="text/javascript" th:src="@{/js/visualisation/graphs/side-tables.js}"></script>
+    <script th:if="${type.equals('gene') || type.equals('protein')}" type="text/javascript" th:src="@{/js/visualisation/graphs/update-graph-slider.js}"></script>
+<!--    <script type="text/javascript" th:src="@{/js/visualisation/graphs/network-menu.js}"></script>-->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>

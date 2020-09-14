@@ -106,7 +106,7 @@ public class VisualisationController {
         String datesJson = new ObjectMapper().writeValueAsString(dates);
         model.addAttribute("sources", sources);
         model.addAttribute("dates", datesJson);
-        return "visualisation/form-test";
+        return "visualisation/forms/form-test";
     }
 
     @GetMapping("/form")
@@ -135,13 +135,13 @@ public class VisualisationController {
         String datesJson = new ObjectMapper().writeValueAsString(dates);
         model.addAttribute("sources", sources);
         model.addAttribute("dates", datesJson);
-      return "visualisation/form";
+      return "visualisation/forms/form";
     };
 
     @GetMapping("/form-diseases-by-symptom")
     public String SymptomForm(Model model) {
 
-        return "visualisation/symptom-form";
+        return "visualisation/forms/symptom-form";
     };
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/diseases-by-symptom")
@@ -274,7 +274,7 @@ public class VisualisationController {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return "visualisation/common-diseases";
+        return "visualisation/graphs/common-diseases";
     }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/common-nodes") //TODO NOW: GET/POST
@@ -509,7 +509,7 @@ public class VisualisationController {
             e.printStackTrace();
         }
 
-        return "visualisation/common-nodes";
+        return "visualisation/graphs/common-nodes";
     }
 
 
