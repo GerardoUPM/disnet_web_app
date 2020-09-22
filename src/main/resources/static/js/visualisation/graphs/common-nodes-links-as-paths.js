@@ -1,23 +1,39 @@
+'use strict'
+
 const windowWidth = window.innerWidth;
 //const svgLeftMargin = 50;
 const offcenter = windowWidth < 601 ? 1 : 8 / 12; // col s8
-const w = windowWidth * offcenter;
+const width = windowWidth * offcenter;
 const margin = {'top': 20, 'right': 0, 'bottom': 0, 'left': 50}
 
-const h = window.innerHeight - 64 - 40; // - header - margin(svg's margin-top + div.row's margin-bottom)
+const height = window.innerHeight - 64 - 40; // - header - margin(svg's margin-top + div.row's margin-bottom)
 let svgSelection = d3.select("#d3")
 let svg = svgSelection
-    .attr("width", w)
-    .attr("height", h)
+    .attr("width", width)
+    .attr("height", height)
     .style("border", "rgba(47, 79, 79, 0.3) 1px solid")
     .style("border-radius", "5px"); //TODO: style in css
 
 // BASIC NODE SIZE
 const nodeRadius = 5;
+const linkWidthMultiplier = 5;
+const absoluteArcHeight = height/(100*linkWidthMultiplier/3);
+
+const halfIncrements = (int) => {
+    let ceil = Math.ceil(int*10)
+    let ceilHalf = Math.round(ceil/2)
+    if (ceilHalf<int){
+        return ceilHalf
+    }
+    else {
+        return ceil/10
+    }
+}
+
 
 // GRAPH VARIABLES
-const rcx = w / 2;
-const rcy = h / 2;
+const rcx = width / 2;
+const rcy = height / 2;
 
 // ----- MANAGE JSON DATA -----
 const preNodes = JSON.parse(svg.attr('data-nodes'))['preNodes']
@@ -30,7 +46,7 @@ let nodes = [...new Set(preNodes.map(JSON.stringify))].map(JSON.parse)
 nodes.forEach(n => {
     svg.append("text").text(n.name).attr("id", "dummy")
     let textLength = d3.select("#dummy").node().getComputedTextLength()
-    if (textLength>w/4.5){
+    if (textLength>width/4.5){
         let string = n.name
         let stringL = string.length
         let half = stringL/2;
@@ -71,11 +87,69 @@ nodes.forEach(node => {
 const noIntersections = $.isEmptyObject(intersections)
 // D3 link format
 const index = new Map(nodes.map(d => [d.id, d]))
-const links = preLinks.map(d => Object.assign(Object.create(d), {
+let links = preLinks.map(d => Object.assign(Object.create(d), {
     "source": index.get(d.source),
-    "target": index.get(d.target)
+    "target": index.get(d.target),
+    "value": +d.value,
+    "mappingSource": d.mappingSource,
+    "mappingVocabulary": d.mappingVocabulary,
+    "mappedDisease": d.mappedDisease
 }));
 
+// const mappingSources = [...new Set(links.map(l=>l.mappingSource))].sort()
+// const mappingSourcesN = mappingSources.length
+// const mapMappingSources = {}
+// mappingSources.forEach((s,i)=>mapMappingSources[s]=d3.scaleLinear().domain([0, mappingSourcesN]).range([0.15, 0.95])(i))
+// // const colorBySource = mappingSource => d3.hsl(d3.hsl(d3.interpolateTurbo(mapMappingSources[mappingSource])).h, 0.6,0.75);
+// const colorBySource = mappingSource => d3.hsl(d3.interpolateCool(mapMappingSources[mappingSource])).darker(0.3)
+// // const colorBySource = mappingSource => d3.hsl(d3.interpolateRainbow(mapMappingSources[mappingSource]))
+const transformColorTransparency = color => {
+    return d3.hsl(color.h,color.s*0.98,color.l*1.2,0.2)
+
+};
+
+const transformColor = color => {
+    return d3.hsl(color.h,color.s*0.98,color.l*1.2,0.6)
+
+};
+
+
+const mappingSources = [...new Set(links.map(l=>l.mappingSource))].sort()
+const mapMappingSources = {}
+mappingSources.forEach((s,i)=>mapMappingSources[s]=i)
+// const colorSchema = .slice()
+
+const colorBySource = mappingSource => d3.hsl(d3.schemeAccent[mapMappingSources[mappingSource]]).darker(0.4);
+// const reversedColorScheme = d3.schemeSet1.slice().reverse()
+// const colorBySource = mappingSource => reversedColorScheme[mapMappingSources[mappingSource]];
+// const colorBySource = mappingSource => d3.hsl(d3.hsl(reversedColorScheme[mapMappingSources[mappingSource]]).h, 0.6,0.75);
+mappingSources.forEach(s=>console.log(`%c                                         ${d3.hsl(transformColorTransparency(colorBySource(s))).formatHsl()}                                      `, `background: ${colorBySource(s)}`))
+
+function getRepeatedLinks(links){
+    links.forEach(link => {
+
+        // find other links with same target+source or source+target
+        let same = links.filter(l => l.source === link.source && l.target === link.target)
+
+        let sameAlt = links.filter(l => l.source === link.target && l.target === link.source) //TODO: en teoría source siempre es disease por lo que el alt no sería necesario
+
+        let sameAll = same.concat(sameAlt);
+
+        sameAll.forEach((s, i) => {
+            s.sameIndex = (i + 1);
+            s.sameTotal = sameAll.length;
+            s.sameTotalHalf = (s.sameTotal / 2);
+            s.sameUneven = ((s.sameTotal % 2) !== 0);
+            s.sameMiddleLink = ((s.sameUneven === true) && (Math.ceil(s.sameTotalHalf) === s.sameIndex));
+            s.sameLowerHalf = (s.sameIndex <= s.sameTotalHalf);
+            s.sameArcDirection = s.sameLowerHalf ? 0 : 1;
+            s.sameIndexCorrected = s.sameLowerHalf ? s.sameIndex : (s.sameIndex - Math.ceil(s.sameTotalHalf));
+        });
+    });
+    return links
+}
+
+let maxSame = Math.max(...links.map(l => l.sameIndex));
 
 const graphConst = {"nodes": nodes, "links": links}
 let graph = graphConst
@@ -105,6 +179,8 @@ let link, node, circle, labelGroup, label, splitLabel, plainLabel,
 
 function render(){
 
+    graph.links = getRepeatedLinks(graph.links)
+
     simulation = simulation
         .force("link", d3.forceLink().id(d => d.id))
         .force("charge", d3.forceManyBody().strength(featuresN * nodeRadius > rcx ? -rcx / 2 : -featuresN * nodeRadius))
@@ -133,17 +209,36 @@ function render(){
         .on("drag", dragging)
         .on("end", dragEnd));
 
+
+
+    // link.on("mouseover", function(){return linkTooltip.style("visibility", "visible").text('hello');})
+    //     .on("mousemove", function(){return linkTooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+    //     .on("mouseout", function(){return linkTooltip.style("visibility", "hidden");});
+
+
     // DEFINE SIMULATION
     simulation.nodes(graph.nodes)
 
     simulation.force("link")
         .links(graph.links);
-
+    //
+    // l.on('mouseover', (d) => {
+    //         // fadeLink(d,0.5);
+    //         return linkTooltip.style("visibility", "visible").text('hello');
+    //     }
+    //
+    // )
+    //     .on('mouseout', (d)=> {
+    //         // fadeLink(d,1)
+    //         return linkTooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
+    //     })
+    //     .on("mouseout", function(){return linkTooltip.style("visibility", "hidden");});
 }
 
 function enterNodes(n){
     let g = n.enter().append("g")
         .attr("class", d => d.intersection.map(i => 'intersection_' + i).join(" ").concat(d.intersection.length?" menu node":"node"))
+        .style("z-index", "5")
 
     let circleHelper = g.append("circle")
         .attr("class", "circle")
@@ -243,12 +338,46 @@ function exitNodes(n){
     n.exit().remove()
 }
 function enterLinks(l){
-    let linkHelper = l.enter().insert("line", ".node")
+    let linkHelper = l.enter().insert("path", ".node")
         .attr("class", "link")
-        .attr("stroke", "#cccccc")
-        .attr("stroke-width", "1.5px");
-    linkHelper.on('mouseover', fadeLink(0.5))
-        .on('mouseout', fadeLink(1))
+        // .attr("stroke-width", d => {
+        //     let val = halfIncrements(d.value)
+        //     // if (val*(linkWidthMultiplier-val)<0.5){
+        //     //     return 0.8
+        //     // }
+        //     return val*(linkWidthMultiplier+(1/val))
+        // })
+        .attr("stroke-width", "1.5px")
+        .style("stroke", d => transformColorTransparency(colorBySource(d.mappingSource)))
+        .attr("data-value", d=>d.value)
+        .attr("data-mapping-source", d=>d.mappingSource)
+        .attr("data-mapping-vocabulary", d=>d.mappingVocabulary)
+        .attr("data-disease", d=>d.source.name)
+        .attr("data-mapped-disease", d=>d.mappedDisease);
+
+
+
+    linkHelper.on("mouseover", function () {
+            return linkTooltip.style("visibility", "visible")
+                .html(`
+                        <u>${this.getAttribute("data-disease")}</u> maps to <u>${this.getAttribute("data-mapped-disease")}</u>
+                        </br>
+                        <b>Mapping source</b>: ${this.getAttribute("data-mapping-source")}
+                        </br>
+                        <b>Vocabulary</b>: ${this.getAttribute("data-mapping-vocabulary")}
+                        </br>
+                        <b>Score</b>: ${this.getAttribute("data-value")}
+                    `
+                );
+    })
+        .on("mousemove", function () {
+            return linkTooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
+        })
+        .on("mouseout", function () {
+            return linkTooltip.style("visibility", "hidden");
+        });
+
+
 
 }
 function exitLinks(l){
@@ -257,7 +386,7 @@ function exitLinks(l){
 
 
 // INITIALIZE TOOLTIPS
-let tooltip = d3.select("body")
+const tooltip = d3.select("body")
     .append("div")
     .style("position", "absolute")
     .style("z-index", "10")
@@ -266,8 +395,13 @@ let tooltip = d3.select("body")
     .style("opacity", ".75")
     .style("padding", "6px")
     .style("border-radius", "10px")
+    .style("color", "white")
     .style("font", "bold 12px sans-serif")
-    .style("color", "white");
+
+
+let linkTooltip = tooltip.clone()
+    linkTooltip.style("font", "normal 12px sans-serif")
+
 
 // INITIALIZE MENU
 let menu = d3.select("body")
@@ -322,14 +456,13 @@ function fade(opacity) {
     };
 }
 
-function fadeLink(opacity) {
-    return d => {
+function fadeLink(currentLink, opacity) {
         if ($("tr[data-toggled='1']").length === 0) {
-            node.attr('opacity', o => [d.source, d.target].includes(o) ? 1 : opacity);
-            link.style('stroke-opacity', o => [o.source, o.target].includes(d.source) && [o.source, o.target].includes(d.target) ? 1 : opacity);
+            node.attr('opacity', o => [currentLink.source, currentLink.target].includes(o) ? 1 : opacity);
+            link.style('stroke-opacity', o => [o.source, o.target].includes(currentLink.source) && [o.source, o.target].includes(currentLink.target) ? 1 : opacity);
         }
-    };
 }
+render()
 
 simulation.on("tick", function() {
 
@@ -337,7 +470,7 @@ simulation.on("tick", function() {
     circle
         .attr("cx", d => {
             let textSize = (+d.degree === 1 && diseasesN !== 1 && !noIntersections) ? 0 : +d3.select("#" + d.id).attr('data-text-length')
-            d.x = Math.max(nodeRadius + 2 + textSize, Math.min(w - (nodeRadius + 2) - 15 - textSize, d.x));
+            d.x = Math.max(nodeRadius + 2 + textSize, Math.min(width - (nodeRadius + 2) - 15 - textSize, d.x));
             if(d.id===menu.attr('data-menu-id')){
                 menu.style("left", (d.x + 55) + "px")
             }
@@ -345,7 +478,7 @@ simulation.on("tick", function() {
         })
         .attr("cy", d => {
             let textSize = (+d.degree === 1 && diseasesN !== 1 && !noIntersections) ? 0 : +d3.select("#" + d.id).attr('data-text-length')
-            d.y = Math.max(nodeRadius + 2 + textSize, Math.min(h - (nodeRadius + 2) - textSize, d.y));
+            d.y = Math.max(nodeRadius + 2 + textSize, Math.min(height - (nodeRadius + 2) - textSize, d.y));
             if(d.id===menu.attr('data-menu-id')){
                 menu.style("top", (d.y + 20) + "px")
             }
@@ -379,24 +512,29 @@ simulation.on("tick", function() {
         .attr("x", d=>d.x)
 
     link
-        .attr("x1", function (d) {
-            return d.source.x;
-        })
-        .attr("y1", function (d) {
-            return d.source.y;
-        })
-        .attr("x2", function (d) {
-            return d.target.x;
-        })
-        .attr("y2", function (d) {
-            return d.target.y;
+        .attr("d", function (d) {
+            let dr = distanceBetweenTwoPoints(d.source.x,d.source.y,d.target.x,d.target.y),
+                unevenCorrection = (d.sameUneven ? 0 : 0.5),
+                arcHeight = absoluteArcHeight*(d.sameIndexCorrected - unevenCorrection);
+            let arc = (arcHeight/2)+(dr**2/(8*arcHeight))
+                // arc = (dr/ (d.sameIndexCorrected - unevenCorrection));
+            if (d.sameMiddleLink) {
+                arc = 0;
+            }
+
+            return "M" + d.source.x + "," + d.source.y +
+                "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
         });
 
 
 });
 
+const  distanceBetweenTwoPoints = function( x1, y1, x2, y2 ) {
 
-render()
+    return Math.sqrt( (x2-x1)**2 + (y2-y1)**2 );
+};
+
+
 // function to return link, circle and label position when the simulation is generated
 /*function ticked() {
 
@@ -408,3 +546,42 @@ render()
 }*/
 
 const type = $("#d3").data("type")
+let legendBuffer = 0;
+let legendPaddings = 30;
+
+const legend = svg.append("g")
+    .attr("id", "legend")
+    .attr("transform", `translate(${width-140},${height-legendPaddings*mappingSources.length})`)
+
+mappingSources.forEach(s=>console.log(`%c                                         ${d3.hsl(transformColor(colorBySource(s))).formatHsl()}                                      `, `background: ${transformColor(colorBySource(s))}`))
+
+mappingSources.forEach(s=>{
+    legend.append("line")
+        .attr("x1", 0)
+        .attr("y1", legendBuffer)
+        .attr("x2", 30)
+        .attr("y2", legendBuffer)
+        .style("stroke", transformColor(colorBySource(s)))
+        .style("stroke-width", "3px")
+        .style("stroke-linecap", "round")
+
+    legend.append("text").attr("x", 40).attr("y", legendBuffer).text(s).style("font-size", "12px").attr("alignment-baseline", "middle")
+
+    legendBuffer+=legendPaddings
+
+})
+
+
+
+//
+// legend
+//     .append("line")
+//     .attr("x1", 0)
+//     .attr("y1", 30)
+//     .attr("x2", 30)
+//     .attr("y2", 30)
+//     .style("stroke", "#69b3a2")
+//     .style("stroke-width", "3px")
+//     .style("stroke-linecap", "round")
+//
+// legend.append("text").attr("x", 40).attr("y", 30).text("variable B").style("font-size", "15px").attr("alignment-baseline", "middle")

@@ -57,7 +57,7 @@
             </th:block>
             <th:block th:if="${intersections.isEmpty()}">
                 <table>
-                    <caption class="pb-5 left-align" th:text="'There are no common '+${type}+' within your disease list.'"></caption> <!-- TODO: PLURAL -->
+                    <caption class="pb-5 left-align" th:text="'There are no common '+${type}+'s within your disease list.'"></caption> <!-- TODO: PLURAL -->
                     <thead>
                     <tr>
                         <th th:text="${'Disease'+(diseasesFeature.keySet().size()&gt;1?'s':'')}"></th>
@@ -89,7 +89,7 @@
     </div>
     <div th:if="${!diseasesWithoutFeatures.isEmpty()}" class="row">
         <div class="col s12 md-ml-50 md-pl-0 easy-bold"
-             th:utext="${'No '+type+' were found for: '+diseasesWithoutFeatures}"
+             th:utext="${'No '+type+'s were found for: '+diseasesWithoutFeatures}"
              th:classappend="${emptySVG} ? 'center-align mt-50'"
         > <!-- TODO: PLURAL -->
 
@@ -108,9 +108,14 @@
 <script src="https://unpkg.com/d3-simple-slider@1.8.0/dist/d3-simple-slider.min.js"></script>
 
 <th:block th:if="${!emptySVG}">
-    <script type="text/javascript" th:src="@{/js/visualisation/graphs/common-nodes.js}"></script>
+    <th:block th:switch="${type}">
+        <script th:case="'symptom'" type="text/javascript" th:src="@{/js/visualisation/graphs/common-nodes.js}"></script>
+        <th:block th:case="*">
+            <script type="text/javascript" th:src="@{/js/visualisation/graphs/common-nodes-links-as-paths.js}"></script>
+            <script type="text/javascript" th:unless="${type} eq 'pathway'" th:src="@{/js/visualisation/graphs/update-graph-slider.js}"></script>
+        </th:block>
+    </th:block>
     <script type="text/javascript" th:src="@{/js/visualisation/graphs/side-tables.js}"></script>
-    <script th:if="${type.equals('gene') || type.equals('protein')}" type="text/javascript" th:src="@{/js/visualisation/graphs/update-graph-slider.js}"></script>
 <!--    <script type="text/javascript" th:src="@{/js/visualisation/graphs/network-menu.js}"></script>-->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>

@@ -8,15 +8,15 @@ text {
     -ms-user-select: none;
     user-select: none;
 }
-.links line {
-    stroke: rgba(181, 181, 181, 0.6);
-    /*stroke-width: 1.5;*/
-}
+/*.link line {*/
+/*    stroke: rgba(181, 181, 181, 0.6);*/
+/*    stroke-width: 1.5;*/
+/*}*/
 
-/*.nodes circle {
+.nodes circle {
   stroke: #fff;
   stroke-width: 1.5px;
-}*/
+}
 
 div.tooltip {
     position: absolute;
@@ -80,3 +80,7 @@ tr[data-toggled="1"]{
 }
 
 .svgButton {cursor: pointer;}
+
+path.link{
+    fill: none;
+}

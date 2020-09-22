@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.http.client.HttpResponseException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,6 +80,11 @@ public class VisualisationController {
                         LinkedHashMap::new
                 ));
     };
+    @org.jetbrains.annotations.NotNull
+    private static List<String> verticalBarStringToList(@NotNull String string){
+        String stringReplaced = string.replaceAll("(\\s*\\|\\s*)(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)","\\|");
+        return Arrays.asList(stringReplaced.split("\\|"));
+    }
 
     @GetMapping("/form-test")
     public String FormTest(Model model) throws SQLException, JsonProcessingException {
@@ -144,13 +150,12 @@ public class VisualisationController {
         return "visualisation/forms/symptom-form";
     };
 
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/diseases-by-symptom")
+    @GetMapping("/diseases-by-symptom")
     public String DiseasesBySymptom(Model model, @RequestParam String symptoms) throws SQLException {
         String url = this.my_disnet_layers_datasource_pheno;
         Connection conn = DriverManager.getConnection(url, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
 
-        String symptomsReplaced = symptoms.replaceAll("(\\s*\\|\\s*)(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)","\\|");
-        List<String> symptomList = Arrays.asList(symptomsReplaced.split("\\|"));
+        List<String> symptomList = verticalBarStringToList(symptoms);
 
         StringBuilder builder = new StringBuilder();
         for( int i = 0 ; i < symptomList.size(); i++ ) {
@@ -277,13 +282,13 @@ public class VisualisationController {
         return "visualisation/graphs/common-diseases";
     }
 
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/common-nodes") //TODO NOW: GET/POST
+    @GetMapping("/common-nodes") //TODO NOW: GET/POST
     public String Visualisation(Model model, @RequestParam String type,
                                              @RequestParam String sourceId,
                                              @RequestParam String date,
-                                             @RequestParam String diseaseList) throws Exception {
-        String diseaseListReplaced = diseaseList.replaceAll("(\\s*\\|\\s*)(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)","\\|");
-        List<String> diseaseListToArray = Arrays.asList(diseaseListReplaced.split("\\|"));
+                                             @RequestParam String diseases) throws Exception {
+
+        List<String> diseaseList = verticalBarStringToList(diseases);
 
         String url = null;
         String common = null;
@@ -313,7 +318,7 @@ public class VisualisationController {
 
         Connection conn = DriverManager.getConnection(url, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
         StringBuilder builder = new StringBuilder();
-        for( int i = 0 ; i < diseaseListToArray.size(); i++ ) {
+        for( int i = 0 ; i < diseaseList.size(); i++ ) {
             builder.append("?,");
         }
         int index = 1;
@@ -348,58 +353,79 @@ public class VisualisationController {
 
                 break;
             case "gene":
-                preparedStatement = conn.prepareStatement("SELECT e.name disease_name, " +
-                        "        e.disnet_id              disease_id, " +
-                        "        gene_name                common_name, " +
-                        "        CONCAT('id', dg.gene_id) common_id, " +
-                        "        MAX(dg.score) score" +
-                        " FROM gene " +
-                        "          JOIN disease_gene dg on gene.gene_id = dg.gene_id " +
-                        "          JOIN disease d on dg.disease_id = d.disease_id " +
-                        "          JOIN ( " +
-                        "     SELECT edsssdb.layersmappings.cui, ed.name, edsssdb.layersmappings.disnet_id " +
-                        "     FROM edsssdb.layersmappings " +
-                        "              JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id " +
-                        "              WHERE edsssdb.layersmappings.source = 'pubmed' " +
-                        " ) e on d.disease_id = e.cui " +
-                        " WHERE e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") " +
-                        " GROUP BY e.disnet_id, dg.gene_id");
+                preparedStatement = conn.prepareStatement("SELECT e.name disease_name,   " +
+                        "       e.disnet_id              disease_id, " +
+                        "       gene_name                common_name,   " +
+                        "       CONCAT('id', dg.gene_id) common_id,   " +
+                        "       dg.score score, " +
+                        "       e.source, e.vocabulary, " +
+                        "       d.disease_name mapped_disease " +
+                        "FROM gene " +
+                        "         JOIN disease_gene dg on gene.gene_id = dg.gene_id   " +
+                        "         JOIN disease d on dg.disease_id = d.disease_id   " +
+                        "         JOIN (   " +
+                        "       SELECT edsssdb.layersmappings.cui, ed.name, edsssdb.layersmappings.disnet_id, edsssdb.layersmappings.source, edsssdb.layersmappings.vocabulary " +
+                        "       FROM edsssdb.layersmappings   " +
+                        "             JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id   " +
+//                        "              WHERE edsssdb.layersmappings.source = 'pubmed' " +
+                        "                         ) e on d.disease_id = e.cui   " +
+                        "                         WHERE e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") " +
+                        " GROUP BY  e.disnet_id, gene_name, dg.score, e.source, e.vocabulary, d.disease_name");
 
                 break;
             case "protein":
-                preparedStatement = conn.prepareStatement("SELECT e.name                      disease_name,   " +
-                        "       e.disnet_id                 disease_id,   " +
-                        "       e2.protein_id               common_name,   " +
-                        "       CONCAT('id', e2.protein_id) common_id,   " +
-                        "       MAX(dg.score)               score   " +
-                        "FROM protein   " +
-                        "         JOIN encodes e2 on protein.protein_id = e2.protein_id   " +
-                        "         JOIN gene g on e2.gene_id = g.gene_id   " +
-                        "         JOIN disease_gene dg on g.gene_id = dg.gene_id   " +
-                        "         JOIN disease d on dg.disease_id = d.disease_id   " +
-                        "         JOIN (   " +
-                        "    SELECT edsssdb.layersmappings.cui, ed.name, edsssdb.layersmappings.disnet_id   " +
-                        "    FROM edsssdb.layersmappings   " +
-                        "             JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id   " +
-                        "    WHERE edsssdb.layersmappings.source = 'pubmed'   " +
-                        ") e on d.disease_id = e.cui   " +
-                        "WHERE e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ")   " +
-                        "GROUP BY e.disnet_id, dg.gene_id;");
+                preparedStatement = conn.prepareStatement("SELECT e.name                      disease_name, " +
+                        "       e.disnet_id                 disease_id, " +
+                        "       e2.protein_id               common_name, " +
+                        "       CONCAT('id', e2.protein_id) common_id, " +
+                        "       dg.score                    score, " +
+                        "       e.source, " +
+                        "       e.vocabulary, " +
+                        "       d.disease_name              mapped_disease " +
+                        "FROM protein " +
+                        "         JOIN encodes e2 on protein.protein_id = e2.protein_id " +
+                        "         JOIN gene g on e2.gene_id = g.gene_id " +
+                        "         JOIN disease_gene dg on g.gene_id = dg.gene_id " +
+                        "         JOIN disease d on dg.disease_id = d.disease_id " +
+                        "         JOIN ( " +
+                        "    SELECT edsssdb.layersmappings.cui, " +
+                        "           ed.name, " +
+                        "           edsssdb.layersmappings.disnet_id, " +
+                        "           edsssdb.layersmappings.source, " +
+                        "           edsssdb.layersmappings.vocabulary " +
+                        "    FROM edsssdb.layersmappings " +
+                        "             JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id " +
+//                        "# //                            WHERE edsssdb.layersmappings.source = 'pubmed' " +
+                        ") e on d.disease_id = e.cui " +
+                        "WHERE e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") " +
+                        "GROUP BY e.disnet_id, e2.protein_id, dg.score, e.source, e.vocabulary, d.disease_name");
                 break;
 
             case "pathway":
-                preparedStatement = conn.prepareStatement("SELECT e.name disease_name, e.disnet_id disease_id, pathway_name common_name, CONCAT('id', pathway.pathway_id) common_id FROM pathway" + /*, MAX(dg.score) score*/ //TODO: PREGUNTAR ALEJANDRO
-                        "    JOIN gene_pathway gp on pathway.pathway_id = gp.pathway_id  " +
-                        "    JOIN gene g on gp.gene_id = g.gene_id  " +
-                        "    JOIN disease_gene dg on g.gene_id = dg.gene_id  " +
-                        "    JOIN disease d on dg.disease_id = d.disease_id  " +
-                        "    JOIN  (  " +
-                        "            SELECT edsssdb.layersmappings.cui, ed.name, edsssdb.layersmappings.disnet_id FROM edsssdb.layersmappings  " +
-                        "                  JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id  " +
-                        "    WHERE edsssdb.layersmappings.source = 'pubmed'  " +
-                        "        ) e on d.disease_id = e.cui  " +
-                        "WHERE  e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") " +
-                        "GROUP BY e.disnet_id, pathway.pathway_id;");
+                preparedStatement = conn.prepareStatement("SELECT e.name                           disease_name, " +
+                        "       e.disnet_id                      disease_id, " +
+                        "       pathway_name                     common_name, " +
+                        "       CONCAT('id', pathway.pathway_id) common_id, " +
+                        "       e.source, " +
+                        "       e.vocabulary, " +
+                        "       d.disease_name                   mapped_disease " +
+                        "FROM pathway " +
+                        "         JOIN gene_pathway gp on pathway.pathway_id = gp.pathway_id " +
+                        "         JOIN gene g on gp.gene_id = g.gene_id " +
+                        "         JOIN disease_gene dg on g.gene_id = dg.gene_id " +
+                        "         JOIN disease d on dg.disease_id = d.disease_id " +
+                        "         JOIN ( " +
+                        "    SELECT edsssdb.layersmappings.cui, " +
+                        "           ed.name, " +
+                        "           edsssdb.layersmappings.disnet_id, " +
+                        "           edsssdb.layersmappings.source, " +
+                        "           edsssdb.layersmappings.vocabulary " +
+                        "    FROM edsssdb.layersmappings " +
+                        "             JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id " +
+                        "    #WHERE edsssdb.layersmappings.source = 'pubmed' " +
+                        ") e on d.disease_id = e.cui " +
+                        "WHERE e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") " +
+                        "GROUP BY e.disnet_id, pathway_name, e.source, e.vocabulary, d.disease_name;) ");
                 break;
         /*    case "drugs":
                 preparedStatement = conn.prepareStatement("SELECT disease_name, CONCAT('d',disease.disease_id) disease_id, drug_name, d.drug_id FROM disease " +
@@ -413,13 +439,13 @@ public class VisualisationController {
         }
 
         //setting the list of diseases
-        for (String disease : diseaseListToArray){
+        for (String disease : diseaseList){
             assert preparedStatement != null;
             preparedStatement.setObject(index++, disease);
         }
-        System.out.println(preparedStatement);
 
         assert preparedStatement != null;
+
         ResultSet resultSet = preparedStatement.executeQuery();
         ObjectMapper mapper = new ObjectMapper();
         // D3 DATA
@@ -432,6 +458,9 @@ public class VisualisationController {
         String disease = "";
         String diseaseId = "";
         String score = "";
+        String source = "";
+        String vocabulary = "";
+        String mappedDisease = "";
         int count = 0;
 
         while (resultSet.next()){
@@ -439,8 +468,11 @@ public class VisualisationController {
             ObjectNode featureNode = mapper.createObjectNode();
             String featureId =  resultSet.getString(commonId);
             String feature =  resultSet.getString(common);
-            if (type.equals("gene") || type.equals("protein") ){ /*|| type.equals("pathway")*/
+            if (type.equals("gene") || type.equals("protein") || type.equals("pathway")){ /*|| type.equals("pathway")*/
                 score = String.format("%.2f", resultSet.getDouble("score"));
+                source = resultSet.getString("source");
+                vocabulary = resultSet.getString("vocabulary");
+                mappedDisease = resultSet.getString("mapped_disease");
             }
             if (!disease.equals(resultSet.getString("disease_name"))){
                 if (count==0){
@@ -468,19 +500,21 @@ public class VisualisationController {
             nodesArrayNode.add(featureNode);
             link.put("source", diseaseId);
             link.put("target", featureId);
-            if (type.equals("gene")  || type.equals("protein") ){ /*|| type.equals("pathway")*/
+            if (type.equals("gene")  || type.equals("protein") || type.equals("pathway")){ /*|| type.equals("pathway")*/
                 link.put("value", score);
+                link.put("mappingSource", source);
+                link.put("mappingVocabulary", vocabulary);
+                link.put("mappedDisease", mappedDisease);
             }
             linksArrayNode.add(link);
         }
-        System.out.println(linksArrayNode);
         diseasesFeatureHM.put(disease, new ArrayList<>(features));
         diseasesFeature.put(disease, new ArrayList<>(features));
         model.addAttribute("diseasesFeature", diseasesFeature);
 
         List<String> diseasesWithFeatures = new ArrayList<>(diseasesFeature.keySet());
-        List<String> diseasesWithoutFeatures = new ArrayList<>(CollectionUtils.subtract(diseaseListToArray,diseasesWithFeatures));
-        boolean emptySVG = diseasesWithoutFeatures.size() == diseaseListToArray.size();
+        List<String> diseasesWithoutFeatures = new ArrayList<>(CollectionUtils.subtract(diseaseList,diseasesWithFeatures));
+        boolean emptySVG = diseasesWithoutFeatures.size() == diseaseList.size();
         model.addAttribute("emptySVG", emptySVG);
         model.addAttribute("diseasesWithoutFeatures",
                 diseasesWithoutFeatures.stream().map(d->"<b>"+d+"</b>").collect(Collectors.joining(", ")));
@@ -492,9 +526,6 @@ public class VisualisationController {
                 .collect(Collectors.toMap(x -> i.getAndIncrement(), Map.Entry::getValue));
 
         model.addAttribute("type", type);
-        System.out.println(diseasesFeature);
-        System.out.println("DISEASES FEATURE");
-
 
         try {
             String preNodes = new ObjectMapper().writeValueAsString(mapper.createObjectNode().set("preNodes", nodesArrayNode));

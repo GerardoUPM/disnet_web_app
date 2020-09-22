@@ -1,4 +1,5 @@
 function update(){
+    graph.links = getRepeatedLinks(graph.links)
 
     let l = svg.selectAll(".link")
         .data(graph.links, d=>d.source+','+d.target)
@@ -66,7 +67,7 @@ let sliderDef = d3
 
 let slider = svgSelection
     .append("g")
-    .attr('transform', `translate(${w*0.024},${h-40})`);
+    .attr('transform', `translate(${width*0.024},${height-40})`);
 
 if(slider.call(sliderDef)) {
     d3.select(".parameter-value > text").attr("y", 27);

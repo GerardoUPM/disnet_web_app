@@ -281,7 +281,7 @@ simulation.force("link")
 
 // function to return link, circle and label position when the simulation is generated
 function ticked() {
-    circle.each(function(d) { w = width/4 * (1+d.depth); d.x -= (0.2 * (d.x - w)) })
+    circle.each(function(d) { width = width/4 * (1+d.depth); d.x -= (0.2 * (d.x - w)) })
     //display circles so that their label is not off range
     circle
         .attr("cx", d => {
