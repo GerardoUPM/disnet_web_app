@@ -179,13 +179,18 @@ $(document).ready(function(){
         $("#dummy-list-input").val("") //empty textarea to trigger html control in case step-2 is not filled
         $('input[name=type]').val($(e.currentTarget).attr('id'))
     })
-    $(".step-3-button").on('click', e => {
+    $("i.step-3-button").on('click', e => {
 
         $(e.currentTarget).children().each((idx,ele)=> {
             ele.click()
         })
     })
 })
+
+
+
+
+
 
 
 

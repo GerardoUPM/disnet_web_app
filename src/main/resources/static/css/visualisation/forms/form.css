@@ -138,3 +138,14 @@ input[type="text"]:not(.browser-default):focus:not([readonly]){
 span.disable-submit{
     color: rgba(0, 0, 0, 0.26) !important;
 }
+
+.ghost{
+    opacity: 0;
+}
+
+[type="checkbox"]:checked + label:before {
+    border-top: 2px solid transparent;
+    border-left: 2px solid transparent;
+    border-right: 2px solid #5a5a5a;
+    border-bottom: 2px solid #5a5a5a;
+}

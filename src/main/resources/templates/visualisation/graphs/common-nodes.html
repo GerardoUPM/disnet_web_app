@@ -18,75 +18,90 @@
 <div th:replace="fragments/header :: header"></div>
 <main>
     <!--div class="container"-->
-    <div class="row" th:if="${!emptySVG}">
-        <svg class="col m8 s12 mt-20 md-ml-50 p-0" id="d3"
-             th:attr="data-type=${type}, data-nodes=${preNodes}, data-links=${preLinks}, data-intersections=${intersectionsJson}"></svg>
-        <div id="common-nodes" class="col m3 s12 mt-20 md-ml-50 table-wrapper">
-            <th:block th:if="${!intersections.isEmpty()}">
-            <table class="bordered">
-                <thead>
-                <tr>
-                    <th>Diseases</th>
-                    <th th:text="${'Common '+#strings.capitalize(type)}"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="instance : ${intersections}">
-                    <tr class="fader" th:classappend="${'intersection_'+instanceStat.index}" data-toggled="0">
-                        <td th:rowspan="${instance.value.size()}">
-                            <th:block th:each="disease : ${instance.key}">
+    <th:block th:if="${!emptySVG}">
+        <div class="row">
+            <svg class="col m8 s12 mt-20 md-ml-50 p-0" id="d3"
+                 th:attr="data-type=${type}, data-nodes=${preNodes}, data-links=${preLinks}, data-intersections=${intersectionsJson}"></svg>
+            <div id="common-nodes" class="col m3 s12 mt-20 md-ml-50 table-wrapper">
+                <th:block th:if="${!intersections.isEmpty()}">
+                    <table class="bordered">
+                        <thead>
+                        <tr>
+                            <th>Diseases</th>
+                            <th th:text="${'Common '+#strings.capitalize(type)+'s'}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="instance : ${intersections}">
+                            <tr class="fader" th:classappend="${'intersection_'+instanceStat.index}" data-toggled="0">
+                                <td th:rowspan="${instance.value.size()}">
+                                    <th:block th:each="disease : ${instance.key}">
                                 <span th:text="${disease}"
                                 ></span>
-                                <th:block th:if="${diseaseStat.index&lt;instance.key.size()-1}">
-                                    <br></br>∩<br></br>
+                                        <th:block th:if="${diseaseStat.index&lt;instance.key.size()-1}">
+                                            <br></br>∩<br></br>
+                                        </th:block>
+                                    </th:block>
+                                </td>
+                                <td th:text="${instance.value[0]}" ></td>
+                            </tr>
+                            <th:block th:if="${instance.value.size()>1}">
+                                <th:block th:each="i : ${#numbers.sequence(1, instance.value.size()-1)}">
+                                    <tr class="fader" th:classappend="${'intersection_'+instanceStat.index}" data-toggled="0">
+                                        <td th:text="${instance.value[i]}"></td>
+                                    </tr>
                                 </th:block>
                             </th:block>
-                        </td>
-                        <td th:text="${instance.value[0]}" ></td>
-                    </tr>
-                    <th:block th:if="${instance.value.size()>1}">
-                    <th:block th:each="i : ${#numbers.sequence(1, instance.value.size()-1)}">
-                        <tr class="fader" th:classappend="${'intersection_'+instanceStat.index}" data-toggled="0">
-                            <td th:text="${instance.value[i]}"></td>
-                        </tr>
-                    </th:block>
-                    </th:block>
-                </th:block>
-                </tbody>
-            </table>
-            </th:block>
-            <th:block th:if="${intersections.isEmpty()}">
-                <table>
-                    <caption class="pb-5 left-align" th:text="'There are no common '+${type}+'s within your disease list.'"></caption> <!-- TODO: PLURAL -->
-                    <thead>
-                    <tr>
-                        <th th:text="${'Disease'+(diseasesFeature.keySet().size()&gt;1?'s':'')}"></th>
-                        <th th:text="${#strings.capitalize(type)}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <th:block th:each="instance : ${diseasesFeature}">
-                    <tr>
-                        <td th:rowspan="${instance.value.size()}"
-                            th:text="${instance.key}"
-                        ></td>
-                        <th:block th:if="${!instance.value.isEmpty()}">
-                        <td th:text="${instance.value[0]}"></td>
                         </th:block>
-                    </tr>
-                    <th:block th:if="${instance.value.size()>1}">
-                    <th:block th:each="i : ${#numbers.sequence(1, instance.value.size()-1)}">
-                        <tr class="fader" th:classappend="${'intersection_'+instanceStat.index}" data-toggled="0">
-                            <td th:text="${instance.value[i]}"></td>
+                        </tbody>
+                    </table>
+                </th:block>
+                <th:block th:if="${intersections.isEmpty()}">
+                    <table>
+                        <caption class="pb-5 left-align" th:text="'There are no common '+${type}+'s within your disease list.'"></caption> <!-- TODO: PLURAL -->
+                        <thead>
+                        <tr>
+                            <th th:text="${'Disease'+(diseasesFeature.keySet().size()&gt;1?'s':'')}"></th>
+                            <th th:text="${#strings.capitalize(type)+'s'}"></th>
                         </tr>
-                    </th:block>
-                    </th:block>
-                    </th:block>
-                    </tbody>
-                </table>
-            </th:block>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="instance : ${diseasesFeature}">
+                            <tr>
+                                <td th:rowspan="${instance.value.size()}"
+                                    th:text="${instance.key}"
+                                ></td>
+                                <th:block th:if="${!instance.value.isEmpty()}">
+                                    <td th:text="${instance.value[0]}"></td>
+                                </th:block>
+                            </tr>
+                            <th:block th:if="${instance.value.size()>1}">
+                                <th:block th:each="i : ${#numbers.sequence(1, instance.value.size()-1)}">
+                                    <tr class="fader" th:classappend="${'intersection_'+instanceStat.index}" data-toggled="0">
+                                        <td th:text="${instance.value[i]}"></td>
+                                    </tr>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </th:block>
+            </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="ml-50">
+                <button style="text-transform: none !important; padding-bottom: 30px !important;" class="waves-effect waves-light btn blue darken-4 pl-10 pr-10" onclick="onDownload()">
+                <span>
+                Download JSON
+                </span>
+                    <i class="material-icons right ml-5">
+                        arrow_circle_down
+                    </i>
+                </button>
+            </div>
+            <!--            <a id="download-json" class="waves-effect waves-light btn" download="graph.json" href=""><i class="material-icons left">cloud</i>button</a>-->
+        </div>
+    </th:block>
     <div th:if="${!diseasesWithoutFeatures.isEmpty()}" class="row">
         <div class="col s12 md-ml-50 md-pl-0 easy-bold"
              th:utext="${'No '+type+'s were found for: '+diseasesWithoutFeatures}"
@@ -114,6 +129,7 @@
             <script type="text/javascript" th:src="@{/js/visualisation/graphs/common-nodes-links-as-paths.js}"></script>
             <script type="text/javascript" th:unless="${type} eq 'pathway'" th:src="@{/js/visualisation/graphs/update-graph-slider.js}"></script>
         </th:block>
+        <script type="text/javascript" th:src="@{/js/visualisation/graphs/json-common-nodes.js}"></script>
     </th:block>
     <script type="text/javascript" th:src="@{/js/visualisation/graphs/side-tables.js}"></script>
 <!--    <script type="text/javascript" th:src="@{/js/visualisation/graphs/network-menu.js}"></script>-->

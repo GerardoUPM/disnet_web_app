@@ -77,7 +77,8 @@ nodes.forEach(n => {
 
 // calculate node degrees
 let nodeList = nodes.map(node => node.id);
-preLinks.forEach(link => nodes[nodeList.indexOf(link.target)].degree = (nodes[nodeList.indexOf(link.target)].degree + 1) || 1)
+let preLinksFiltered = preLinks.filter((v,i,a)=>a.findIndex(t=>(t.source === v.source && t.target ===v.target))===i) // we only need a one.way comparison bc "diseases" are always set as sources
+preLinksFiltered.forEach(link => nodes[nodeList.indexOf(link.target)].degree = (nodes[nodeList.indexOf(link.target)].degree + 1) || 1)
 
 // name node intersections on nodes
 let intersections = JSON.parse(svg.attr('data-intersections'))
@@ -103,13 +104,13 @@ let links = preLinks.map(d => Object.assign(Object.create(d), {
 // // const colorBySource = mappingSource => d3.hsl(d3.hsl(d3.interpolateTurbo(mapMappingSources[mappingSource])).h, 0.6,0.75);
 // const colorBySource = mappingSource => d3.hsl(d3.interpolateCool(mapMappingSources[mappingSource])).darker(0.3)
 // // const colorBySource = mappingSource => d3.hsl(d3.interpolateRainbow(mapMappingSources[mappingSource]))
-const transformColorTransparency = color => {
-    return d3.hsl(color.h,color.s*0.98,color.l*1.2,0.2)
+const transformColorNoTransparency = color => {
+    return d3.hsl(color.h,color.s,color.l*1.2)
 
 };
 
 const transformColor = color => {
-    return d3.hsl(color.h,color.s*0.98,color.l*1.2,0.6)
+    return d3.hsl(color.h,color.s,color.l*1.2,0.3)
 
 };
 
@@ -123,7 +124,6 @@ const colorBySource = mappingSource => d3.hsl(d3.schemeAccent[mapMappingSources[
 // const reversedColorScheme = d3.schemeSet1.slice().reverse()
 // const colorBySource = mappingSource => reversedColorScheme[mapMappingSources[mappingSource]];
 // const colorBySource = mappingSource => d3.hsl(d3.hsl(reversedColorScheme[mapMappingSources[mappingSource]]).h, 0.6,0.75);
-mappingSources.forEach(s=>console.log(`%c                                         ${d3.hsl(transformColorTransparency(colorBySource(s))).formatHsl()}                                      `, `background: ${colorBySource(s)}`))
 
 function getRepeatedLinks(links){
     links.forEach(link => {
@@ -238,7 +238,7 @@ function render(){
 function enterNodes(n){
     let g = n.enter().append("g")
         .attr("class", d => d.intersection.map(i => 'intersection_' + i).join(" ").concat(d.intersection.length?" menu node":"node"))
-        .style("z-index", "5")
+        // .style("z-index", "5")
 
     let circleHelper = g.append("circle")
         .attr("class", "circle")
@@ -348,7 +348,7 @@ function enterLinks(l){
         //     return val*(linkWidthMultiplier+(1/val))
         // })
         .attr("stroke-width", "1.5px")
-        .style("stroke", d => transformColorTransparency(colorBySource(d.mappingSource)))
+        .style("stroke", d => transformColor(colorBySource(d.mappingSource)))
         .attr("data-value", d=>d.value)
         .attr("data-mapping-source", d=>d.mappingSource)
         .attr("data-mapping-vocabulary", d=>d.mappingVocabulary)
@@ -514,13 +514,8 @@ simulation.on("tick", function() {
     link
         .attr("d", function (d) {
             let dr = distanceBetweenTwoPoints(d.source.x,d.source.y,d.target.x,d.target.y),
-                unevenCorrection = (d.sameUneven ? 0 : 0.5),
-                arcHeight = absoluteArcHeight*(d.sameIndexCorrected - unevenCorrection);
-            let arc = (arcHeight/2)+(dr**2/(8*arcHeight))
-                // arc = (dr/ (d.sameIndexCorrected - unevenCorrection));
-            if (d.sameMiddleLink) {
-                arc = 0;
-            }
+                arcHeight = absoluteArcHeight*(d.sameIndexCorrected - (d.sameUneven ? 0 : 0.5));
+            let arc = d.sameMiddleLink ? 0 : (arcHeight/2)+(dr**2/(8*arcHeight))
 
             return "M" + d.source.x + "," + d.source.y +
                 "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
@@ -561,7 +556,7 @@ mappingSources.forEach(s=>{
         .attr("y1", legendBuffer)
         .attr("x2", 30)
         .attr("y2", legendBuffer)
-        .style("stroke", transformColor(colorBySource(s)))
+        .style("stroke", transformColorNoTransparency(colorBySource(s)))
         .style("stroke-width", "3px")
         .style("stroke-linecap", "round")
 

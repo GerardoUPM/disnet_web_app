@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Controller
@@ -42,6 +43,7 @@ public class VisualisationController {
 
     private static Map<List<String>, List<String>> getIntersections(Map<String,List<String>> diseasesSymptomHM){
         Map<String, List<String>> diseasesSymptomTree = new TreeMap<String, List<String>>(diseasesSymptomHM);
+        System.out.println(diseasesSymptomTree);
 
         List<String> symptoms = new ArrayList<>();
         diseasesSymptomHM.values().forEach(symptoms::addAll);
@@ -80,6 +82,21 @@ public class VisualisationController {
                         LinkedHashMap::new
                 ));
     };
+
+    private static Map<List<String>, List<String>> intersectionCorrectionForMultipleLinks(Map<List<String>, List<String>> intersections){
+        return intersections.entrySet().stream().filter(x -> x.getKey().size()!=1).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    private static Map<String, List<String>> duplicateCorrectionForMultipleLinks(Map<String, List<String>> diseasesFeature){
+        return diseasesFeature.entrySet().stream().collect(
+                Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> e.getValue().stream().distinct().collect(Collectors.toList())
+                )
+        );
+
+    }
+
     @org.jetbrains.annotations.NotNull
     private static List<String> verticalBarStringToList(@NotNull String string){
         String stringReplaced = string.replaceAll("(\\s*\\|\\s*)(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)","\\|");
@@ -120,6 +137,7 @@ public class VisualisationController {
         String url = this.my_disnet_layers_datasource_pheno;
         Map<String, String> sources = new HashMap<>();
         Map<String, List<Date>> dates = new HashMap<>();
+        List<String> mappingSources = new ArrayList<>();
 //        {source_id0: [date0, date1, ..., dateN], source_id1:[date0, date1, ..., dateN],...}
 
         Connection conn = DriverManager.getConnection(url, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
@@ -138,10 +156,15 @@ public class VisualisationController {
             }
             dates.put(source.getKey(), dateList);
         }
+        ResultSet mappingSourcesResultSet = statement.executeQuery("SELECT DISTINCT source FROM layersmappings;");
+        while (mappingSourcesResultSet.next()){
+            mappingSources.add(mappingSourcesResultSet.getString("source"));
+        }
         String datesJson = new ObjectMapper().writeValueAsString(dates);
         model.addAttribute("sources", sources);
         model.addAttribute("dates", datesJson);
-      return "visualisation/forms/form";
+        model.addAttribute("mappingSources", mappingSources);
+        return "visualisation/forms/form";
     };
 
     @GetMapping("/form-diseases-by-symptom")
@@ -286,8 +309,15 @@ public class VisualisationController {
     public String Visualisation(Model model, @RequestParam String type,
                                              @RequestParam String sourceId,
                                              @RequestParam String date,
-                                             @RequestParam String diseases) throws Exception {
-
+                                             @RequestParam String diseases,
+                                @RequestParam(required = false) List<String> mapping
+                                ) throws Exception {
+        System.out.println(mapping);
+        if (mapping != null){
+            if (mapping.isEmpty()){
+                mapping = null;
+            }
+        }
         List<String> diseaseList = verticalBarStringToList(diseases);
 
         String url = null;
@@ -320,6 +350,12 @@ public class VisualisationController {
         StringBuilder builder = new StringBuilder();
         for( int i = 0 ; i < diseaseList.size(); i++ ) {
             builder.append("?,");
+        }
+        StringBuilder mappingBuilder = new StringBuilder();
+        if (mapping != null){
+            for ( int i = 0; i<mapping.size();i++){
+                mappingBuilder.append("?,");
+            }
         }
         int index = 1;
 
@@ -367,10 +403,11 @@ public class VisualisationController {
                         "       SELECT edsssdb.layersmappings.cui, ed.name, edsssdb.layersmappings.disnet_id, edsssdb.layersmappings.source, edsssdb.layersmappings.vocabulary " +
                         "       FROM edsssdb.layersmappings   " +
                         "             JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id   " +
-//                        "              WHERE edsssdb.layersmappings.source = 'pubmed' " +
+                        (mapping==null ? "" : "WHERE edsssdb.layersmappings.source IN (" + mappingBuilder.deleteCharAt(mappingBuilder.length() - 1).toString() + ") ") +
                         "                         ) e on d.disease_id = e.cui   " +
                         "                         WHERE e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") " +
                         " GROUP BY  e.disnet_id, gene_name, dg.score, e.source, e.vocabulary, d.disease_name");
+                System.out.println(preparedStatement);
 
                 break;
             case "protein":
@@ -395,7 +432,8 @@ public class VisualisationController {
                         "           edsssdb.layersmappings.vocabulary " +
                         "    FROM edsssdb.layersmappings " +
                         "             JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id " +
-//                        "# //                            WHERE edsssdb.layersmappings.source = 'pubmed' " +
+                        (mapping==null ? "" : "WHERE edsssdb.layersmappings.source IN (" + mappingBuilder.deleteCharAt(mappingBuilder.length() - 1).toString() + ") ") +
+
                         ") e on d.disease_id = e.cui " +
                         "WHERE e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") " +
                         "GROUP BY e.disnet_id, e2.protein_id, dg.score, e.source, e.vocabulary, d.disease_name");
@@ -422,10 +460,10 @@ public class VisualisationController {
                         "           edsssdb.layersmappings.vocabulary " +
                         "    FROM edsssdb.layersmappings " +
                         "             JOIN edsssdb.disease ed on layersmappings.disnet_id = ed.disease_id " +
-                        "    #WHERE edsssdb.layersmappings.source = 'pubmed' " +
+                        (mapping==null ? "" : "WHERE edsssdb.layersmappings.source IN (" + mappingBuilder.deleteCharAt(mappingBuilder.length() - 1).toString() + ") ") +
                         ") e on d.disease_id = e.cui " +
                         "WHERE e.name IN (" + builder.deleteCharAt(builder.length() - 1).toString() + ") " +
-                        "GROUP BY e.disnet_id, pathway_name, e.source, e.vocabulary, d.disease_name;) ");
+                        "GROUP BY e.disnet_id, pathway_name, e.source, e.vocabulary, d.disease_name;");
                 break;
         /*    case "drugs":
                 preparedStatement = conn.prepareStatement("SELECT disease_name, CONCAT('d',disease.disease_id) disease_id, drug_name, d.drug_id FROM disease " +
@@ -436,6 +474,15 @@ public class VisualisationController {
                 break; */ //TODO: uncomment in new update
 //            default:
 //                 // TODO: HANDLE DEFAULTS ??¿?¿?
+        }
+        System.out.println(preparedStatement);
+
+        //setting the list of mappingSources
+        if (mapping!=null){
+            for (String mappingSource : mapping){
+                assert preparedStatement != null;
+                preparedStatement.setObject(index++,mappingSource);
+            }
         }
 
         //setting the list of diseases
@@ -468,8 +515,10 @@ public class VisualisationController {
             ObjectNode featureNode = mapper.createObjectNode();
             String featureId =  resultSet.getString(commonId);
             String feature =  resultSet.getString(common);
-            if (type.equals("gene") || type.equals("protein") || type.equals("pathway")){ /*|| type.equals("pathway")*/
-                score = String.format("%.2f", resultSet.getDouble("score"));
+            if (!type.equals("symptom")){ /*|| type.equals("pathway")*/
+                if (!type.equals("pathway")){
+                    score = String.format("%.2f", resultSet.getDouble("score"));
+                }
                 source = resultSet.getString("source");
                 vocabulary = resultSet.getString("vocabulary");
                 mappedDisease = resultSet.getString("mapped_disease");
@@ -500,8 +549,10 @@ public class VisualisationController {
             nodesArrayNode.add(featureNode);
             link.put("source", diseaseId);
             link.put("target", featureId);
-            if (type.equals("gene")  || type.equals("protein") || type.equals("pathway")){ /*|| type.equals("pathway")*/
-                link.put("value", score);
+            if (!type.equals("symptom")){ /*|| type.equals("pathway")*/
+                if (!type.equals("pathway")){
+                    link.put("value", score);
+                }
                 link.put("mappingSource", source);
                 link.put("mappingVocabulary", vocabulary);
                 link.put("mappedDisease", mappedDisease);
@@ -510,6 +561,9 @@ public class VisualisationController {
         }
         diseasesFeatureHM.put(disease, new ArrayList<>(features));
         diseasesFeature.put(disease, new ArrayList<>(features));
+        if (!type.equals("symptom")){
+            diseasesFeature = duplicateCorrectionForMultipleLinks(diseasesFeature);
+        }
         model.addAttribute("diseasesFeature", diseasesFeature);
 
         List<String> diseasesWithFeatures = new ArrayList<>(diseasesFeature.keySet());
@@ -520,6 +574,10 @@ public class VisualisationController {
                 diseasesWithoutFeatures.stream().map(d->"<b>"+d+"</b>").collect(Collectors.joining(", ")));
 
         Map<List<String>, List<String>> intersections = getIntersections(diseasesFeatureHM);
+        if (!type.equals("symptom")){
+            intersections =intersectionCorrectionForMultipleLinks(intersections);
+        }
+        System.out.println(intersections);
 
         AtomicInteger i= new AtomicInteger(0);
         Map<Integer, List<String>> intersectionsToJson = intersections.entrySet().stream()

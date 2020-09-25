@@ -33,7 +33,13 @@
                     extend: 'copy',
                     className: 'mt-10'
                 }
-            ]
+            ],
+            language: {
+                buttons: {
+                    copyTitle: "Copied to clipboard",
+                    copySuccess: ''
+                }
+            }
         });
         $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
 

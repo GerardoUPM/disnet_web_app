@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="invisible ghost source-radios" th:fragment="source-radios(mappingSources)">
+    <input type="hidden" name="mapping"/>
+        <p th:each="mappingSource : ${mappingSources}">
+            <input class="mapping-dummy" type="checkbox" th:value="${mappingSource}" th:id="${mappingSource}"/>
+            <label th:for="${mappingSource}" th:text="${mappingSource}"></label>
+        </p>
+</div>
+</body>
+</html>
