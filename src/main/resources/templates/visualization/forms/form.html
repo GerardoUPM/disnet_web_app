@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - Database Information</title>
+    <div th:replace="fragments/header :: header-css"></div>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/visualization/forms/disease-form.css}" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/visualization/forms/form.css}"
+          media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/visualization/forms/symptom-form.css}"
+          media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/helpers.css}" media="screen,projection"/>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main>
+
+    <div class="row-flex">
+        <div id="select-search-method" class="container uniform-height-form valign-flex-wrapper">
+            <div class="row center-form main-buttons valign-flex">
+                    <div class="col s12 center-align">
+                        <h5 class="orange-text lighten-4 text-center">Visualize data</h5>
+                        <div class="col s12 m8 offset-m2 ">
+                            <p class="grey-text">
+                               Search a set of <u>diseases</u> or <u>symptoms</u> and visualize their common features</p>
+                        </div>
+                    </div>
+                <div class="col s12 center-align-col center-align">
+                    <div class="col s12 mt-25 center-align">
+
+                    <a id="search-by-disease-button"
+                       class="btn-large waves-effect waves-light blue darken-4 valign-wrapper search-type-button">
+                        Search by disease
+                        <span class="material-icons md-36 col s1 right"
+                              style="margin-top: 0.5rem;padding: 0 !important;
+                                                    ">
+                                                        arrow_forward_ios
+                                                    </span>
+                    </a>
+                    </div>
+                    <div class="col s12 mt-25 center-align">
+                        <a id="search-by-symptom-button"
+                           class="btn-large waves-effect waves-light blue darken-4 valign-wrapper search-type-button">
+                            Search by symptom
+                            <span class="material-icons md-36 col s1 right"
+                                  style="margin-top: 0.5rem;padding: 0 !important;
+                                                    ">
+                                                        arrow_forward_ios
+                                                    </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="visualization/forms/disease-form :: common-features-form"></div>
+
+        <div th:replace="visualization/forms/symptom-form :: common-diseases-form"></div>
+    </div>
+
+    <div class="go-back-icon-wrapper" style="
+
+">
+    <span id="go-back" class="material-icons md-36 go-back-icon no-select ghost" style="transform: rotate(180deg)">
+navigate_before
+</span>
+    </div>
+</main>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<!-- FOOTER LIBRARIES + JQUERYUI -->
+<!-- not importing footer-js, but importing the same JS libraries + JQueryUI, bc JQUI needs to be between JQuery and Materialize -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/materialize.js}"></script>
+<script type="text/javascript" th:src="@{/js/sweetalert/sweetalert.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/init.js}"></script>
+<script>$.widget.bridge('uitooltip', $.ui.tooltip);</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js" integrity="sha512-LfB+BcvR3zBt7ebVskhSWiSbEUiG3p5EcCprkieldsKhBeR6wpnLi0VpWC2GNgVGWP2n/skO8Bx2oKNjUhXCkw==" crossorigin="anonymous"></script>
+<!-- END -->
+
+<script type="text/javascript" th:src="@{/js/visualization/forms/paste-to-chips.js}"></script>
+<script type="text/javascript" th:src="@{/js/visualization/forms/disease-form.js}"></script>
+<script type="text/javascript" th:src="@{/js/visualization/forms/choose-mapping-source.js}"></script>
+<script type="text/javascript" th:src="@{/js/visualization/forms/symptom-form.js}"></script>
+<script type="text/javascript" th:src="@{/js/visualization/forms/form.js}"></script>
+</body>
+</html>

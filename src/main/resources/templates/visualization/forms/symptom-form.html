@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - Database Information</title>
+    <div th:replace="fragments/header :: header-css"></div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" />
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualization/forms/disease-form.css}" media="screen,projection" />
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/visualization/forms/symptom-form.css}" media="screen,projection" />
+    <link type="text/css" rel="stylesheet"  th:href="@{/css/helpers.css}" media="screen,projection" />
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main>
+    <div th:fragment="common-diseases-form" id="search-by-symptom" class="container hidden uniform-height-form">
+        <form action="/visualization/diseases-by-symptom" autocomplete="off" class="row center-form">
+            <div class="col s12 center-align
+            pt-25 md-pt-0
+            pb-25 md-pb-0
+            md-mt-50 md-mb-50 md-pl-25 md-pr-25
+            form-step-height">
+                <h5 class="orange-text">Search By Symptom</h5>
+                <div class="row">
+                    <div class="col s6 center-align-col">
+                        <div class="mb-0 chips input-field pt-50" id="chips2">
+                            <textarea id="dummy-list-input2" class="mb-0 materialize-textarea pb-0" th:required="required"></textarea>
+                            <label for="dummy-list-input2">Enter a short list of symptoms
+                            </label>
+                        </div>
+                        <span class="material-icons md-18 cue-left tooltipped"
+                              data-tooltip="Type two characters for autocompletion, or paste a list of symptoms separated by newline"
+                              data-delay="50"
+                              data-position="right"
+                        >help_outline</span>
+                        <div id="flash2" class="orange-text" style="display: none">Press Enter to process your list</div>
+                    </div>
+                    <div class="input-field col s12 hide">
+                        <textarea name="symptoms" id="disease-list2"></textarea>
+                        <label for="disease-list2"></label>
+                    </div>
+                    <div class="row">
+                        <div class="col s6 center-align-col">
+                            <div class="right-align">
+                                <button id="gene2" type="submit"
+                                        class="waves-effect waves-dark btn blue darken-4">Submit</button>
+<!--                                        class="waves-effect waves-dark btn white symptom-submit black-text">Submit</button>-->
+<!--                                       class="step-3-button disabled btn-floating btn-small btn-xl waves-effect waves-light blue darken-4 left-align circle-important"/>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+<!-- /.container -->
+<div th:replace="fragments/footer :: footer"></div>
+
+<!-- FOOTER LIBRARIES + JQUERYUI -->
+<!-- not importing footer-js, but importing the same JS libraries + JQueryUI, bc JQUI needs to be between JQuery and Materialize -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/materialize.js}"></script>
+<script type="text/javascript" th:src="@{/js/sweetalert/sweetalert.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/init.js}"></script>
+<script>$.widget.bridge('uitooltip', $.ui.tooltip);</script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js" integrity="sha512-LfB+BcvR3zBt7ebVskhSWiSbEUiG3p5EcCprkieldsKhBeR6wpnLi0VpWC2GNgVGWP2n/skO8Bx2oKNjUhXCkw==" crossorigin="anonymous"></script>-->
+<!-- END -->
+
+<!-- FORM SCRIPTS -->
+<script type="text/javascript" th:src="@{/js/visualization/forms/paste-to-chips.js}"></script>
+<script type="text/javascript" th:src="@{/js/visualization/forms/symptom-form.js}"></script>
+<!-- END -->
+
+</body>
+</html>

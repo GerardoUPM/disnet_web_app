@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - Database Information</title>
+    <div th:replace="fragments/header :: header-css"></div>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" />-->
+    <link type="text/css" rel="stylesheet" th:href="@{/css/helpers.css}" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/visualization/graphs/networks.css}"
+          media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/visualization/graphs/networks-menu.css}"/>
+    <!--    <link type="text/css" rel="stylesheet" th:href="@{/css/visualization/graphs/slider.css}"/>-->
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css"/>
+
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main>
+    <!--div class="container"-->
+    <div class="portrait-correction row" th:if="${!emptySVG}">
+        <svg class="portrait-correction col m8 s12 mt-20 md-ml-50 p-0" id="d3"
+             th:attr="data-type=${type}, data-nodes=${preNodes}, data-links=${preLinks}, data-intersections=${intersectionsJson}"></svg>
+        <div id="new-wrapper" class="portrait-correction col m3 s12 mt-20 md-ml-50" th:classappend="${intersections.isEmpty()?'table-wrapper':''}">
+            <th:block th:if="${!intersections.isEmpty()}">
+                <ul class="tabs">
+                    <li class="tab col s4 two-lines">
+                        <a href='#common-nodes'>
+                            <b class='pt-5'>
+                                <span class='row mb-0'>Common</span>
+                                <span class='row mb-0'>diseases</span>
+                            </b>
+                        </a>
+                    </li>
+                    <th:block th:each="symptomId : ${symptomIdDiseases.keySet()}">
+                        <li class="tab col s4">
+                            <a th:href="${'#tab_'+symptomId}"
+                               th:text="${symptomIdDiseases.get(symptomId).get('name')}"></a>
+                        </li>
+                    </th:block>
+                </ul>
+                <div id="common-nodes" class="table-wrapper">
+                    <table class="bordered">
+                        <thead>
+                        <tr>
+                            <th>Symptoms</th>
+                            <th>Diseases having these symptoms</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="instance : ${intersections}">
+                            <tr class="fader" th:classappend="${'intersection_'+instanceStat.index}" data-toggled="0">
+                                <td th:rowspan="${instance.value.size()}">
+                                    <th:block th:each="disease : ${instance.key}">
+                            <span th:text="${disease}"
+                            ></span>
+                                        <th:block th:if="${diseaseStat.index&lt;instance.key.size()-1}">
+                                            , <br></br>
+                                        </th:block>
+                                    </th:block>
+                                </td>
+                                <td th:text="${instance.value[0]}"></td>
+                            </tr>
+                            <th:block th:if="${instance.value.size()>1}">
+                                <th:block th:each="i : ${#numbers.sequence(1, instance.value.size()-1)}">
+                                    <tr class="fader" th:classappend="${'intersection_'+instanceStat.index}"
+                                        data-toggled="0">
+                                        <td th:text="${instance.value[i]}"></td>
+                                    </tr>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <th:block th:each="symptomId : ${symptomIdDiseases.keySet()}">
+                    <div th:id="${'tab_'+symptomId}">
+                        <table class="bordered datatable" th:id="${'table_'+symptomId}">
+                            <thead>
+                            <tr>
+                                <th>Diseases</th>
+                            </tr>
+                            </thead>
+                            <th:block th:each="disease : ${symptomIdDiseases.get(symptomId).get('diseases')}">
+                                <tr>
+                                    <td th:text="${disease}"></td>
+                                </tr>
+                            </th:block>
+                        </table>
+                    </div>
+                </th:block>
+<!--                <th:block th:if="${intersections.isEmpty()}">-->
+<!--                    <table>-->
+<!--                        <caption class="pb-5 left-align"-->
+<!--                                 th:text="'There are no common '+${type}+' within your symptom list.'"></caption>-->
+<!--                        &lt;!&ndash; TODO: PLURAL &ndash;&gt;-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th th:text="${'Symptom'+(diseasesFeature.keySet().size()&gt;1?'s':'')}"></th>-->
+<!--                            <th th:text="${#strings.capitalize(type)}"></th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <th:block th:each="instance : ${diseasesFeature}">-->
+<!--                            <tr>-->
+<!--                                <td th:rowspan="${instance.value.size()}"-->
+<!--                                    th:text="${instance.key}"-->
+<!--                                ></td>-->
+<!--                                <th:block th:if="${!instance.value.isEmpty()}">-->
+<!--                                    <td th:text="${instance.value[0]}"></td>-->
+<!--                                </th:block>-->
+<!--                            </tr>-->
+<!--                            <th:block th:if="${instance.value.size()>1}">-->
+<!--                                <th:block th:each="i : ${#numbers.sequence(1, instance.value.size()-1)}">-->
+<!--                                    <tr>-->
+<!--                                        <td th:text="${instance.value[i]}"></td>-->
+<!--                                    </tr>-->
+<!--                                </th:block>-->
+<!--                            </th:block>-->
+<!--                        </th:block>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </th:block>-->
+            </th:block>
+            <th:block th:if="${intersections.isEmpty()}">
+                <table>
+                    <caption class="pb-5 left-align" th:text="'There are no common '+${type}+'s within your symptom list.'"></caption>
+                    <thead>
+                    <tr>
+                        <th th:text="${'Symptom'+(diseasesFeature.keySet().size()&gt;1?'s':'')}"></th>
+                        <th th:text="${#strings.capitalize(type)+'s'}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="instance : ${diseasesFeature}">
+                        <tr>
+                            <td th:rowspan="${instance.value.size()}"
+                                th:text="${instance.key}"
+                            ></td>
+                            <th:block th:if="${!instance.value.isEmpty()}">
+                                <td th:text="${instance.value[0]}"></td>
+                            </th:block>
+                        </tr>
+                        <th:block th:if="${instance.value.size()>1}">
+                            <th:block th:each="i : ${#numbers.sequence(1, instance.value.size()-1)}">
+                                <tr>
+                                    <td th:text="${instance.value[i]}"></td>
+                                </tr>
+                            </th:block>
+                        </th:block>
+                    </th:block>
+                    </tbody>
+                </table>
+            </th:block>
+        </div>
+        <div th:if="${!diseasesWithoutFeatures.isEmpty()}" class="row">
+            <div class="col s12 md-ml-50 md-pl-0 easy-bold"
+                 th:utext="${'No '+type+'s were found for: '+diseasesWithoutFeatures}"
+                 th:classappend="${emptySVG} ? 'center-align mt-50'"
+            > <!-- TODO: PLURAL -->
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="fragments/footer :: footer-js"></div>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://d3js.org/d3-color.v1.min.js"></script>
+<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://unpkg.com/d3-simple-slider"></script>
+
+<th:block th:if="${!emptySVG}">
+    <script th:if="${!intersections.isEmpty()}" type="text/javascript"
+            th:src="@{/js/visualization/graphs/common-diseases.js}"></script>
+    <script th:if="${intersections.isEmpty()}" type="text/javascript"
+            th:src="@{/js/visualization/graphs/common-nodes.js}"></script>
+    <!--    <script type="text/javascript" th:src="@{/js/visualization/graphs/network-layout.js}"></script>-->
+    <!--    <script type="text/javascript" th:src="@{/js/visualization/graphs/network-menu.js}"></script>-->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+</th:block>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function () {
+        $('.datatable').DataTable({
+                "dom": "Bft",
+                "scrollY": "70vh",
+                "scrollCollapse": true,
+                "paging": false,
+                "bInfo": false,
+                "language": {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search",
+                    buttons: {
+                        copyTitle: "Copied to clipboard",
+                        copySuccess: ''
+                    }
+                },
+                buttons: [
+                    {
+                        extend: 'copy',
+                        className: 'mt-10',
+                        header: false,
+                        title: null
+                    }
+                ]
+            },
+        );
+
+
+        $('.tab>a').on('click', () => $.fn.dataTable.tables({visible: true, api: true}).columns.adjust())
+        $('.tab').on('click', () => $.fn.dataTable.tables({visible: true, api: true}).columns.adjust())
+        $('.tab>a').click() && $('a[href="#common-nodes"]').click()
+    })
+    /*]]>*/
+</script>
+</body>
+</html>

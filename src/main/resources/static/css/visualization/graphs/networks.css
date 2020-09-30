@@ -1,0 +1,106 @@
+text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.links line {
+    stroke: rgba(181, 181, 181, 0.6);
+    /*stroke-width: 1.5;*/
+}
+
+/*.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}*/
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 2px;
+    font: 10px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+table td, table th {
+    border: 1px solid #d0d0d0;
+}
+table tr:first-child th {
+    border-top: 0;
+}
+table tr:last-child td {
+    border-bottom: 0;
+}
+table tr td:first-child,
+table tr th:first-child {
+    border-left: 0;
+}
+table tr td:last-child,
+table tr th:last-child {
+    border-right: 0;
+}
+th {
+    background-color: #0D47A1;
+    color: white;
+}
+.table-wrapper{
+    overflow-y:auto;
+    height:90vh;
+}
+
+tr[data-toggled="1"]{
+    background-color: rgba(13, 71, 161, 0.15);
+}
+
+.fader {
+    cursor: pointer;
+}
+
+.easy-bold>b{
+    font-weight: 500;
+}
+.easy-bold{
+    max-width: 95vw;
+}
+
+.svgButton rect{
+    fill: white;
+    stroke: #e4e4e4;
+    stroke-width: 2px;
+}
+
+.svgButton {cursor: pointer;}
+
+path.link{
+    fill: none;
+}
+@media only screen and (max-height: 400px) {
+
+    .portrait-correction.row{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .portrait-correction.col.m8.s12 {
+        width: 100%;
+        margin-left: auto !important;
+        left: auto;
+        right: auto;
+    }
+    .portrait-correction.col.m3.s12{
+        width: 100%;
+        margin-left: auto !important;
+        left: auto;
+        right: auto;
+    }
+}
