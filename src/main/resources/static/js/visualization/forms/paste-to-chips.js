@@ -44,3 +44,45 @@ const pasteToChips = function($dummyInput,$actualInput, $chips, $flash, unblocki
 
     })
 }
+
+// Handle removal of static chips.
+$(document).on('click', '.chip .close', function (e) {
+    e.preventDefault()
+
+    let current = $(".shown-form").attr('id');
+    if (current==="search-by-disease"){
+        let $chips = $(this).closest('.chips');
+        if ($chips.attr('data-initialized')) {
+            return;
+        }
+        $(this).closest('.chip').remove();
+        let terms = split($("#disease-list").val());
+        let removedChipText = $(this).closest('.chip').children().remove().end().text();
+        let index = terms.indexOf(removedChipText);
+        if (index !== -1 ) terms.splice(index,1);
+        $("#disease-list").val(terms.join( " | " ))
+        if ($("#chips").find("div").length === 0) {
+            $("#dummy-list-input")[0].required = true;
+            $("#step-3").addClass("md-inactive")
+            $(".submit-text").addClass("disable-submit")
+            $(".step-3-button").addClass("disabled")
+        }
+    }
+    else {
+        let $chips = $(this).closest('.chips');
+        if ($chips.attr('data-initialized')) {
+            return;
+        }
+        $(this).closest('.chip').remove();
+        let terms = split($("#disease-list2").val());
+        let removedChipText = $(this).closest('.chip').children().remove().end().text();
+        let index = terms.indexOf(removedChipText);
+        if (index !== -1 ) terms.splice(index,1);
+        $("#disease-list2").val(terms.join( " | " ))
+        if ($("#chips2").find("div").length === 0) {
+            $("#dummy-list-input2")[0].required = true;
+            $("#gene2").addClass("disabled")
+        }
+    }
+
+});

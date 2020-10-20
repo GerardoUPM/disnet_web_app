@@ -268,9 +268,9 @@ function enterNodes(n){
     let splitLabelHelper = labelHelper.filter(".split-text")
 
     splitLabelHelper.append("tspan")
-        .text((d) => d.type === "feature" ? (d.degree > 1 ? d.splitName[0] : ""):d.splitName[0]) // No labels in nodes with degree 1 (too many nodes, looks messy)
+        .text((d) => d.type === "feature" ? (d.degree > 1 || diseasesN===1 ? d.splitName[0] : ""):d.splitName[0]) // No labels in nodes with degree 1 (too many nodes, looks messy)
     splitLabelHelper.append("tspan")
-        .text(d => d.type === "feature" ? (d.degree > 1 ? d.splitName[1] : ""):d.splitName[1]) // No labels in nodes with degree 1 (too many nodes, looks messy)
+        .text(d => d.type === "feature" ? (d.degree > 1 || diseasesN===1 ? d.splitName[1] : ""):d.splitName[1]) // No labels in nodes with degree 1 (too many nodes, looks messy)
         .attr("dy", "1.1em")
 
     // Display tooltips when hovering over nodes w/o label (= nodes with degree 1)

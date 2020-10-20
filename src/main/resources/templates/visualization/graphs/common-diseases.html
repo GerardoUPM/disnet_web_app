@@ -155,13 +155,14 @@
                 </table>
             </th:block>
         </div>
-        <div th:if="${!diseasesWithoutFeatures.isEmpty()}" class="row">
-            <div class="col s12 md-ml-50 md-pl-0 easy-bold"
-                 th:utext="${'No '+type+'s were found for: '+diseasesWithoutFeatures}"
-                 th:classappend="${emptySVG} ? 'center-align mt-50'"
-            > <!-- TODO: PLURAL -->
 
-            </div>
+    </div>
+    <div th:if="${!diseasesWithoutFeatures.isEmpty()}" class="row">
+        <div class="col s12 md-ml-50 md-pl-0 easy-bold"
+             th:utext="${'No '+type+'s were found for: '+diseasesWithoutFeatures}"
+             th:classappend="${emptySVG} ? 'center-align mt-50'"
+        > <!-- TODO: PLURAL -->
+
         </div>
     </div>
 </main>
@@ -178,7 +179,7 @@
     <script th:if="${!intersections.isEmpty()}" type="text/javascript"
             th:src="@{/js/visualization/graphs/common-diseases.js}"></script>
     <script th:if="${intersections.isEmpty()}" type="text/javascript"
-            th:src="@{/js/visualization/graphs/common-nodes.js}"></script>
+            th:src="@{/js/visualization/graphs/common-diseases-simple.js}"></script>
     <!--    <script type="text/javascript" th:src="@{/js/visualization/graphs/network-layout.js}"></script>-->
     <!--    <script type="text/javascript" th:src="@{/js/visualization/graphs/network-menu.js}"></script>-->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>

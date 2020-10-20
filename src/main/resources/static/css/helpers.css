@@ -736,3 +736,10 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+
+
+/* LOADING ICON COLOR */
+.spinner-grey-only {
+    border-color: #9e9e9e;
+}

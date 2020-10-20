@@ -242,7 +242,7 @@ public class VisualizationController {
 
         List<String> diseasesWithFeatures = new ArrayList<>(diseasesFeature.keySet());
         List<String> diseasesWithoutFeatures = new ArrayList<>(CollectionUtils.subtract(symptomList,diseasesWithFeatures));
-        boolean emptySVG = diseasesWithoutFeatures.size() == symptomList.size();
+        boolean emptySVG = diseasesWithoutFeatures.size() == symptomList.size() || symptoms.isEmpty();
         model.addAttribute("emptySVG", emptySVG);
         model.addAttribute("diseasesWithoutFeatures",
                 diseasesWithoutFeatures.stream().map(d->"<b>"+d+"</b>").collect(Collectors.joining(", ")));
@@ -534,7 +534,7 @@ public class VisualizationController {
 
         List<String> diseasesWithFeatures = new ArrayList<>(diseasesFeature.keySet());
         List<String> diseasesWithoutFeatures = new ArrayList<>(CollectionUtils.subtract(diseaseList,diseasesWithFeatures));
-        boolean emptySVG = diseasesWithoutFeatures.size() == diseaseList.size();
+        boolean emptySVG = diseasesWithoutFeatures.size() == diseaseList.size() || diseases.isEmpty();
         model.addAttribute("emptySVG", emptySVG);
         model.addAttribute("diseasesWithoutFeatures",
                 diseasesWithoutFeatures.stream().map(d->"<b>"+d+"</b>").collect(Collectors.joining(", ")));

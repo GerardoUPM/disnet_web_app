@@ -146,26 +146,7 @@ $("#dummy-list-input").on("keydown", function (event) {
             }
         });
 
-// Handle removal of static chips.
-$(document).on('click', '.chip .close', function (e) {
-    e.preventDefault()
-    let $chips = $(this).closest('.chips');
-    if ($chips.attr('data-initialized')) {
-        return;
-    }
-    $(this).closest('.chip').remove();
-    let terms = split($("#disease-list").val());
-    let removedChipText = $(this).closest('.chip').children().remove().end().text();
-    let index = terms.indexOf(removedChipText);
-    if (index !== -1 ) terms.splice(index,1);
-    $("#disease-list").val(terms.join( " | " ))
-    if ($("#chips").find("div").length === 0) {
-        $("#dummy-list-input")[0].required = true;
-        $("#step-3").addClass("md-inactive")
-        $(".submit-text").addClass("disable-submit")
-        $(".step-3-button").addClass("disabled")
-    }
-});
+
 
 const unblockStep3 = function (){
                     // when first chip is added, step 3 unblocks

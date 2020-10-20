@@ -1,3 +1,5 @@
+// Same as common-nodes.js but without the menues
+
 const windowWidth = window.innerWidth;
 //const svgLeftMargin = 50;
 const offcenter = windowWidth < 601 ? 1 : 8 / 12; // col s8
@@ -143,8 +145,7 @@ function render(){
 
 function enterNodes(n){
     let g = n.enter().append("g")
-        .attr("class", d => d.intersection.map(i => 'intersection_' + i).join(" ").concat(" menu node"))
-        // .attr("class", d => d.intersection.map(i => 'intersection_' + i).join(" ").concat(d.intersection.length?" menu node":"node"))
+        .attr("class", d => d.intersection.map(i => 'intersection_' + i).join(" ").concat(" node"))
 
     let circleHelper = g.append("circle")
         .attr("class", "circle")
@@ -195,52 +196,9 @@ function enterNodes(n){
     g.on('mouseover', fade(0.3))
         .on('mouseout', fade(1))
 
-    // Display menus
-    d3.selectAll(".menu circle").on("click", function () {
-        d3.event.stopPropagation()
-
-
-        if (menu.style("visibility")==="visible" && this.getAttribute('data-id')===menu.attr("data-menu-id")) {
-            return menu.style("visibility","hidden")
-        }
-        else {
-            return menu.style("visibility", "visible")
-                .attr("data-menu-id", this.getAttribute('data-id') )
-                .html(
-                    "<div class='row mb-10'>" +
-                    "<div class='col s12 valign-wrapper'>" +
-                    "<div class='col s9 menu-title'>" +
-                    `<b>SEARCH BY ${type.toUpperCase()}</b>` +
-                    "</div>" +
-                    "<div class='col s3'>" +
-                    "<a " +
-                    "class='get-disease-ajax btn-floating btn-xs waves-effect waves-light grey' " +
-                    "data-feature='"+this.getAttribute("data-name")+"'" +
-                    "data-id='"+this.getAttribute("data-id")+"'>"+
-                    "<i class= 'material-icons right '>chevron_right</i>" +
-                    "</a>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row menu-description mb-5'>" +
-                    "<div class='col s12 left-align'>" +
-                    `Find diseases having <i>${this.getAttribute("data-name")}</i> as a ${type}` +
-                    "</div>" +
-                    "</div>"
-                );
-
-        }
-    })
 
 }
 function exitNodes(n){
-    // Avoid having a node menu when the node doesn't exist (bc it's been removed)
-    if (menu.style("visibility")==="visible"){
-        const preN = n
-        let removedNodesId = Object.values(preN._exit[0].map(e=>d3.select(e).select("circle").attr("data-id")))
-        let currentMenuId = d3.select(".menu-wrapper").attr("data-menu-id")
-        removedNodesId.includes(currentMenuId) && menu.style("visibility", "hidden")
-    }
     n.exit().remove()
 }
 function enterLinks(l){
@@ -269,20 +227,6 @@ let tooltip = d3.select("body")
     .style("border-radius", "10px")
     .style("font", "bold 12px sans-serif")
     .style("color", "white");
-
-// INITIALIZE MENU
-let menu = d3.select("body")
-    .append("div")
-    .attr("class", "row center-align m-0 menu-wrapper")
-    .style("position", "absolute")
-    .style("z-index", "10")
-    .style("visibility", "hidden")
-    .style("background", "Whitesmoke")
-    .style("opacity", ".85")
-    .style("padding", "6px")
-    .style("border-radius", "3px")
-    .style("border", "1px solid #bdbdbd")
-    .style("color", "black");
 
 
 // MAKE DRAGGABLE NODES
@@ -334,22 +278,16 @@ function fadeLink(opacity) {
 
 simulation.on("tick", function() {
 
-    //display circles so that their label is not off range + menu position
+    //display circles so that their label is not off range
     circle
         .attr("cx", d => {
             let textSize = (+d.degree === 1 && diseasesN !== 1 && !noIntersections) ? 0 : +d3.select("#" + d.id).attr('data-text-length')
             d.x = Math.max(nodeRadius + 2 + textSize, Math.min(w - (nodeRadius + 2) - 15 - textSize, d.x));
-            if(d.id===menu.attr('data-menu-id')){
-                menu.style("left", (d.x + 55) + "px")
-            }
             return d.x
         })
         .attr("cy", d => {
             let textSize = (+d.degree === 1 && diseasesN !== 1 && !noIntersections) ? 0 : +d3.select("#" + d.id).attr('data-text-length')
             d.y = Math.max(nodeRadius + 2 + textSize, Math.min(h - (nodeRadius + 2) - textSize, d.y));
-            if(d.id===menu.attr('data-menu-id')){
-                menu.style("top", (d.y + 20) + "px")
-            }
             return d.y
         });
 

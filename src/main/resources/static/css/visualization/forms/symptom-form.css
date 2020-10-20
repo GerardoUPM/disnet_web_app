@@ -2,3 +2,13 @@
 /*    box-shadow: none !important;*/
 /*    border: solid 2px #e4e4e4;*/
 /*}*/
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.dont-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.dont-scroll {
+    -ms-overflow-style: none;
+}
