@@ -66,7 +66,8 @@ public class EmailSender {
             LOGGER.info("Send email '{}' to: {}", subject, to);
             return new EmailStatus(to, subject, text).success();
         } catch (Exception e) {
-            LOGGER.error(String.format("Problem with sending email to: {}, error message: {}", to, e.getMessage()));
+            LOGGER.error(String.format("Problem sending email to: {%s}, error message: {%s}", to, e.getMessage()));
+            LOGGER.error("SEND EMAIL ERROR", e);
             return new EmailStatus(to, subject, text).error(e.getMessage());
         }
     }
