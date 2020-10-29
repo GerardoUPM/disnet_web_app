@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.http.client.HttpResponseException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -13,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -35,19 +32,19 @@ public class VisualizationController {
     @Value("${my.disnet.layers.datasource.bio}")
     private String my_disnet_layers_datasource_bio;
 
-    @Value("${my.disnet.layers.datasource.drugs}")
-    private String my_disnet_layers_datasource_drugs;
+//    @Value("${my.disnet.layers.datasource.drugs}")
+//    private String my_disnet_layers_datasource_drugs;
 
                             /* HELPER FUNCTIONS */
 
     private static Map<List<String>, List<String>> getIntersections(Map<String,List<String>> diseasesSymptomHM){
-        Map<String, List<String>> diseasesSymptomTree = new TreeMap<String, List<String>>(diseasesSymptomHM);
+        Map<String, List<String>> diseasesSymptomTree = new TreeMap<>(diseasesSymptomHM);
 //        System.out.println(diseasesSymptomTree);
 
         List<String> symptoms = new ArrayList<>();
         diseasesSymptomHM.values().forEach(symptoms::addAll);
 
-        Set<String> symptomsSet = new HashSet<String>(symptoms);
+        Set<String> symptomsSet = new HashSet<>(symptoms);
         List<String> intersectingSymptoms = symptomsSet.stream()
                 .filter(symptom -> Collections.frequency(symptoms, symptom)>1)
                 .collect(Collectors.toList());
@@ -67,7 +64,7 @@ public class VisualizationController {
                 intersections.get(commonDis).add(symptom);
             }
             else {
-                intersections.put(new ArrayList<String>(commonDis), new ArrayList<String>(){{add(symptom);}});
+                intersections.put(new ArrayList<>(commonDis), new ArrayList<String>(){{add(symptom);}});
             }
             commonDis.clear();
         }
@@ -80,7 +77,7 @@ public class VisualizationController {
                         (a,b) -> { throw new AssertionError(); },
                         LinkedHashMap::new
                 ));
-    };
+    }
 
     private static Map<List<String>, List<String>> intersectionCorrectionForMultipleLinks(Map<List<String>, List<String>> intersections){
         return intersections.entrySet().stream().filter(x -> x.getKey().size()!=1).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -134,9 +131,10 @@ public class VisualizationController {
         model.addAttribute("sources", sources);
         model.addAttribute("dates", datesJson);
         model.addAttribute("mappingSources", mappingSources);
-        return "visualization/forms/form";
 
-    };
+        conn.close();
+        return "visualization/forms/form";
+    }
 
     @GetMapping("/diseases-by-symptom")
     public String DiseasesBySymptom(Model model, @RequestParam String symptoms) throws SQLException {
@@ -267,6 +265,8 @@ public class VisualizationController {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
+        conn.close();
         return "visualization/graphs/common-diseases";
     }
 
@@ -285,9 +285,9 @@ public class VisualizationController {
         }
         List<String> diseaseList = verticalBarStringToList(diseases);
 
-        String url = null;
-        String common = null;
-        String commonId = null;
+        String url;
+        String common;
+        String commonId;
         switch (type) {
             case "symptom":
                 url = this.my_disnet_layers_datasource_pheno;
@@ -324,7 +324,7 @@ public class VisualizationController {
         }
         int index = 1;
 
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         switch (type) {
             case "symptom":
                 preparedStatement = conn.prepareStatement("SELECT DISTINCTROW d.disease_id, d.name disease_name, sym.name symptom_name, hsym.cui cui " +
@@ -564,17 +564,17 @@ public class VisualizationController {
             e.printStackTrace();
         }
 
+        conn.close();
         return "visualization/graphs/common-nodes";
     }
 
 
     // Find diseases having a specific symptom/gene/protein/pathway
     @GetMapping("/ajax-get-diseases")
-    public String AjaxSearchBySymptom(Model model, @RequestParam String type, @RequestParam String id) throws SQLException, HttpResponseException {
+    public String AjaxSearchBySymptom(Model model, @RequestParam String type, @RequestParam String id) throws SQLException {
 
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        PreparedStatement idStatement = null;
         switch (type) {
             case "symptom":
                 conn = DriverManager.getConnection(this.my_disnet_layers_datasource_pheno, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
@@ -651,6 +651,7 @@ public class VisualizationController {
 //                return "error/404"; // TODO: revisar
         }
 
+        assert preparedStatement != null;
         preparedStatement.setString(1, id);
 
         ResultSet diseasesResultSet = preparedStatement.executeQuery();
@@ -662,8 +663,9 @@ public class VisualizationController {
         }
         model.addAttribute("symptomId", id);
         model.addAttribute("diseases", diseases);
-        return "visualization/ajax/symptom-table";
 
+        conn.close();
+        return "visualization/ajax/symptom-table";
     }
 }
 
@@ -682,9 +684,8 @@ class VisualizationHelperController {
     @GetMapping("/autocompleteEndPoint")
     public Map<String, List<String>> AutocompleteEndPoint(@RequestParam String sourceId,
                                                           @RequestParam String date,
-                                                          @RequestParam String query) throws SQLException, ParseException {
+                                                          @RequestParam String query) throws SQLException {
         String url = this.my_disnet_layers_datasource_pheno;
-        Date formattedDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
         Connection conn = DriverManager.getConnection(url, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
         PreparedStatement preparedStatement = conn.prepareStatement("SELECT DISTINCT(name) " +
                 "FROM disease JOIN has_disease hd on disease.disease_id = hd.disease_id " +
@@ -708,12 +709,12 @@ class VisualizationHelperController {
         Map<String, List<String>> json = new HashMap<>();
         json.put("options",diseases);
 
+        conn.close();
         return json;
-
     }
 
     @GetMapping("/search-by-symptom-autocompleteEndPoint")
-    public Map<String, List<String>> AutocompleteEndPoint2(@RequestParam String query) throws SQLException, ParseException{
+    public Map<String, List<String>> AutocompleteEndPoint2(@RequestParam String query) throws SQLException {
         String url = this.my_disnet_layers_datasource_pheno;
         Connection conn = DriverManager.getConnection(url, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
         PreparedStatement preparedStatement = conn.prepareStatement("SELECT DISTINCT sym.name symptom_name FROM symptom sym  " +
@@ -741,7 +742,7 @@ class VisualizationHelperController {
         Map<String, List<String>> json = new HashMap<>();
         json.put("options",diseases);
 
+        conn.close();
         return json;
-
-    };
+    }
 }
