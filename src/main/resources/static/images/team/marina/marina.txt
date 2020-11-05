@@ -1,0 +1,6 @@
+Marina Díaz Uzquiano, is a Biotechnology graduate at the Technical University of Madrid (UPM).
+She has specialized in Computational Biotechnology, and, as a part of her Erasmus exchange program,
+she has pursued the M.Sc in Computational Biology of the National Polytechnic Institute of Toulouse (INPT),
+where she gained a year of work experience as a bioinformatic and as a developer, building applications for the analysis of biological data.
+Working in MEDAL, Marina has participated and will participate in projects such as DISNET, Curex, and P4-LUCAT,
+where her main focus is data visualization and web development.

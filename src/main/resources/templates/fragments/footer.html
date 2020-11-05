@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <body>
-<footer class="page-footer docs-footer blue darken-4" th:fragment="footer">
+<footer id="footer" class="page-footer docs-footer blue darken-4" th:fragment="footer">
     <!--<div class="container"> DESACTIVO PARA TENGA WEIGHT al 100%-->
         <!--<footer class="page-footer blue darken-4">&lt;!&ndash;orange&ndash;&gt;-->
             <div class="container">
@@ -69,16 +69,17 @@
         <!--</footer>-->
     <!--</div> DESACTIVO PARA TENGA WEIGHT al 100%-->
 </footer>
-<div th:fragment="footer-js">
+<th:block th:fragment="footer-js">
     <!--  Scripts-->
     <!--Import jQuery before materialize.js
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
     -->
     <!--<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>-->
+    <script type="text/javascript" th:src="@{/js/footer-check.js}"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script type="text/javascript" th:src="@{/js/materialize.js}"></script>
     <script type="text/javascript" th:src="@{/js/sweetalert/sweetalert.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/init.js}"></script>
-</div>
+</th:block>
 </body>
 </html>

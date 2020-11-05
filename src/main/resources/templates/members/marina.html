@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DISNET - Members: Marina Díaz Uzquiano</title>
+    <div th:replace="fragments/header :: header-css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/member.css}" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" th:href="@{/css/responsive.css}" media="screen,projection" />
+    <!--<link type="text/css" rel="stylesheet" th:href="@{/css/fontawesome/font-awesome.min.css}" media="screen,projection" />-->
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+<body>
+    <div th:replace="fragments/header :: header"/>
+
+    <div class="container" style="margin-top: 24px">
+        <!-- row -->
+        <div class="row">
+            <!-- =========================================
+                           SIDEBAR
+            ==========================================-->
+            <!-- Start Sidebar -->
+            <aside class="col l4 m12 s12 sidebar z-depth-1" id="sidebar">
+                <!--  Sidebar row -->
+                <div class="row">
+                    <!--  top section   -->
+                    <div class="heading">
+                        <!-- ====================
+                                  IMAGE
+                        ==========================-->
+                        <div class="feature-img">
+                            <img th:src="@{/images/team/marina/marina.jpg}" class="responsive-img" alt="Marina Díaz Uzquiano"/>
+                        </div>
+
+                        <div class="title col s12 m12 l9 right  wow fadeIn animated" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeIn;">
+                            <h2>Marina Díaz Uzquiano</h2> <!-- title name -->
+                            <span>DISNET Researcher</span>  <!-- tagline -->
+                        </div>
+                        <!-- =========================================
+                                                       NAVIGATION
+                        ==========================================-->
+                        <div class="nav-icon">
+                            <nav>
+                                <div class="nav-wrapper">
+                                    <a href="/members/about#marina" class="button-collapse-alternative">
+                                        <i class="material-icons">arrow_back</i>
+                                    </a>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- MOBILE NUMBER -->
+                    <div class="col l12 m12 s12  mobile sidebar-item">
+                        <div class="row">
+                            <div class="col m12 s12 l3 icon">
+                                <i class="small fa fa-phone"></i> <!-- icon -->
+                            </div>
+                            <div class="col m12 s12 l9 info wow fadeIn a2 animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
+                                <div class="section-item-details">
+                                    <!--<div class="personal">
+                                        <h4><a href="tel:777-777-7777">(333)-777-7777</a></h4> &lt;!&ndash; Number &ndash;&gt;
+                                        <span>mobile</span>
+                                    </div>-->
+                                    <div class="work">
+                                        <h4><a class="white-text" href="tel:34 91 06 79305">(+34) 910 679 305</a></h4> <!-- Number -->
+                                        <span>work</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  EMAIL -->
+                    <div class="col l12 m12 s12  email sidebar-item ">
+                        <div class="row">
+                            <div class="col m12 s12 l3 icon">
+                                <i class="small fa fa-envelope"></i> <!-- icon -->
+                            </div>
+                            <div class="col m12 s12 l9 wow fadeIn a3 animated" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeIn;"><!--info-->
+                                <div class="section-item-details">
+                                    <!--<div class="personal">
+                                        <h4><a href="mailto:someone@example.com">mail@disnet.com</a></h4> &lt;!&ndash; Email &ndash;&gt;
+                                        <span>personal</span>
+                                    </div>-->
+                                    <div class="work">
+                                        <h4><a class="white-text" href="mailto: marina.diaz.uzquiano@alumnos.upm.es"> marina.diaz.uzquiano@alumnos.upm.es</a></h4> <!-- Email -->
+                                        <span style="opacity: 0.7;">work</span> <!--<br/>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   <!-- end row -->
+            </aside><!-- end sidebar -->
+
+            <!-- =========================================
+               Short description
+            ==========================================-->
+            <section class="col s12 m12 l8 section">
+                <div class="row">
+                    <div class="section-wrapper z-depth-1">
+                        <div class="section-icon col s12 m12 l2">
+                            <i class="fa fa-user"><!--face--></i><!--fa fa-suitcase-->
+                        </div>
+                        <div class="custom-content col s12 m12 l10 wow fadeIn a1 animated" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeIn;">
+                            <h2>About me</h2>
+
+                            <div class="custom-content-wrapper wow fadeIn a2 animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
+                                <h3>Researcher <span>@UPM</span></h3>
+                                <p class="light text-align-justify" ><!--class="text-align-justify"-->
+                                    Marina Díaz Uzquiano, is a Biotechnology graduate at the Technical University of Madrid (UPM).
+                                    She has specialized in Computational Biotechnology and, as a part of her Erasmus exchange program,
+                                    she has pursued the M.Sc in Computational Biology of the National Polytechnic Institute of Toulouse (INPT),
+                                    where she gained a year of work experience as a bioinformatic and as a developer, building applications for the analysis of biological data.
+                                    Working in MEDAL, Marina has participated and will participate in projects such as DISNET, Curex, and P4-LUCAT,
+                                    where her main focus is data visualization and web development.
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end row -->
+            </section><!-- end section -->
+        </div> <!-- end row -->
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/footer :: footer-js"/>
+</body>
+</html>

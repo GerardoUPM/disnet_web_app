@@ -65,5 +65,31 @@ public class MemberController {
         return "members/massimiliano";
     }
 
+    @RequestMapping("/members/alberto")
+    public String albertoMember(Model model){
+        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //System.out.println("PWD: " + passwordEncoder.encode("groot"));
+        return "members/alberto";
+    }
 
+    @RequestMapping("/members/marina")
+    public String marinaMember(Model model){
+        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //System.out.println("PWD: " + passwordEncoder.encode("groot"));
+        return "members/marina";
+    }
+
+    @RequestMapping("/members/esther")
+    public String estherMember(Model model){
+        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //System.out.println("PWD: " + passwordEncoder.encode("groot"));
+        return "members/esther";
+    }
+
+    @RequestMapping("/members/belen")
+    public String belenMember(Model model){
+        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //System.out.println("PWD: " + passwordEncoder.encode("groot"));
+        return "members/belen";
+    }
 }
