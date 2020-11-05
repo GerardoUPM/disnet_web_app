@@ -14,7 +14,7 @@
 <div th:replace="fragments/header :: header"></div>
 <main>
     <div th:fragment="common-diseases-form" id="search-by-symptom" class="container hidden uniform-height-form">
-        <form action="/visualization/diseases-by-symptom" autocomplete="off" class="row center-form">
+        <form action="/visualization/diseases-by-symptom" id="search-by-symptom-form" autocomplete="off" class="row center-form">
             <div class="col s12 center-align
             pt-25 md-pt-0
             pb-25 md-pb-0
@@ -69,7 +69,7 @@
 <!-- END -->
 
 <!-- FORM SCRIPTS -->
-<script type="text/javascript" th:src="@{/js/visualization/forms/paste-to-chips.js}"></script>
+<script type="text/javascript" th:src="@{/js/visualization/forms/form-helpers.js}"></script>
 <script type="text/javascript" th:src="@{/js/visualization/forms/symptom-form.js}"></script>
 <!-- END -->
 

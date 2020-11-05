@@ -1,10 +1,8 @@
                 //    STEP 1
 
 // Display corresponding dates to selected source
-const datesJson = $('#date-input').data('dates');
 $('#source').on('change', ()=>{
-    $("#calendar").removeClass("md-inactive") //enable date input
-    $("#date-input").prop('disabled', false)
+    enableDateInput();
 
     // In case the following steps have already been triggered
     $('#date-input').datepicker("destroy")
@@ -18,47 +16,10 @@ $('#source').on('change', ()=>{
     $("#tooltip").addClass("md-inactive")
     $("#tooltip").tooltip("remove")
 
-    let sourceId = $('#source option:selected').val();
-
-    let dates = datesJson[sourceId]
-        .map(d=> new Date(d))
-        .sort((a,b)=>a-b);
-    let lastDay = new Date(dates[dates.length-1]);
-    lastDay.setDate(lastDay.getDate() + 1) // for some reason default Date is set on the previous set date by default
-    let datesAvailable = dates.map(d=> {
-        d.setDate(d.getDate()-1) //for some reason beforeShowDay does the action on the following date. So here I'm just "counteracting" that
-        return new Date(d).toISOString().substring(0,10)
-    })
-
-    $('#date-input').datepicker({
-        beforeShowDay: (date) => {
-            let currentDate = new Date(date).toISOString().substring(0, 10);
-            return [datesAvailable.includes(currentDate)]
-        },
-        defaultDate: lastDay,
-        gotoCurrent: true,
-        dateFormat: "yy-mm-dd",
-        onSelect: ()=> {
-            $("label[for='date-input']").addClass("active") //manually added class for materialize
-            $("#dummy-list-input").prop("disabled", false) //enable step 2
-            $("#step-2").removeClass("md-inactive")
-            $("#tooltip").removeClass("md-inactive")
-            $("#tooltip").addClass("tooltipped").tooltip({delay: 50})
-        }
-    }).attr('readonly', 'readonly')
+    initializeDatePicker()
 })
 
                 //   STEP 2
-
-// helper functions
-function split( val ) {
-    return val.split( /\s*\|\s*/ );
-}
-// helper functions
-function splitNewLine( val ) {
-    return val.split( /\s*\r?\n\s*/ );
-}
-
 /*const javaDateFormat = function(stringDate){
     let date = new Date(stringDate);
     let dateTimeFormat = new Intl.DateTimeFormat('en', {
@@ -83,7 +44,7 @@ $("#dummy-list-input").on("keydown", function (event) {
         {
             minLength: 2, delay: 500,
             source: function (request, callback) {
-                let lrequest = split(request.term);
+                let lrequest = splitAutocomplete(request.term);
                 let query = lrequest[lrequest.length-1];
                 $.ajax({
                     type: "GET",
@@ -107,8 +68,8 @@ $("#dummy-list-input").on("keydown", function (event) {
                 return false
             },
             select: function(event, ui){
-                let terms = split(this.value);
-                let allTerms = split($("#disease-list").val())
+                let terms = splitAutocomplete(this.value);
+                let allTerms = splitAutocomplete($("#disease-list").val())
                 // remove current input
                 terms.pop();
                 if (!allTerms.includes(ui.item.value)){
@@ -117,25 +78,11 @@ $("#dummy-list-input").on("keydown", function (event) {
                     // add empty slot to get " | " at the end
                     terms.push( "" );
                     if ($("#chips").find("div").length > 0){
-                        $("#chips").find("div").last().after("<div class='chip' contenteditable='false'>"+
-                            ui.item.value+
-                            "<i class=\"material-icons close\">close</i>"+
-                            "</div>")
+                        addChipOtherThanFirst($("#chips"),$("#dummy-list-input"), ui.item.value)
                     } else {
-                        // adding first chip
-                        $("#chips").children().first().before("<div class='chip' contenteditable='false'>"+
-                            ui.item.value+
-                            "<i class=\"material-icons close\">close</i>"+
-                            "</div>")
-                        /* The required attribute for step-2 points to a disabled textarea (used as a dummy)
-                            so when the first chip is written, that means the form is filled, so we remove the
-                            required attr  from textarea (otherwise html will always see it as empty cause it's disabled)
-                         */
-                        $("#dummy-list-input").removeAttr('required');
+                        addFirstChip($("#chips"),$("#dummy-list-input"), ui.item.value);
                         // when first chip is added, step 3 unblocks
-                        $("#step-3").removeClass("md-inactive")
-                        $(".submit-text").removeClass("disable-submit")
-                        $(".step-3-button").removeClass("disabled")
+                        enableStep3()
                     }
                 } else {
                     terms.push( "" );
@@ -147,15 +94,7 @@ $("#dummy-list-input").on("keydown", function (event) {
         });
 
 
-
-const unblockStep3 = function (){
-                    // when first chip is added, step 3 unblocks
-                    $("#step-3").removeClass("md-inactive")
-                    $(".submit-text").removeClass("disable-submit")
-                    $(".step-3-button").removeClass("disabled")
-                }
-
-pasteToChips($("#dummy-list-input"), $("#disease-list"), $("#chips"), $("#flash"), unblockStep3);
+pasteToChips($("#dummy-list-input"), $("#disease-list"), $("#chips"), $("#flash"), enableStep3);
 
 // $('#searchLocus').on('focus', function () {
 //     if ($('#searchGenesBy_2').is(':checked')) {

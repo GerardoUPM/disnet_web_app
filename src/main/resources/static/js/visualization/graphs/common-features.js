@@ -1,14 +1,14 @@
 const windowWidth = window.innerWidth;
 //const svgLeftMargin = 50;
 const offcenter = windowWidth < 601 ? 1 : 8 / 12; // col s8
-const w = windowWidth * offcenter;
+const width = windowWidth * offcenter;
 const margin = {'top': 20, 'right': 0, 'bottom': 0, 'left': 50}
 
-const h = window.innerHeight - 64 - 40; // - header - margin(svg's margin-top + div.row's margin-bottom)
+const height = window.innerHeight - 64 - 40; // - header - margin(svg's margin-top + div.row's margin-bottom)
 let svgSelection = d3.select("#d3")
 let svg = svgSelection
-    .attr("width", w)
-    .attr("height", h)
+    .attr("width", width)
+    .attr("height", height)
     .style("border", "rgba(47, 79, 79, 0.3) 1px solid")
     .style("border-radius", "5px"); //TODO: style in css
 
@@ -16,8 +16,8 @@ let svg = svgSelection
 const nodeRadius = 5;
 
 // GRAPH VARIABLES
-const rcx = w / 2;
-const rcy = h / 2;
+const rcx = width / 2;
+const rcy = height / 2;
 
 // ----- MANAGE JSON DATA -----
 const preNodes = JSON.parse(svg.attr('data-nodes'))['preNodes']
@@ -30,7 +30,7 @@ let nodes = [...new Set(preNodes.map(JSON.stringify))].map(JSON.parse)
 nodes.forEach(n => {
     svg.append("text").text(n.name).attr("id", "dummy")
     let textLength = d3.select("#dummy").node().getComputedTextLength()
-    if (textLength>w/4.5){
+    if (textLength>width/4.5){
         let string = n.name
         let stringL = string.length
         let half = stringL/2;
@@ -338,7 +338,7 @@ simulation.on("tick", function() {
     circle
         .attr("cx", d => {
             let textSize = (+d.degree === 1 && diseasesN !== 1 && !noIntersections) ? 0 : +d3.select("#" + d.id).attr('data-text-length')
-            d.x = Math.max(nodeRadius + 2 + textSize, Math.min(w - (nodeRadius + 2) - 15 - textSize, d.x));
+            d.x = Math.max(nodeRadius + 2 + textSize, Math.min(width - (nodeRadius + 2) - 15 - textSize, d.x));
             if(d.id===menu.attr('data-menu-id')){
                 menu.style("left", (d.x + 55) + "px")
             }
@@ -346,7 +346,7 @@ simulation.on("tick", function() {
         })
         .attr("cy", d => {
             let textSize = (+d.degree === 1 && diseasesN !== 1 && !noIntersections) ? 0 : +d3.select("#" + d.id).attr('data-text-length')
-            d.y = Math.max(nodeRadius + 2 + textSize, Math.min(h - (nodeRadius + 2) - textSize, d.y));
+            d.y = Math.max(nodeRadius + 2 + textSize, Math.min(height - (nodeRadius + 2) - textSize, d.y));
             if(d.id===menu.attr('data-menu-id')){
                 menu.style("top", (d.y + 20) + "px")
             }

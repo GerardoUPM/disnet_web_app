@@ -271,11 +271,11 @@ public class VisualizationController {
     }
 
     @GetMapping("/common-nodes") //TODO NOW: GET/POST
-    public String Visualization(Model model, @RequestParam String type,
-                                @RequestParam String sourceId,
-                                @RequestParam String date,
-                                @RequestParam String diseases,
-                                @RequestParam(required = false) List<String> mapping
+    public String FeaturesByDisease(Model model, @RequestParam String type,
+                                    @RequestParam String sourceId,
+                                    @RequestParam String date,
+                                    @RequestParam String diseases,
+                                    @RequestParam(required = false) List<String> mapping
                                 ) throws Exception {
 //        System.out.println(mapping);
         if (mapping != null){
@@ -671,7 +671,7 @@ public class VisualizationController {
 
 @RestController
 @RequestMapping("/visualization")
-class VisualizationHelperController {
+class VisualizationRestController {
     @Value("${my.disnet.layers.datasource.u}")
     private String my_disnet_layers_datasource_u;
 
@@ -682,9 +682,9 @@ class VisualizationHelperController {
     private String my_disnet_layers_datasource_pheno;
 
     @GetMapping("/autocompleteEndPoint")
-    public Map<String, List<String>> AutocompleteEndPoint(@RequestParam String sourceId,
-                                                          @RequestParam String date,
-                                                          @RequestParam String query) throws SQLException {
+    public Map<String, List<String>> DiseaseAutocompleteEndPoint(@RequestParam String sourceId,
+                                                                 @RequestParam String date,
+                                                                 @RequestParam String query) throws SQLException {
         String url = this.my_disnet_layers_datasource_pheno;
         Connection conn = DriverManager.getConnection(url, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
         PreparedStatement preparedStatement = conn.prepareStatement("SELECT DISTINCT(name) " +
@@ -714,7 +714,7 @@ class VisualizationHelperController {
     }
 
     @GetMapping("/search-by-symptom-autocompleteEndPoint")
-    public Map<String, List<String>> AutocompleteEndPoint2(@RequestParam String query) throws SQLException {
+    public Map<String, List<String>> SymptomAutocompleteEndPoint(@RequestParam String query) throws SQLException {
         String url = this.my_disnet_layers_datasource_pheno;
         Connection conn = DriverManager.getConnection(url, this.my_disnet_layers_datasource_u, this.my_disnet_layers_datasource_p);
         PreparedStatement preparedStatement = conn.prepareStatement("SELECT DISTINCT sym.name symptom_name FROM symptom sym  " +

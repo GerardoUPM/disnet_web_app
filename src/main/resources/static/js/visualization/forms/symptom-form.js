@@ -1,15 +1,5 @@
 //TODO: common function w/ disease-form.js
 
-// helper functions
-function split(val) {
-    return val.split(/\s*\|\s*/);
-}
-
-// helper functions
-function splitNewLine(val) {
-    return val.split(/\s*\r?\n\s*/);
-}
-
 // jquery ui autocomplete
 $("#dummy-list-input2").on("keydown", function (event) {
     $("#autocomplete-load").remove()
@@ -22,7 +12,7 @@ $("#dummy-list-input2").on("keydown", function (event) {
         {
             minLength: 2, delay: 500,
             source: function (request, callback) {
-                let lrequest = split(request.term);
+                let lrequest = splitAutocomplete(request.term);
                 let query = lrequest[lrequest.length - 1];
                 $.ajax({
                     type: "GET",
@@ -46,8 +36,8 @@ $("#dummy-list-input2").on("keydown", function (event) {
                 return false
             },
             select: function (event, ui) {
-                let terms = split(this.value);
-                let allTerms = split($("#disease-list2").val())
+                let terms = splitAutocomplete(this.value);
+                let allTerms = splitAutocomplete($("#disease-list2").val())
                 // remove current input
                 terms.pop();
                 if (!allTerms.includes(ui.item.value)) {

@@ -124,12 +124,12 @@
 
 <th:block th:if="${!emptySVG}">
     <th:block th:switch="${type}">
-        <script th:case="'symptom'" type="text/javascript" th:src="@{/js/visualization/graphs/common-nodes.js}"></script>
+        <script th:case="'symptom'" type="text/javascript" th:src="@{/js/visualization/graphs/common-features.js}"></script>
         <th:block th:case="*">
-            <script type="text/javascript" th:src="@{/js/visualization/graphs/common-nodes-links-as-paths.js}"></script>
+            <script type="text/javascript" th:src="@{/js/visualization/graphs/common-features-links-as-paths.js}"></script>
             <script type="text/javascript" th:unless="${type} eq 'pathway'" th:src="@{/js/visualization/graphs/update-graph-slider.js}"></script>
         </th:block>
-        <script type="text/javascript" th:src="@{/js/visualization/graphs/json-common-nodes.js}"></script>
+        <script type="text/javascript" th:src="@{/js/visualization/graphs/json-common-features.js}"></script>
     </th:block>
     <script type="text/javascript" th:src="@{/js/visualization/graphs/side-tables.js}"></script>
 <!--    <script type="text/javascript" th:src="@{/js/visualization/graphs/network-menu.js}"></script>-->
