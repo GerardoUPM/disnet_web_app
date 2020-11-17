@@ -6,6 +6,7 @@
     <div th:replace="fragments/header :: header-css"></div>
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" />-->
     <link type="text/css" rel="stylesheet" th:href="@{/css/helpers.css}" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/visualization/go-back.css}" media="screen,projection"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/visualization/graphs/networks.css}"
           media="screen,projection"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/visualization/graphs/networks-menu.css}"/>
@@ -165,6 +166,12 @@
 
         </div>
     </div>
+    <div id="go-back-wrapper" class="go-back-icon-wrapper graph-fit" style="  ">
+    <span id="go-back" class="material-icons md-24 md-till-menu-collapse-36 go-back-icon white-icon no-select ghost"
+          style="transform: rotate(2.84217e-14deg); opacity: 1;">
+            navigate_before
+    </span>
+    </div>
 </main>
 
 <div th:replace="fragments/footer :: footer"></div>
@@ -174,6 +181,7 @@
 <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://unpkg.com/d3-simple-slider"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js" integrity="sha512-LfB+BcvR3zBt7ebVskhSWiSbEUiG3p5EcCprkieldsKhBeR6wpnLi0VpWC2GNgVGWP2n/skO8Bx2oKNjUhXCkw==" crossorigin="anonymous"></script>
 
 <th:block th:if="${!emptySVG}">
     <script th:if="${!intersections.isEmpty()}" type="text/javascript"
@@ -187,6 +195,8 @@
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
 </th:block>
+<script type="text/javascript" th:src="@{/js/visualization/go-back.js}"></script>
+<script type="text/javascript" th:src="@{/js/visualization/graphs/session-storage.js}"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function () {

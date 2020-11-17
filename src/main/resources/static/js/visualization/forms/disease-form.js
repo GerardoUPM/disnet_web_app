@@ -78,7 +78,7 @@ $("#dummy-list-input").on("keydown", function (event) {
                     // add empty slot to get " | " at the end
                     terms.push( "" );
                     if ($("#chips").find("div").length > 0){
-                        addChipOtherThanFirst($("#chips"),$("#dummy-list-input"), ui.item.value)
+                        addChipOtherThanFirst($("#chips"),ui.item.value)
                     } else {
                         addFirstChip($("#chips"),$("#dummy-list-input"), ui.item.value);
                         // when first chip is added, step 3 unblocks

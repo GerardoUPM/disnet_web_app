@@ -12,6 +12,7 @@
     <link type="text/css" rel="stylesheet" th:href="@{/css/visualization/forms/symptom-form.css}"
           media="screen,projection"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/helpers.css}" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/visualization/go-back.css}" media="screen,projection"/>
 
 </head>
 <body>
@@ -61,9 +62,8 @@
         <div th:replace="visualization/forms/symptom-form :: common-diseases-form"></div>
     </div>
 
-    <div class="go-back-icon-wrapper" style="
+    <div class="go-back-icon-wrapper form-fit" style="">
 
-">
     <span id="go-back" class="material-icons md-36 go-back-icon no-select ghost" style="transform: rotate(180deg)">
 navigate_before
 </span>
@@ -90,6 +90,7 @@ navigate_before
 <script type="text/javascript" th:src="@{/js/visualization/forms/disease-form.js}"></script>
 <script type="text/javascript" th:src="@{/js/visualization/forms/choose-mapping-source.js}"></script>
 <script type="text/javascript" th:src="@{/js/visualization/forms/symptom-form.js}"></script>
+<script type="text/javascript" th:src="@{/js/visualization/go-back.js}"></script>
 <script type="text/javascript" th:src="@{/js/visualization/forms/form.js}"></script>
 </body>
 </html>

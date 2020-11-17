@@ -3,33 +3,39 @@ const currentSession = sessionStorage;
 const sessionKeys = Object.keys(currentSession)
 const diseaseFormKeys = $('#search-by-disease-form :input').map((index, element)=>$(element).attr('name')).get();
 if (diseaseFormKeys.every(n => sessionKeys.includes(n))) {
+    if (sessionStorage.getItem('fill-from-history')){
+        enableDateInput()
 
-    enableDateInput()
+        enableStep2()
+        enableStep3()
 
-    enableStep2()
-    enableStep3()
+        let filteredCurrentSession = {...currentSession}
+        filteredCurrentSession = Object.keys(filteredCurrentSession).filter(k=>diseaseFormKeys.includes(k)).reduce((res, key) => (res[key] = filteredCurrentSession[key], res), {})
+        // fill out inputs
+        for ([k,v] of Object.entries(filteredCurrentSession)){
+            document.querySelector(`[name='${k}']`).value = v
+        }
+        $("#mapping-input").val('') // remove any value to the mapping input
+        initializeDatePicker()
 
-    let filteredCurrentSession = {...currentSession}
-    Object.keys(filteredCurrentSession).filter(k=>diseaseFormKeys.includes(k)).reduce((res, key) => (res[key] = filteredCurrentSession[key], res), {})
-    // fill out inputs
-    for ([k,v] of Object.entries(filteredCurrentSession)){
-        document.querySelector(`[name='${k}']`).value = v
+
+        // fill dummy input with chips
+        let allTerms = splitAutocomplete($("#disease-list").val())
+        allTerms.pop() // there's a trailing "|"
+        allTerms.forEach((element,index)=>{
+            if(index===0){
+                addFirstChip($("#chips"),$("#dummy-list-input"), element);
+            }
+            else {
+                addChipOtherThanFirst($("#chips"), element)
+            }
+        })
     }
-    $("#mapping-input").val('') // remove any value to the mapping input
-    initializeDatePicker()
 
+    else {
+        sessionStorage.clear()
+    }
 
-    // fill dummy input with chips
-    let allTerms = splitAutocomplete($("#disease-list").val())
-    allTerms.pop() // there's a trailing "|"
-    allTerms.forEach((element,index)=>{
-        if(index===0){
-            addFirstChip($("#chips"),$("#dummy-list-input"), element);
-        }
-        else {
-            addChipOtherThanFirst($("#chips"), element)
-        }
-    })
 }
 
 const symptomFormKey = $('#search-by-symptom-form :input').map((index, element)=>$(element).attr('name')).get()[0];
