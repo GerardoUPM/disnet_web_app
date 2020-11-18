@@ -522,7 +522,6 @@ simulation.on("tick", function() {
         .attr("dx", d => d.x)
         .attr("dy", d => d.y)
 
-    console.log(splitLabel)
     splitLabel.select("tspan:nth-child(1)")
         .attr("dx", d=>d.x)
         .attr("dy", d => d.y)

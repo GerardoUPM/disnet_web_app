@@ -120,7 +120,6 @@ $("#dummy-list-input2").on("autocompletesearch", () => {
         </li>
     </ul>
     `)
-        console.log('autocompletesearch')
     }
 })
 $("#dummy-list-input2").on("autocompleteresponse", () => $("#autocomplete-load").remove())

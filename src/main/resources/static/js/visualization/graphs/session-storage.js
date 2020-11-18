@@ -1,4 +1,6 @@
-if (new URL(document.referrer).pathname !== "/visualization/form" ) {
+sessionStorage.removeItem('fill-from-history')
+
+if (!document.referrer || new URL(document.referrer).pathname !== "/visualization/form" ) {
     $('#go-back-wrapper').remove()
 }
 

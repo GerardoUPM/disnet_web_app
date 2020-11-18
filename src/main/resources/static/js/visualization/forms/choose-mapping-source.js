@@ -1,11 +1,9 @@
 $("a.step-3-button").on('click',(event)=> {
     let currentButton = event.target
-    console.log(currentButton)
     let currentRow = $(currentButton).parent().parent().parent()[0]
     let currentButtonId = currentButton.id
     if (currentButtonId) {
         let rows = document.querySelectorAll(`.step-3-row:not(.${currentButtonId})`)
-        console.log(rows)
         let placement = Array.prototype.indexOf.call(document.querySelectorAll(`.step-3-row`), document.querySelector(`.${currentButtonId}`))
         let radiosToDisplay = document.querySelector('.source-radios');
         $('#dropdown').fadeIn()
@@ -74,9 +72,6 @@ $("a.step-3-button").on('click',(event)=> {
     else {
         if (!$('.step-3-button').hasClass('disabled')){
             $("#dummy-list-input").val("") //empty textarea to trigger html control in case step-2 is not filled
-            console.log('fill input type')
-            console.log($(event.target))
-            console.log($(event.target).parent().attr('id'))
             let currentType = $(event.target).parent().attr('id')
             $('input[name=type]').val(currentType)
             $('input[name=mapping]').val($('input.mapping-dummy').filter((e,d)=>d.checked).map((a,b)=>b.value).toArray())
@@ -106,7 +101,6 @@ $("#dropdown").on('click', () => {
     $('#dropdown').fadeOut()
 
     rows.forEach((r,i)=>{
-        console.log(r)
         anime({
             targets:  r,
             opacity: 1,
